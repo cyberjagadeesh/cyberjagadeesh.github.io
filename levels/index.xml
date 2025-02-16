@@ -1,1 +1,34 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Levels on CyberJagadeesh</title><link>https://cyberjagadeesh.github.io/levels/</link><description>Recent content in Levels on CyberJagadeesh</description><generator>Hugo</generator><language>en</language><copyright>CyberJagadeesh</copyright><lastBuildDate>Tue, 15 Oct 2024 10:16:57 +0530</lastBuildDate><atom:link href="https://cyberjagadeesh.github.io/levels/index.xml" rel="self" type="application/rss+xml"/><item><title>Medium</title><link>https://cyberjagadeesh.github.io/levels/medium/</link><pubDate>Tue, 15 Oct 2024 10:16:57 +0530</pubDate><guid>https://cyberjagadeesh.github.io/levels/medium/</guid><description/></item><item><title>Easy</title><link>https://cyberjagadeesh.github.io/levels/easy/</link><pubDate>Mon, 07 Oct 2024 20:28:01 +0530</pubDate><guid>https://cyberjagadeesh.github.io/levels/easy/</guid><description/></item><item><title>Hard</title><link>https://cyberjagadeesh.github.io/levels/hard/</link><pubDate>Mon, 23 Sep 2024 23:22:49 +0530</pubDate><guid>https://cyberjagadeesh.github.io/levels/hard/</guid><description/></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Levels on CyberJagadeesh</title>
+    <link>https://cyberjagadeesh.github.io/levels/</link>
+    <description>Recent content in Levels on CyberJagadeesh</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>CyberJagadeesh</copyright>
+    <lastBuildDate>Tue, 15 Oct 2024 10:16:57 +0530</lastBuildDate>
+    <atom:link href="https://cyberjagadeesh.github.io/levels/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Medium</title>
+      <link>https://cyberjagadeesh.github.io/levels/medium/</link>
+      <pubDate>Tue, 15 Oct 2024 10:16:57 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/levels/medium/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Easy</title>
+      <link>https://cyberjagadeesh.github.io/levels/easy/</link>
+      <pubDate>Mon, 07 Oct 2024 20:28:01 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/levels/easy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Hard</title>
+      <link>https://cyberjagadeesh.github.io/levels/hard/</link>
+      <pubDate>Mon, 23 Sep 2024 23:22:49 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/levels/hard/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

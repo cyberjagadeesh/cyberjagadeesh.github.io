@@ -1,2 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pyrat on CyberJagadeesh</title><link>https://cyberjagadeesh.github.io/tags/pyrat/</link><description>Recent content in Pyrat on CyberJagadeesh</description><generator>Hugo</generator><language>en</language><copyright>CyberJagadeesh</copyright><lastBuildDate>Mon, 07 Oct 2024 20:28:01 +0530</lastBuildDate><atom:link href="https://cyberjagadeesh.github.io/tags/pyrat/index.xml" rel="self" type="application/rss+xml"/><item><title>Pyrat | THM Writeup</title><link>https://cyberjagadeesh.github.io/posts/pyrat/writeup/</link><pubDate>Mon, 07 Oct 2024 20:28:01 +0530</pubDate><guid>https://cyberjagadeesh.github.io/posts/pyrat/writeup/</guid><description>Introduction Detailed walkthroughs for Pyrat CTF challenges on TryHackMe .
-Description Pyrat receives a curious response from an HTTP server, which leads to a potential Python code execution vulnerability. With a cleverly crafted payload, it is possible to gain a shell on the machine. Delving into the directories, the author uncovers a well-known folder that provides a user with access to credentials. A subsequent exploration yields valuable insights into the application&amp;rsquo;s older version.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pyrat on CyberJagadeesh</title>
+    <link>https://cyberjagadeesh.github.io/tags/pyrat/</link>
+    <description>Recent content in Pyrat on CyberJagadeesh</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>CyberJagadeesh</copyright>
+    <lastBuildDate>Mon, 07 Oct 2024 20:28:01 +0530</lastBuildDate>
+    <atom:link href="https://cyberjagadeesh.github.io/tags/pyrat/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pyrat | THM Writeup</title>
+      <link>https://cyberjagadeesh.github.io/posts/pyrat/writeup/</link>
+      <pubDate>Mon, 07 Oct 2024 20:28:01 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/posts/pyrat/writeup/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Detailed walkthroughs for &lt;a href=&#34;https://tryhackme.com/r/room/pyrat&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pyrat&lt;/a&gt;&#xA; CTF challenges on &lt;a href=&#34;https://tryhackme.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;TryHackMe&lt;/a&gt;&#xA;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;&#xA;&lt;p&gt;Pyrat receives a curious response from an HTTP server, which leads to a potential Python code execution vulnerability. With a cleverly crafted payload, it is possible to gain a shell on the machine. Delving into the directories, the author uncovers a well-known folder that provides a user with access to credentials. A subsequent exploration yields valuable insights into the application&amp;rsquo;s older version. Exploring possible endpoints using a custom script, the user can discover a special endpoint and ingeniously expand their exploration by fuzzing passwords. The script unveils a password, ultimately granting access to the root.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

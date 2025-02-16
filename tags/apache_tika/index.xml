@@ -1,3 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Apache_tika on CyberJagadeesh</title><link>https://cyberjagadeesh.github.io/tags/apache_tika/</link><description>Recent content in Apache_tika on CyberJagadeesh</description><generator>Hugo</generator><language>en</language><copyright>CyberJagadeesh</copyright><lastBuildDate>Mon, 22 Jul 2024 18:32:40 +0530</lastBuildDate><atom:link href="https://cyberjagadeesh.github.io/tags/apache_tika/index.xml" rel="self" type="application/rss+xml"/><item><title>CyberLens CTF |THM Writeup</title><link>https://cyberjagadeesh.github.io/posts/cyberlens/writeup/</link><pubDate>Mon, 22 Jul 2024 18:32:40 +0530</pubDate><guid>https://cyberjagadeesh.github.io/posts/cyberlens/writeup/</guid><description>Introduction Detailed walkthrough for CyberLens CTF challenges on TryHackMe .
-Tools Used rustscan, ping, burpsuite, nc, metasploit, msfvenom.
-Enumeration Lets start the process by mapping host-name to target IP address. mapping cyberlens.thm to the target IP address When any user or application on the system tries to access cyberlens.thm, it will be directed to the IP address specified in the /etc/hosts file. Lets use rustscan for port scanning the target domain.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Apache_tika on CyberJagadeesh</title>
+    <link>https://cyberjagadeesh.github.io/tags/apache_tika/</link>
+    <description>Recent content in Apache_tika on CyberJagadeesh</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>CyberJagadeesh</copyright>
+    <lastBuildDate>Mon, 22 Jul 2024 18:32:40 +0530</lastBuildDate>
+    <atom:link href="https://cyberjagadeesh.github.io/tags/apache_tika/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CyberLens CTF |THM Writeup</title>
+      <link>https://cyberjagadeesh.github.io/posts/cyberlens/writeup/</link>
+      <pubDate>Mon, 22 Jul 2024 18:32:40 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/posts/cyberlens/writeup/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Detailed walkthrough for &lt;a href=&#34;https://tryhackme.com/r/room/cyberlensp6&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CyberLens&lt;/a&gt;&#xA; CTF challenges on &lt;a href=&#34;https://tryhackme.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;TryHackMe&lt;/a&gt;&#xA;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;tools-used&#34;&gt;Tools Used&lt;/h2&gt;&#xA;&lt;p&gt;rustscan, ping, burpsuite, nc, metasploit, msfvenom.&lt;/p&gt;&#xA;&lt;h2 id=&#34;enumeration&#34;&gt;Enumeration&lt;/h2&gt;&#xA;&lt;p&gt;Lets start the process by mapping host-name to target IP address.&#xA;&#xA;&#xA;&#xA;&#xA;&lt;figure&gt;&#xA;    &lt;img src=&#34;https://cyberjagadeesh.github.io/posts/cyberlens/1.png&#34; title=&#34;mapping cyberlens.thm to the target IP address&#34; style=&#34;display: block; margin: 0 auto;&#34;&gt;&#xA;    &lt;figcaption class=&#34;text-sm text-center text-slate-500 dark:text-slate-300&#34;&gt;&#xA;        &lt;strong&gt;mapping cyberlens.thm to the target IP address&lt;/strong&gt;&#xA;    &lt;/figcaption&gt;  &#xA;&lt;/figure&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;When any user or application on the system tries to access &lt;strong&gt;cyberlens.thm&lt;/strong&gt;, it will be directed to the IP address specified in the /etc/hosts file.&#xA;Lets use rustscan for port scanning the target domain. Rustscan is tool to scan the network ports faster.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
