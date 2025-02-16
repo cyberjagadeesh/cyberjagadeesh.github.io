@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>/Etc/Pam.d/Su on CyberJagadeesh</title>
+    <link>https://cyberjagadeesh.github.io/tags/etc/pam.d/su/</link>
+    <description>Recent content in /Etc/Pam.d/Su on CyberJagadeesh</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>CyberJagadeesh</copyright>
+    <lastBuildDate>Sun, 16 Feb 2025 09:30:55 +0530</lastBuildDate>
+    <atom:link href="https://cyberjagadeesh.github.io/tags/etc/pam.d/su/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Smol | THM Writeup</title>
+      <link>https://cyberjagadeesh.github.io/posts/thm/smol/writeup/</link>
+      <pubDate>Sun, 16 Feb 2025 09:30:55 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/posts/thm/smol/writeup/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Detailed walkthroughs for &lt;a href=&#34;https://tryhackme.com/r/room/smol&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Smol&lt;/a&gt;&#xA; CTF challenges on &lt;a href=&#34;https://tryhackme.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;TryHackMe&lt;/a&gt;&#xA;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;&#xA;&lt;p&gt;At the heart of &lt;code&gt;Smol&lt;/code&gt; is a WordPress website, a common target due to its extensive plugin ecosystem. The machine showcases a publicly known vulnerable plugin, highlighting the risks of neglecting software updates and security patches. Enhancing the learning experience, Smol introduces a backdoored plugin, emphasizing the significance of meticulous code inspection before integrating third-party components.&lt;/p&gt;&#xA;&lt;h2 id=&#34;enumaration&#34;&gt;Enumaration&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; 10.10.7.163 smol.thm &amp;gt;&amp;gt; /etc/hosts&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Mappped the ip to domain &lt;code&gt;smol.thm&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

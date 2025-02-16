@@ -2,10 +2,67 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://cyberjagadeesh.github.io/tags/etc/pam.d/su/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/categories/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/categories/ctf/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/tags/cve-2018-20463/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
     <loc>https://cyberjagadeesh.github.io/</loc>
     <lastmod>2025-02-16T09:30:55+05:30</lastmod>
   </url><url>
+    <loc>https://cyberjagadeesh.github.io/tags/john/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/levels/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/tags/lfi/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/platforms/linux/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/levels/medium/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/tags/mysql/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/platforms/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
     <loc>https://cyberjagadeesh.github.io/posts/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/series/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/posts/thm/smol/writeup/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/tags/ssrf/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/tags/su/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/tags/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/series/tryhackme/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/tags/wordpress/</loc>
+    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
+  </url><url>
+    <loc>https://cyberjagadeesh.github.io/tags/wpscan/</loc>
     <lastmod>2025-02-16T09:30:55+05:30</lastmod>
   </url><url>
     <loc>https://cyberjagadeesh.github.io/tags/apachetomcat/</loc>
@@ -17,28 +74,10 @@
     <loc>https://cyberjagadeesh.github.io/posts/thm/backtrack/writeup/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/categories/</loc>
-    <lastmod>2024-10-15T10:16:57+05:30</lastmod>
-  </url><url>
     <loc>https://cyberjagadeesh.github.io/tags/chisel/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/categories/ctf/</loc>
-    <lastmod>2024-10-15T10:16:57+05:30</lastmod>
-  </url><url>
     <loc>https://cyberjagadeesh.github.io/tags/cve-2023-39141/</loc>
-    <lastmod>2024-10-15T10:16:57+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/levels/</loc>
-    <lastmod>2024-10-15T10:16:57+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/lfi/</loc>
-    <lastmod>2024-10-15T10:16:57+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/platforms/linux/</loc>
-    <lastmod>2024-10-15T10:16:57+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/levels/medium/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
     <loc>https://cyberjagadeesh.github.io/tags/msfvenom/</loc>
@@ -47,13 +86,7 @@
     <loc>https://cyberjagadeesh.github.io/tags/pathtrasversal/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/platforms/</loc>
-    <lastmod>2024-10-15T10:16:57+05:30</lastmod>
-  </url><url>
     <loc>https://cyberjagadeesh.github.io/tags/pspy/</loc>
-    <lastmod>2024-10-15T10:16:57+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/series/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
     <loc>https://cyberjagadeesh.github.io/tags/sshtunneling/</loc>
@@ -63,12 +96,6 @@
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
     <loc>https://cyberjagadeesh.github.io/tags/suid/</loc>
-    <lastmod>2024-10-15T10:16:57+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/</loc>
-    <lastmod>2024-10-15T10:16:57+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/series/tryhackme/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
     <loc>https://cyberjagadeesh.github.io/tags/tty-pushback/</loc>
@@ -84,9 +111,6 @@
     <lastmod>2024-10-09T22:44:52+05:30</lastmod>
   </url><url>
     <loc>https://cyberjagadeesh.github.io/categories/forensic/</loc>
-    <lastmod>2024-10-09T22:44:52+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/john/</loc>
     <lastmod>2024-10-09T22:44:52+05:30</lastmod>
   </url><url>
     <loc>https://cyberjagadeesh.github.io/tags/lssas.dmp/</loc>
@@ -132,9 +156,6 @@
     <lastmod>2024-10-02T23:46:18+05:30</lastmod>
   </url><url>
     <loc>https://cyberjagadeesh.github.io/tags/ffuf/</loc>
-    <lastmod>2024-10-02T23:46:18+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/ssrf/</loc>
     <lastmod>2024-10-02T23:46:18+05:30</lastmod>
   </url><url>
     <loc>https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/</loc>
@@ -186,9 +207,6 @@
     <lastmod>2024-09-29T20:05:31+05:30</lastmod>
   </url><url>
     <loc>https://cyberjagadeesh.github.io/tags/specialcharacterbypass/</loc>
-    <lastmod>2024-09-29T20:05:31+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/wpscan/</loc>
     <lastmod>2024-09-29T20:05:31+05:30</lastmod>
   </url><url>
     <loc>https://cyberjagadeesh.github.io/posts/certaindoom/writeup/</loc>

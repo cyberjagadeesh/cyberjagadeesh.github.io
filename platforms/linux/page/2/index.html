@@ -167,6 +167,415 @@
         
           <article class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700">
             <div>
+              <a href="/posts/breakme/writeup/">
+                <figure>
+    <img class="w-full object-cover h-36 md:h-48 xl:h-60" src="/posts/breakme/BreakMe.png"
+      alt="Breakme | THM Writeup" title="Breakme | THM Writeup"
+      loading="lazy"
+    >
+  </figure>
+              </a>
+            </div>
+            <div class="flex flex-col gap-y-3 p-6">
+              <h2 class="text-4xl font-semibold text-slate-800 dark:text-slate-200">
+                <a href="/posts/breakme/writeup/">Breakme | THM Writeup</a>
+              </h2>
+
+              
+  
+  <div class="my-4 text-large text-slate-600 dark:text-slate-300">
+    <h2 id="introduction">Introduction</h2>
+<p>Detailed walkthroughs for <a href="https://tryhackme.com/r/room/breakmenu" target="_blank" rel="noopener">Breakme</a>
+ CTF challenges on <a href="https://tryhackme.com" target="_blank" rel="noopener">TryHackMe</a>
+.</p>
+<h2 id="initial-foothold">Initial Foothold</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">echo</span> <span class="s2">&#34;10.10.81.254 certain-doom.thm&#34;</span> &gt;&gt; /etc/hosts
+</span></span></code></pre></div><p>Mappped the ip to domain <code>certain-doom.thm</code>.</p>
+<h3 id="rustscan">rustscan</h3>
+<p>Lets startetwork with Network scan.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ rustscan -a breakme.thm -- -sC -sV
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">PORT   STATE SERVICE REASON         VERSION
+</span></span><span class="line"><span class="cl">22/tcp open  ssh     syn-ack ttl <span class="m">60</span> OpenSSH 8.4p1 Debian 5+deb11u1 <span class="o">(</span>protocol 2.0<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-hostkey: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">3072</span> 8e:4f:77:7f:f6:aa:6a:dc:17:c9:bf:5a:2b:eb:8c:41 <span class="o">(</span>RSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDPKq6PCdkc7tlJ9u/XcYjAfE8S8bOYjQe4+3teDY9e24Hfh7Qc3kXDIN52yu+ijvM7ZhcWwwLqikpNzqbhCQq8Ytf60lqNTPvekszBOP4xCJJWm2roGNftNu+IAIWgar7vOhHxLlniLdIt514pbiG2ZPZGxVdBHb7WsVVGUuM+b0AQOH7S9FLXBVqngrlrXUhhBsYtREfZxs4k+AE4N2ajcCEtPcdiLybPXddOD4GgM0nSwpTwlDehZ2NWVETT6ibQjl8T7WGogeIq1oO/LyOjLeu6MKuchp1H5FkIqe+wyZtRhjAsyKjrCGrCV4QM004AtcR/NjHaK7vvEqvRKOYmCmk7IotV/AtAD37GEu+qX0SePWVbZ8DweVIHYBPbJv1nCXkAy+T8eoj1dnvCgKsfz7L5PbkWucfF+gwzGTHwq2n9TrEOy99p6MStNv8ZBkXBY+2moD0ahZA3f6qYuvjlH4uVTCzXnbLxGTK0hdWGvT4PvC0vGh661mmaIhI3Ag0<span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> a3:9c:66:73:fc:b9:23:c0:0f:da:1d:c9:84:d6:b1:4a <span class="o">(</span>ECDSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ecdsa-sha2-nistp256 <span class="nv">AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPeQGv1A7372SDcT2mRIrMxbQaXJ1RA1ibSYWQ6WJxPH5YZCEQzSTHh5eTrum2k0SvIjmPyLfsoVmmOoPZGaR1g</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> 6d:c2:0e:89:25:55:10:a9:9e:41:6e:0d:81:9a:17:cb <span class="o">(</span>ED25519<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAuvMwyWKUHQmG5CUtHi/vQ5F2fhnT8k0jGo18znKuHQ
+</span></span><span class="line"><span class="cl">80/tcp open  http    syn-ack ttl <span class="m">60</span> Apache httpd 2.4.56 <span class="o">((</span>Debian<span class="o">))</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-title: Apache2 Debian Default Page: It works
+</span></span><span class="line"><span class="cl"><span class="p">|</span> http-methods: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_  Supported Methods: GET POST OPTIONS HEAD
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-server-header: Apache/2.4.56 <span class="o">(</span>Debian<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span></code></pre></div><p>We got port <code>22(ssh)</code> and port <code>80(Apache Server)</code> opened.</p>
+  </div>
+  
+
+
+              
+  <ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300">
+    
+      
+      <li>
+        <a href="/categories/ctf/"
+          class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">
+          CTF
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/tags/rustscan/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Rustscan</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/ffuf/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Ffuf</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/wpscan/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Wpscan</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/curl/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Curl</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/hydra/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Hydra</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/cve-2023-1874/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">CVE-2023-1874</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/pspy/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Pspy</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/chisel/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Chisel</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/tunneling/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Tunneling</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/specialcharacterbypass/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">SpecialCharacterBypass</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/ifs/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">${IFS}</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/racecondition/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">RaceCondition</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/pythonjailbreak/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">PythonJailBreak</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/%F0%9D%98%A3%F0%9D%98%B3%F0%9D%98%A6%F0%9D%98%A2%F0%9D%98%AC%F0%9D%98%B1%F0%9D%98%B0%F0%9D%98%AA%F0%9D%98%AF%F0%9D%98%B5/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">𝘣𝘳𝘦𝘢𝘬𝘱𝘰𝘪𝘯𝘵()</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/series/tryhackme/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Tryhackme</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/platforms/linux/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Linux</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/levels/medium/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Medium</span>
+        </a>
+      </li>
+      
+    
+    
+  </ul>
+
+
+
+              <div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300">
+  
+  
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
+   <path d="M16 3v4"></path>
+   <path d="M8 3v4"></path>
+   <path d="M4 11h16"></path>
+   <path d="M11 15h1"></path>
+   <path d="M12 15v3"></path>
+</svg>
+
+    </i>
+    <time datetime="2024-09-29T20:05:31&#43;05:30">
+      2024-09-29
+    </time>
+  </div>
+
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hourglass-high" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M6.5 7h11"></path>
+   <path d="M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z"></path>
+   <path d="M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z"></path>
+</svg>
+
+    </i>
+    <span>
+      19 minutes to read
+    </span>
+  </div>
+</div>
+
+              
+            </div>
+          </article>
+        
+          <article class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700">
+            <div>
               <a href="/posts/certaindoom/writeup/">
                 <figure>
     <img class="w-full object-cover h-36 md:h-48 xl:h-60" src="/posts/certaindoom/certaindoom.png"
@@ -1155,7 +1564,7 @@ for the downloading page.</p></p>
 </svg>
 
           </i>
-          <span class="ml-0">Lfi</span>
+          <span class="ml-0">LFI</span>
         </a>
       </li>
       
@@ -1360,221 +1769,6 @@ for the downloading page.</p></p>
     </i>
     <span>
       6 minutes to read
-    </span>
-  </div>
-</div>
-
-              
-            </div>
-          </article>
-        
-          <article class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700">
-            <div>
-              <a href="/posts/thenewyorkflankees/writeup/">
-                <figure>
-    <img class="w-full object-cover h-36 md:h-48 xl:h-60" src="/posts/thenewyorkflankees/NYFlankees.png"
-      alt="New York Flankees | THM Writeup" title="New York Flankees | THM Writeup"
-      loading="lazy"
-    >
-  </figure>
-              </a>
-            </div>
-            <div class="flex flex-col gap-y-3 p-6">
-              <h2 class="text-4xl font-semibold text-slate-800 dark:text-slate-200">
-                <a href="/posts/thenewyorkflankees/writeup/">New York Flankees | THM Writeup</a>
-              </h2>
-
-              
-  
-  <div class="my-4 text-large text-slate-600 dark:text-slate-300">
-    <h2 id="introduction">Introduction</h2>
-<p>Detailed walkthrough for <a href="https://tryhackme.com/r/room/thenewyorkflankees" target="_blank" rel="noopener">New York Flankees</a>
- CTF challenges on <a href="https://tryhackme.com" target="_blank" rel="noopener">TryHackMe</a>
-.</p>
-<h3 id="tools-used">Tools Used</h3>
-<p>rustscan, burpsuite</p>
-<h2 id="enumeration">Enumeration</h2>
-<p>Lets start the process by mapping host-name to target IP address.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo <span class="nb">echo</span> <span class="s2">&#34;10.10.140.44 nythm.com&#34;</span> &gt;&gt; /etc/hosts
-</span></span></code></pre></div><p>Let&rsquo;s start enumaration process using rustscan portscanner.</p>
-<pre tabindex="0"><code>rustscan -a nythm.com -- -sC -sV         
-.----. .-. .-. .----..---.  .----. .---.   .--.  .-. .-.
-| {}  }| { } |{ {__ {_   _}{ {__  /  ___} / {} \ |  `| |
-| .-. \| {_} |.-._} } | |  .-._} }\     }/  /\  \| |\  |
-`-&#39; `-&#39;`-----&#39;`----&#39;  `-&#39;  `----&#39;  `---&#39; `-&#39;  `-&#39;`-&#39; `-&#39;
-The Modern Day Port Scanner.
-_______________________________________
-Open 10.10.140.44:22
-Open 10.10.140.44:8080
-[~] Starting Script(s)
-[&gt;] Running script &#34;nmap -vvv -p {{port}} {{ip}} -sC -sV&#34; on ip 10.10.140.44
-<p>PORT     STATE SERVICE REASON         VERSION
-22/tcp   open  ssh     syn-ack ttl 60 OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0)
-| ssh-hostkey:
-|   3072 86:03:99:d9:07:c6:f5:8c:48:11:b7:56:58:fe:72:06 (RSA)
-| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDAHznW6yrO1o2or52QbWKmOLRYEcbWUD2zy0gHcYzw2sqhx9U/pJxJOa5Z0fwuMVPjRtqGLOk3EOrBnQ6LstnOyGx0KUsBn3c/hSHNCS9uzVbDzikf6ffQLw0hAcJzSi1EsQDRkeyJ24NuzhQ9RXKO1R1Gr0RB4AcmvIoNspcxV0KTiTOIWuAPiJLiZtsOSS39zghuRjvWwnWQ3jR0X2r5NPjphojx3pKxlDNhf9gpaz2kck/Jv8cfktisANej2q4JY+BEL9VaxyBV8DOq/WU9E8TvIGYEK1sOh1UKCl7JgKBbA+30Wge+/EsiV/zEQooDQvNUT5YgUwCCAdClLYxR996glhDywuGYIAOE/VIP69k0JAbkZy8kwP22t0ZHunJrFaPWL5iw++O6/NKTL2xQXwAmKZu81B7Un3Q35lal7k6YO9agJJ4oxD7z15Ee+eJf4KxSOYhSA89KhDQSbrkpZKMyuJ6uoJHXVVyZmMRO2IaraJaY156vZxe9fkOyLvE=
-|   256 0e:b9:fd:e8:8a:7c:fc:b9:91:b0:3d:0d:16:c9:43:3c (ECDSA)
-| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN1JAvVFTNHO87FGw+Q3NxpS0st1TbH9/Tn+PLJMBdVQ/NHeBZSdt/954gYSL6c0Plt8YiuVswjf//DSHz1rff0=
-|   256 9c:be:88:a2:44:56:2b:ba:dd:b9:5a:da:f2:24:8a:f5 (ED25519)
-|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILwrt82psPblgKYPcZ1VkSr/bVktYgYaVX+zqGdFFrwK
-8080/tcp open  http    syn-ack ttl 59 Octoshape P2P streaming web service
-|<em>http-title: Hello world!
-| http-methods:
-|</em>  Supported Methods: GET
-|_http-favicon: Unknown favicon MD5: 6FD74A43E6C5F7502642326FAB0B3E69
-Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</code></pre><p>From the above results we found 2 open ports <strong>22(ssh)</strong> and <strong>8080(web server)</strong> and the operating system is <strong>Linux</strong>. Starting with port 8080.</p></p>
-
-  </div>
-  
-
-
-              
-  <ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300">
-    
-      
-      <li>
-        <a href="/categories/ctf/"
-          class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">
-          CTF
-        </a>
-      </li>
-      
-    
-    
-      
-      <li>
-        <a href="/tags/oracle-padding/"
-          class="flex flex-row text-sm mr-2 py-1">
-          <i class="h-5 w-5 flex-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M5 9l14 0"></path>
-   <path d="M5 15l14 0"></path>
-   <path d="M11 4l-4 16"></path>
-   <path d="M17 4l-4 16"></path>
-</svg>
-
-          </i>
-          <span class="ml-0">Oracle Padding</span>
-        </a>
-      </li>
-      
-      <li>
-        <a href="/tags/docker/"
-          class="flex flex-row text-sm mr-2 py-1">
-          <i class="h-5 w-5 flex-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M5 9l14 0"></path>
-   <path d="M5 15l14 0"></path>
-   <path d="M11 4l-4 16"></path>
-   <path d="M17 4l-4 16"></path>
-</svg>
-
-          </i>
-          <span class="ml-0">Docker</span>
-        </a>
-      </li>
-      
-    
-    
-      
-      <li>
-        <a href="/series/tryhackme/"
-          class="flex flex-row text-sm mr-2 py-1">
-          <i class="h-5 w-5 flex-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M5 9l14 0"></path>
-   <path d="M5 15l14 0"></path>
-   <path d="M11 4l-4 16"></path>
-   <path d="M17 4l-4 16"></path>
-</svg>
-
-          </i>
-          <span class="ml-0">Tryhackme</span>
-        </a>
-      </li>
-      
-    
-    
-      
-      <li>
-        <a href="/platforms/linux/"
-          class="flex flex-row text-sm mr-2 py-1">
-          <i class="h-5 w-5 flex-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M5 9l14 0"></path>
-   <path d="M5 15l14 0"></path>
-   <path d="M11 4l-4 16"></path>
-   <path d="M17 4l-4 16"></path>
-</svg>
-
-          </i>
-          <span class="ml-0">Linux</span>
-        </a>
-      </li>
-      
-    
-    
-      
-      <li>
-        <a href="/levels/medium/"
-          class="flex flex-row text-sm mr-2 py-1">
-          <i class="h-5 w-5 flex-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M5 9l14 0"></path>
-   <path d="M5 15l14 0"></path>
-   <path d="M11 4l-4 16"></path>
-   <path d="M17 4l-4 16"></path>
-</svg>
-
-          </i>
-          <span class="ml-0">Medium</span>
-        </a>
-      </li>
-      
-    
-    
-  </ul>
-
-
-
-              <div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300">
-  
-  
-  <div class="flex flex-row text-base gap-x-1">
-    <i class="h-6 w-6 flex-none">
-      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
-   <path d="M16 3v4"></path>
-   <path d="M8 3v4"></path>
-   <path d="M4 11h16"></path>
-   <path d="M11 15h1"></path>
-   <path d="M12 15v3"></path>
-</svg>
-
-    </i>
-    <time datetime="2024-08-04T07:35:56&#43;05:30">
-      2024-08-04
-    </time>
-  </div>
-
-  <div class="flex flex-row text-base gap-x-1">
-    <i class="h-6 w-6 flex-none">
-      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hourglass-high" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M6.5 7h11"></path>
-   <path d="M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z"></path>
-   <path d="M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z"></path>
-</svg>
-
-    </i>
-    <span>
-      5 minutes to read
     </span>
   </div>
 </div>
@@ -1807,6 +2001,13 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</code></pre><p>From the 
     </li>
     
     <li class="mt-2 mr-2">
+      <a href="/tags/lfi/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        LFI
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
       <a href="/tags/curl/"
         class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
         Curl
@@ -1814,9 +2015,9 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</code></pre><p>From the 
     </li>
     
     <li class="mt-2 mr-2">
-      <a href="/tags/lfi/"
+      <a href="/tags/john/"
         class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
-        Lfi
+        John
       </a>
     </li>
     
@@ -1845,13 +2046,6 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</code></pre><p>From the 
       <a href="/tags/chisel/"
         class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
         Chisel
-      </a>
-    </li>
-    
-    <li class="mt-2 mr-2">
-      <a href="/tags/john/"
-        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
-        John
       </a>
     </li>
     
@@ -1891,6 +2085,16 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</code></pre><p>From the 
       <span>Newer posts</span>
     </a>
   
+  
+    <a href="/platforms/linux/page/3/"
+      class="flex flex-row text-base font-semibold rounded-md text-slate-700 dark:text-slate-300 bg-slate-200 dark:bg-gray-700 p-2 pl-3">
+      <span>Older posts</span>
+      <i class="h-6 w-6 flex-none ml-1"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-right" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M10 18l6 -6l-6 -6v12"></path>
+</svg>
+</i>
+    </a>
   
 </div>
 

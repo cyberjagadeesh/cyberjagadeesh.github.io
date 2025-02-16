@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <title>Linux :: CyberJagadeesh - Learn Cyber Security</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta
+  name="description"
+  content=""
+/>
+<meta
+  name="keywords"
+  content="cyber security, penetration testing, ethical hacking, vulnerability assessment, network security, application security, web application security, security testing, red teaming, bug bounty, CTFs, cybersecurity challenges, hacking tutorials, security tools, exploit development, reverse engineering, penetration tester, security researcher, security analyst, information security, digital forensics, incident response, threat intelligence, security awareness, social engineering, phishing, malware analysis, cryptography, cloud security, IoT security, mobile security, how to become a penetration tester, penetration testing tools, CTF challenges for beginners, web application penetration testing, network penetration testing, exploit development tutorial, reverse engineering techniques, bug bounty hunting tips, security research projects, cyber security certifications"
+/>
+<meta name="robots" content="noodp" /><link rel="manifest" href="/manifest.json" /><meta property="og:url" content="https://cyberjagadeesh.github.io/platforms/linux/">
+  <meta property="og:site_name" content="CyberJagadeesh">
+  <meta property="og:title" content="Linux">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="website">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux">
+
+
+<link rel="canonical" href="https://cyberjagadeesh.github.io/platforms/linux/" />
+
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="stylesheet" href="/css/index.min.1f9b3e6594d41770030cc9cea67e9220cd9066bb33910ebfb19ea46cf6b4b50c.css">
+
+
+
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-376DY6PW0W"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-376DY6PW0W');
+        }
+      </script>
+
+
+
+
+  
+</head>
+<body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10">
+    <div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3">
+  <div class="flex-none ml-2 md:ml-0">
+    <a href="/" class="">
+      <img class="h-12 w-12 rounded-full object-cover bg-gray-100" src="/logo.png" alt="logo">
+    </a>
+  </div>
+  <div class="flex-1"></div>
+  <div class="flex-none">
+    
+
+
+
+<nav class="h-full static">
+  <button id="navbar-menu-toggle" type="button" class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg md:hidden" aria-controls="navbar-menu" aria-expanded="false">
+    <span class="sr-only">Open main menu</span>
+    <i class="w-8 h-8">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 6l16 0" />
+  <path d="M4 12l16 0" />
+  <path d="M4 18l16 0" />
+</svg>
+
+    </i>
+  </button>
+  <div class="absolute md:static top-16 left-0 right-0 z-50 hidden w-full md:block md:w-auto" id="navbar-menu">
+    <ul class="flex flex-col mx-2 md:mx-0 md:flex-row md:border-0 rounded-sm md:rounded-full px-3 text-base font-medium text-slate-800 dark:text-slate-200 shadow-lg bg-white dark:bg-gray-600 shadow-slate-800/5 dark:shadow-slate-200/5 ring-1 ring-slate-900/5 dark:ring-slate-100/5">
+    
+        <li id="about" class="">
+          <a class="block px-3 py-3 hover:text-emerald-600"
+            href="/about/" title="About">About</a>
+        </li>
+      
+    
+        <li id="post" class="">
+          <a class="block px-3 py-3 hover:text-emerald-600"
+            href="/posts/" title="Post">Post</a>
+        </li>
+      
+    
+    </ul>
+  </div>
+</nav>
+
+
+  </div>
+  
+  <div class="flex-none mx-1"></div>
+  
+  <div class="flex-none md:hidden">
+    <a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls="navbar-menu" aria-expanded="false">
+      <span class="sr-only">Search</span>
+      <i class="w-8 h-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+</svg>
+
+      </i>
+    </a>
+  </div>
+  <div class="darkmode-toggle flex flex-none mr-2 md:mr-0">
+    <label for="darkmode-toggle" class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title="Toggle dark mode">
+      <input name="darkmode-toggle" id="darkmode-toggle" type="checkbox" class="sr-only peer" aria-label="Toggle dark mode">
+      <div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700">
+        <i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+   <path d="M12 5l0 .01"></path>
+   <path d="M17 7l0 .01"></path>
+   <path d="M19 12l0 .01"></path>
+   <path d="M17 17l0 .01"></path>
+   <path d="M12 19l0 .01"></path>
+   <path d="M7 17l0 .01"></path>
+   <path d="M5 12l0 .01"></path>
+   <path d="M7 7l0 .01"></path>
+</svg>
+
+        </i>
+        <i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+   <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path>
+   <path d="M19 11h2m-1 -1v2"></path>
+</svg>
+
+        </i>
+      </div>
+    </label>
+  </div>
+</div>
+
+  </header>
+  <main class="flex flex-auto justify-center">
+    
+
+  
+  
+
+  
+  
+  
+  
+
+  <div class="flex flex-col w-full max-w-4xl lg:max-w-5xl relative">
+    <div class="flex flex-row">
+      <section class="flex flex-col w-full md:w-2/3">
+        
+          <article class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700">
+            <div>
+              <a href="/posts/thenewyorkflankees/writeup/">
+                <figure>
+    <img class="w-full object-cover h-36 md:h-48 xl:h-60" src="/posts/thenewyorkflankees/NYFlankees.png"
+      alt="New York Flankees | THM Writeup" title="New York Flankees | THM Writeup"
+      loading="lazy"
+    >
+  </figure>
+              </a>
+            </div>
+            <div class="flex flex-col gap-y-3 p-6">
+              <h2 class="text-4xl font-semibold text-slate-800 dark:text-slate-200">
+                <a href="/posts/thenewyorkflankees/writeup/">New York Flankees | THM Writeup</a>
+              </h2>
+
+              
+  
+  <div class="my-4 text-large text-slate-600 dark:text-slate-300">
+    <h2 id="introduction">Introduction</h2>
+<p>Detailed walkthrough for <a href="https://tryhackme.com/r/room/thenewyorkflankees" target="_blank" rel="noopener">New York Flankees</a>
+ CTF challenges on <a href="https://tryhackme.com" target="_blank" rel="noopener">TryHackMe</a>
+.</p>
+<h3 id="tools-used">Tools Used</h3>
+<p>rustscan, burpsuite</p>
+<h2 id="enumeration">Enumeration</h2>
+<p>Lets start the process by mapping host-name to target IP address.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo <span class="nb">echo</span> <span class="s2">&#34;10.10.140.44 nythm.com&#34;</span> &gt;&gt; /etc/hosts
+</span></span></code></pre></div><p>Let&rsquo;s start enumaration process using rustscan portscanner.</p>
+<pre tabindex="0"><code>rustscan -a nythm.com -- -sC -sV         
+.----. .-. .-. .----..---.  .----. .---.   .--.  .-. .-.
+| {}  }| { } |{ {__ {_   _}{ {__  /  ___} / {} \ |  `| |
+| .-. \| {_} |.-._} } | |  .-._} }\     }/  /\  \| |\  |
+`-&#39; `-&#39;`-----&#39;`----&#39;  `-&#39;  `----&#39;  `---&#39; `-&#39;  `-&#39;`-&#39; `-&#39;
+The Modern Day Port Scanner.
+_______________________________________
+Open 10.10.140.44:22
+Open 10.10.140.44:8080
+[~] Starting Script(s)
+[&gt;] Running script &#34;nmap -vvv -p {{port}} {{ip}} -sC -sV&#34; on ip 10.10.140.44
+<p>PORT     STATE SERVICE REASON         VERSION
+22/tcp   open  ssh     syn-ack ttl 60 OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey:
+|   3072 86:03:99:d9:07:c6:f5:8c:48:11:b7:56:58:fe:72:06 (RSA)
+| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDAHznW6yrO1o2or52QbWKmOLRYEcbWUD2zy0gHcYzw2sqhx9U/pJxJOa5Z0fwuMVPjRtqGLOk3EOrBnQ6LstnOyGx0KUsBn3c/hSHNCS9uzVbDzikf6ffQLw0hAcJzSi1EsQDRkeyJ24NuzhQ9RXKO1R1Gr0RB4AcmvIoNspcxV0KTiTOIWuAPiJLiZtsOSS39zghuRjvWwnWQ3jR0X2r5NPjphojx3pKxlDNhf9gpaz2kck/Jv8cfktisANej2q4JY+BEL9VaxyBV8DOq/WU9E8TvIGYEK1sOh1UKCl7JgKBbA+30Wge+/EsiV/zEQooDQvNUT5YgUwCCAdClLYxR996glhDywuGYIAOE/VIP69k0JAbkZy8kwP22t0ZHunJrFaPWL5iw++O6/NKTL2xQXwAmKZu81B7Un3Q35lal7k6YO9agJJ4oxD7z15Ee+eJf4KxSOYhSA89KhDQSbrkpZKMyuJ6uoJHXVVyZmMRO2IaraJaY156vZxe9fkOyLvE=
+|   256 0e:b9:fd:e8:8a:7c:fc:b9:91:b0:3d:0d:16:c9:43:3c (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN1JAvVFTNHO87FGw+Q3NxpS0st1TbH9/Tn+PLJMBdVQ/NHeBZSdt/954gYSL6c0Plt8YiuVswjf//DSHz1rff0=
+|   256 9c:be:88:a2:44:56:2b:ba:dd:b9:5a:da:f2:24:8a:f5 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILwrt82psPblgKYPcZ1VkSr/bVktYgYaVX+zqGdFFrwK
+8080/tcp open  http    syn-ack ttl 59 Octoshape P2P streaming web service
+|<em>http-title: Hello world!
+| http-methods:
+|</em>  Supported Methods: GET
+|_http-favicon: Unknown favicon MD5: 6FD74A43E6C5F7502642326FAB0B3E69
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</code></pre><p>From the above results we found 2 open ports <strong>22(ssh)</strong> and <strong>8080(web server)</strong> and the operating system is <strong>Linux</strong>. Starting with port 8080.</p></p>
+
+  </div>
+  
+
+
+              
+  <ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300">
+    
+      
+      <li>
+        <a href="/categories/ctf/"
+          class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">
+          CTF
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/tags/oracle-padding/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Oracle Padding</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/docker/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Docker</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/series/tryhackme/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Tryhackme</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/platforms/linux/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Linux</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/levels/medium/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Medium</span>
+        </a>
+      </li>
+      
+    
+    
+  </ul>
+
+
+
+              <div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300">
+  
+  
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
+   <path d="M16 3v4"></path>
+   <path d="M8 3v4"></path>
+   <path d="M4 11h16"></path>
+   <path d="M11 15h1"></path>
+   <path d="M12 15v3"></path>
+</svg>
+
+    </i>
+    <time datetime="2024-08-04T07:35:56&#43;05:30">
+      2024-08-04
+    </time>
+  </div>
+
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hourglass-high" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M6.5 7h11"></path>
+   <path d="M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z"></path>
+   <path d="M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z"></path>
+</svg>
+
+    </i>
+    <span>
+      5 minutes to read
+    </span>
+  </div>
+</div>
+
+              
+            </div>
+          </article>
+        
+      </section>
+      <aside class="hidden md:flex flex-col md:w-1/3 ml-3 top-0 sticky self-start">
+        <section class="pl-6 mt-6 w-full max-w-4xl lg:max-w-5xl">
+  <form class="" action=/search/ method="get">
+    <div class="flex">
+      <input type="text" name="search" id="search-input" required placeholder="Search..." class="rounded-none rounded-s-lg border border-gray-300 text-slate-800 focus:outline-none focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-3  dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-slate-200 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      <button class="inline-flex items-center px-3 text-sm text-slate-900 bg-slate-200 border border-e-0 border-gray-300 rounded-e-lg dark:bg-slate-600 dark:text-slate-400 dark:border-slate-600">
+        <i class="h-6 w-6 flex-none">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+</svg>
+
+        </i>
+      </button>
+    </div>
+  </form>
+</section>
+
+
+  
+
+<section class="flex flex-col w-full gap-y-3 pl-6 py-3 mt-6 text-slate-800 dark:text-slate-200">
+  <div class="flex flex-row">
+    <a class="flex flex-row" href='/categories/'>
+      <i class="h-6 w-6 flex-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-category-2" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M14 4h6v6h-6z"></path>
+   <path d="M4 14h6v6h-6z"></path>
+   <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+   <path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+</svg>
+
+      </i>
+      <h2 class="pl-1 uppercase">
+        categories
+      </h2>
+    </a>
+  </div>
+
+  <ul class="flex flex-row flex-wrap">
+    
+    <li class="mt-2 mr-2">
+      <a href="/categories/ctf/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        CTF
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/categories/forensic/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Forensic
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/categories/tool/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Tool
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+  
+
+  
+
+<section class="flex flex-col w-full gap-y-3 pl-6 py-3 mt-6 text-slate-800 dark:text-slate-200">
+  <div class="flex flex-row">
+    <a class="flex flex-row" href='/levels/'>
+      <i class="h-6 w-6 flex-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tags" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M3 8v4.172a2 2 0 0 0 .586 1.414l5.71 5.71a2.41 2.41 0 0 0 3.408 0l3.592 -3.592a2.41 2.41 0 0 0 0 -3.408l-5.71 -5.71a2 2 0 0 0 -1.414 -.586h-4.172a2 2 0 0 0 -2 2z"></path>
+   <path d="M18 19l1.592 -1.592a4.82 4.82 0 0 0 0 -6.816l-4.592 -4.592"></path>
+   <path d="M7 10h-.01"></path>
+</svg>
+
+      </i>
+      <h2 class="pl-1 uppercase">
+        levels
+      </h2>
+    </a>
+  </div>
+
+  <ul class="flex flex-row flex-wrap">
+    
+    <li class="mt-2 mr-2">
+      <a href="/levels/medium/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Medium
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/levels/easy/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Easy
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/levels/hard/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Hard
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+  
+
+  
+
+<section class="flex flex-col w-full gap-y-3 pl-6 py-3 mt-6 text-slate-800 dark:text-slate-200">
+  <div class="flex flex-row">
+    <a class="flex flex-row" href='/platforms/'>
+      <i class="h-6 w-6 flex-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tags" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M3 8v4.172a2 2 0 0 0 .586 1.414l5.71 5.71a2.41 2.41 0 0 0 3.408 0l3.592 -3.592a2.41 2.41 0 0 0 0 -3.408l-5.71 -5.71a2 2 0 0 0 -1.414 -.586h-4.172a2 2 0 0 0 -2 2z"></path>
+   <path d="M18 19l1.592 -1.592a4.82 4.82 0 0 0 0 -6.816l-4.592 -4.592"></path>
+   <path d="M7 10h-.01"></path>
+</svg>
+
+      </i>
+      <h2 class="pl-1 uppercase">
+        platforms
+      </h2>
+    </a>
+  </div>
+
+  <ul class="flex flex-row flex-wrap">
+    
+    <li class="mt-2 mr-2">
+      <a href="/platforms/linux/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Linux
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/platforms/windows/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Windows
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+  
+
+  
+
+<section class="flex flex-col w-full gap-y-3 pl-6 py-3 mt-6 text-slate-800 dark:text-slate-200">
+  <div class="flex flex-row">
+    <a class="flex flex-row" href='/series/'>
+      <i class="h-6 w-6 flex-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-tags" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M3 8v4.172a2 2 0 0 0 .586 1.414l5.71 5.71a2.41 2.41 0 0 0 3.408 0l3.592 -3.592a2.41 2.41 0 0 0 0 -3.408l-5.71 -5.71a2 2 0 0 0 -1.414 -.586h-4.172a2 2 0 0 0 -2 2z"></path>
+   <path d="M18 19l1.592 -1.592a4.82 4.82 0 0 0 0 -6.816l-4.592 -4.592"></path>
+   <path d="M7 10h-.01"></path>
+</svg>
+
+      </i>
+      <h2 class="pl-1 uppercase">
+        series
+      </h2>
+    </a>
+  </div>
+
+  <ul class="flex flex-row flex-wrap">
+    
+    <li class="mt-2 mr-2">
+      <a href="/series/tryhackme/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Tryhackme
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+  
+
+  
+
+<section class="flex flex-col w-full gap-y-3 pl-6 py-3 mt-6 text-slate-800 dark:text-slate-200">
+  <div class="flex flex-row">
+    <a class="flex flex-row" href='/tags/'>
+      <i class="h-6 w-6 flex-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+      </i>
+      <h2 class="pl-1 uppercase">
+        tags
+      </h2>
+    </a>
+  </div>
+
+  <ul class="flex flex-row flex-wrap">
+    
+    <li class="mt-2 mr-2">
+      <a href="/tags/ffuf/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Ffuf
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/tags/lfi/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        LFI
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/tags/curl/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Curl
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/tags/john/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        John
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/tags/msfvenom/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Msfvenom
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/tags/suid/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Suid
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/tags/tunneling/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Tunneling
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/tags/chisel/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Chisel
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/tags/mimikatz/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Mimikatz
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
+      <a href="/tags/nessus/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        Nessus
+      </a>
+    </li>
+    
+  </ul>
+</section>
+
+  
+
+
+      </aside>
+    </div>
+
+    
+<div class="flex flex-row justify-center mt-6 gap-2">
+  
+    <a href="/platforms/linux/page/2/"
+      class="flex flex-row text-base font-semibold rounded-md text-slate-700 dark:text-slate-300 bg-slate-200 dark:bg-gray-700 p-2 pr-3">
+      <i class="h-6 w-6 flex-none mr-1"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-left" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M14 6l-6 6l6 6v-12"></path>
+</svg>
+</i>
+      <span>Newer posts</span>
+    </a>
+  
+  
+</div>
+
+
+  </div>
+
+  </main>
+  <footer class="flex flex-none justify-center">
+    <section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300">
+  <div class="flex flex-row">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+    <a href="https://www.linkedin.com/in/jagadeeshwaran-m-27598134b" target="_blank" title="LinkedIn" class="flex flex-row mr-2">
+      <span class="hidden">LinkedIn</span>
+      <i class="h-6 w-6 flex-none"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+   <path d="M8 11l0 5"></path>
+   <path d="M8 8l0 .01"></path>
+   <path d="M12 16l0 -5"></path>
+   <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
+</svg>
+ </i>
+    </a>
+  
+  
+  
+    <a href="https://www.linkedin.com/in/jagadeeshwaran-m-562a011b3" target="_blank" title="LinkedIn" class="flex flex-row mr-2">
+      <span class="hidden">LinkedIn</span>
+      <i class="h-6 w-6 flex-none"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+   <path d="M8 11l0 5"></path>
+   <path d="M8 8l0 .01"></path>
+   <path d="M12 16l0 -5"></path>
+   <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
+</svg>
+ </i>
+    </a>
+  
+  
+  
+  
+
+
+  </div>
+  <div class="grow"></div>
+  <div class="flex flex-row">
+    <i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+   <path d="M14 9.75a3.016 3.016 0 0 0 -4.163 .173a2.993 2.993 0 0 0 0 4.154a3.016 3.016 0 0 0 4.163 .173"></path>
+</svg>
+</i> 2024 - 2025 CyberJagadeesh
+    
+  </div>
+  
+</section>
+
+  </footer>
+  <script src="/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js"></script>
+
+
+
+
+</body>
+</html>

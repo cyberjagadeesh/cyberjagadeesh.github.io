@@ -7,8 +7,71 @@
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>CyberJagadeesh</copyright>
-    <lastBuildDate>Tue, 15 Oct 2024 10:16:57 +0530</lastBuildDate>
+    <lastBuildDate>Sun, 16 Feb 2025 09:30:55 +0530</lastBuildDate>
     <atom:link href="https://cyberjagadeesh.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>/Etc/Pam.d/Su</title>
+      <link>https://cyberjagadeesh.github.io/tags/etc/pam.d/su/</link>
+      <pubDate>Sun, 16 Feb 2025 09:30:55 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/tags/etc/pam.d/su/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>CVE-2018-20463</title>
+      <link>https://cyberjagadeesh.github.io/tags/cve-2018-20463/</link>
+      <pubDate>Sun, 16 Feb 2025 09:30:55 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/tags/cve-2018-20463/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>John</title>
+      <link>https://cyberjagadeesh.github.io/tags/john/</link>
+      <pubDate>Sun, 16 Feb 2025 09:30:55 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/tags/john/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>LFI</title>
+      <link>https://cyberjagadeesh.github.io/tags/lfi/</link>
+      <pubDate>Sun, 16 Feb 2025 09:30:55 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/tags/lfi/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Mysql</title>
+      <link>https://cyberjagadeesh.github.io/tags/mysql/</link>
+      <pubDate>Sun, 16 Feb 2025 09:30:55 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/tags/mysql/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SSRF</title>
+      <link>https://cyberjagadeesh.github.io/tags/ssrf/</link>
+      <pubDate>Sun, 16 Feb 2025 09:30:55 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/tags/ssrf/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Su</title>
+      <link>https://cyberjagadeesh.github.io/tags/su/</link>
+      <pubDate>Sun, 16 Feb 2025 09:30:55 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/tags/su/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Wordpress</title>
+      <link>https://cyberjagadeesh.github.io/tags/wordpress/</link>
+      <pubDate>Sun, 16 Feb 2025 09:30:55 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/tags/wordpress/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Wpscan</title>
+      <link>https://cyberjagadeesh.github.io/tags/wpscan/</link>
+      <pubDate>Sun, 16 Feb 2025 09:30:55 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/tags/wpscan/</guid>
+      <description></description>
+    </item>
     <item>
       <title>ApacheTomcat</title>
       <link>https://cyberjagadeesh.github.io/tags/apachetomcat/</link>
@@ -35,13 +98,6 @@
       <link>https://cyberjagadeesh.github.io/tags/cve-2023-39141/</link>
       <pubDate>Tue, 15 Oct 2024 10:16:57 +0530</pubDate>
       <guid>https://cyberjagadeesh.github.io/tags/cve-2023-39141/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Lfi</title>
-      <link>https://cyberjagadeesh.github.io/tags/lfi/</link>
-      <pubDate>Tue, 15 Oct 2024 10:16:57 +0530</pubDate>
-      <guid>https://cyberjagadeesh.github.io/tags/lfi/</guid>
       <description></description>
     </item>
     <item>
@@ -105,13 +161,6 @@
       <link>https://cyberjagadeesh.github.io/tags/endianess/</link>
       <pubDate>Wed, 09 Oct 2024 22:44:52 +0530</pubDate>
       <guid>https://cyberjagadeesh.github.io/tags/endianess/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>John</title>
-      <link>https://cyberjagadeesh.github.io/tags/john/</link>
-      <pubDate>Wed, 09 Oct 2024 22:44:52 +0530</pubDate>
-      <guid>https://cyberjagadeesh.github.io/tags/john/</guid>
       <description></description>
     </item>
     <item>
@@ -196,13 +245,6 @@
       <link>https://cyberjagadeesh.github.io/tags/ffuf/</link>
       <pubDate>Wed, 02 Oct 2024 23:46:18 +0530</pubDate>
       <guid>https://cyberjagadeesh.github.io/tags/ffuf/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>SSRF</title>
-      <link>https://cyberjagadeesh.github.io/tags/ssrf/</link>
-      <pubDate>Wed, 02 Oct 2024 23:46:18 +0530</pubDate>
-      <guid>https://cyberjagadeesh.github.io/tags/ssrf/</guid>
       <description></description>
     </item>
     <item>
@@ -301,13 +343,6 @@
       <link>https://cyberjagadeesh.github.io/tags/specialcharacterbypass/</link>
       <pubDate>Sun, 29 Sep 2024 20:05:31 +0530</pubDate>
       <guid>https://cyberjagadeesh.github.io/tags/specialcharacterbypass/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Wpscan</title>
-      <link>https://cyberjagadeesh.github.io/tags/wpscan/</link>
-      <pubDate>Sun, 29 Sep 2024 20:05:31 +0530</pubDate>
-      <guid>https://cyberjagadeesh.github.io/tags/wpscan/</guid>
       <description></description>
     </item>
     <item>
