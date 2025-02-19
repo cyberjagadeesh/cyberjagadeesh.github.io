@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SQLi on CyberJagadeesh</title>
+    <link>https://cyberjagadeesh.github.io/tags/sqli/</link>
+    <description>Recent content in SQLi on CyberJagadeesh</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <copyright>CyberJagadeesh</copyright>
+    <lastBuildDate>Mon, 17 Feb 2025 21:02:46 +0530</lastBuildDate>
+    <atom:link href="https://cyberjagadeesh.github.io/tags/sqli/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Light | THM Writeup</title>
+      <link>https://cyberjagadeesh.github.io/posts/thm/light/writeup/</link>
+      <pubDate>Mon, 17 Feb 2025 21:02:46 +0530</pubDate>
+      <guid>https://cyberjagadeesh.github.io/posts/thm/light/writeup/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Detailed walkthroughs for &lt;a href=&#34;https://tryhackme.com/room/lightroom&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Light&lt;/a&gt;&#xA; CTF challenges on &lt;a href=&#34;https://tryhackme.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;TryHackMe&lt;/a&gt;&#xA;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;&#xA;&lt;p&gt;I am working on a database application called Light! Would you like to try it out?&#xA;If so, the application is running on port 1337. You can connect to it using &lt;code&gt;nc 10.10.95.233 1337&lt;/code&gt;&#xA;You can use the username &lt;code&gt;smokey&lt;/code&gt; in order to get started.&lt;/p&gt;&#xA;&lt;h2 id=&#34;enumaration&#34;&gt;Enumaration&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; 10.10.95.233 light.thm &amp;gt;&amp;gt; /etc/hosts&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Mapped the ip to domain &lt;code&gt;light.thm&lt;/code&gt;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;netcat&#34;&gt;NetCat&lt;/h3&gt;&#xA;&lt;p&gt;We receive the password when a valid username is entered.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
