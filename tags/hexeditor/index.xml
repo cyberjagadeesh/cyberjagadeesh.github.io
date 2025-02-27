@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>HexEditor on CyberJagadeesh</title>
-    <link>https://cyberjagadeesh.github.io/tags/hexeditor/</link>
+    <link>http://localhost:1313/tags/hexeditor/</link>
     <description>Recent content in HexEditor on CyberJagadeesh</description>
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>CyberJagadeesh</copyright>
     <lastBuildDate>Sun, 25 Aug 2024 22:54:06 +0530</lastBuildDate>
-    <atom:link href="https://cyberjagadeesh.github.io/tags/hexeditor/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/hexeditor/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>U.A. High School | THM Writeup</title>
-      <link>https://cyberjagadeesh.github.io/posts/u.a.highschool/writeup/</link>
+      <link>http://localhost:1313/posts/u.a.highschool/writeup/</link>
       <pubDate>Sun, 25 Aug 2024 22:54:06 +0530</pubDate>
-      <guid>https://cyberjagadeesh.github.io/posts/u.a.highschool/writeup/</guid>
+      <guid>http://localhost:1313/posts/u.a.highschool/writeup/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Detailed walkthroughs for &lt;a href=&#34;https://tryhackme.com/r/room/yueiua&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;U.A. High School&lt;/a&gt;&#xA; CTF challenges on &lt;a href=&#34;https://tryhackme.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;TryHackMe&lt;/a&gt;&#xA;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;&#xA;&lt;p&gt;This CTF challenge required participants to identify and exploit a hidden OS command injection vulnerability in the U.A. Superhero Academy&amp;rsquo;s website. Successful exploitation led to gaining root privileges on the system.&lt;/p&gt;&#xA;&lt;h3 id=&#34;vulnerability&#34;&gt;Vulnerability&lt;/h3&gt;&#xA;&lt;p&gt;The website contains a hidden functionality that allows for the execution of shell commands. This vulnerability can be exploited to gain unauthorized access to the system.&lt;/p&gt;&#xA;&lt;h3 id=&#34;exploitation&#34;&gt;Exploitation&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;By enumerating the website, a valid user and password were discovered.&lt;/li&gt;&#xA;&lt;li&gt;Using sudo privileges, a script was executed on the system to escalate privileges to root level.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;tools-used&#34;&gt;Tools Used&lt;/h3&gt;&#xA;&lt;p&gt;rustscan, ffuf, curl, nc, wget, hexeditor, steghide, ssh&lt;/p&gt;</description>
     </item>
   </channel>

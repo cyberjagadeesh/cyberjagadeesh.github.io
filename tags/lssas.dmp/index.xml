@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Lssas.DMP on CyberJagadeesh</title>
-    <link>https://cyberjagadeesh.github.io/tags/lssas.dmp/</link>
+    <link>http://localhost:1313/tags/lssas.dmp/</link>
     <description>Recent content in Lssas.DMP on CyberJagadeesh</description>
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>CyberJagadeesh</copyright>
     <lastBuildDate>Wed, 09 Oct 2024 22:44:52 +0530</lastBuildDate>
-    <atom:link href="https://cyberjagadeesh.github.io/tags/lssas.dmp/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/lssas.dmp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Block | THM Writeup</title>
-      <link>https://cyberjagadeesh.github.io/posts/block/writeup/</link>
+      <link>http://localhost:1313/posts/block/writeup/</link>
       <pubDate>Wed, 09 Oct 2024 22:44:52 +0530</pubDate>
-      <guid>https://cyberjagadeesh.github.io/posts/block/writeup/</guid>
+      <guid>http://localhost:1313/posts/block/writeup/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Detailed walkthroughs for &lt;a href=&#34;https://tryhackme.com/r/room/blockroom&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Block&lt;/a&gt;&#xA; CTF challenges on &lt;a href=&#34;https://tryhackme.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;TryHackMe&lt;/a&gt;&#xA;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;&#xA;&lt;p&gt;One of your junior system administrators forgot to deactivate two accounts from a pair of recently fired employees.&#xA;We believe these employees used the credentials they were given in order to access some of the many private files from our server, but we need concrete proof.&#xA;The junior system administrator only has a small network capture of the incident and a memory dump of the Local Security Authority Subsystem Service process.&#xA;Fortunately, for your company, that is all you need.&lt;/p&gt;</description>
     </item>
   </channel>

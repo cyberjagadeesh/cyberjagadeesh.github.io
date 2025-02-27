@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <title>Linux :: CyberJagadeesh - Learn Cyber Security</title>
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -13,7 +13,7 @@
   name="keywords"
   content="cyber security, penetration testing, ethical hacking, vulnerability assessment, network security, application security, web application security, security testing, red teaming, bug bounty, CTFs, cybersecurity challenges, hacking tutorials, security tools, exploit development, reverse engineering, penetration tester, security researcher, security analyst, information security, digital forensics, incident response, threat intelligence, security awareness, social engineering, phishing, malware analysis, cryptography, cloud security, IoT security, mobile security, how to become a penetration tester, penetration testing tools, CTF challenges for beginners, web application penetration testing, network penetration testing, exploit development tutorial, reverse engineering techniques, bug bounty hunting tips, security research projects, cyber security certifications"
 />
-<meta name="robots" content="noodp" /><link rel="manifest" href="/manifest.json" /><meta property="og:url" content="https://cyberjagadeesh.github.io/platforms/linux/">
+<meta name="robots" content="noodp" /><link rel="manifest" href="/manifest.json" /><meta property="og:url" content="http://localhost:1313/platforms/linux/">
   <meta property="og:site_name" content="CyberJagadeesh">
   <meta property="og:title" content="Linux">
   <meta property="og:locale" content="en">
@@ -24,10 +24,10 @@
   <meta name="twitter:title" content="Linux">
 
 
-<link rel="canonical" href="https://cyberjagadeesh.github.io/platforms/linux/" />
+<link rel="canonical" href="http://localhost:1313/platforms/linux/" />
 
 <link rel="shortcut icon" href="/favicon.ico" />
-<link rel="stylesheet" href="/css/index.min.1f9b3e6594d41770030cc9cea67e9220cd9066bb33910ebfb19ea46cf6b4b50c.css">
+<link rel="stylesheet" href="/css/index.5287fd9d41d8a879613a40ae3cfd190b68c27952b809c28ce66a58d6c634d0cb.css">
 
 
 
@@ -53,7 +53,18 @@
 
   
 </head>
-<body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10">
+<body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800">
+    
+<div class="fixed right-0 top-0 z-50 flex items-center justify-center bg-gray-200 p-2 text-sm uppercase text-black sm:bg-red-200 md:bg-yellow-200 lg:bg-green-200 xl:bg-blue-200 2xl:bg-pink-200">
+  <span class="block sm:hidden">all</span>
+  <span class="hidden sm:block md:hidden">sm</span>
+  <span class="hidden md:block lg:hidden">md</span>
+  <span class="hidden lg:block xl:hidden">lg</span>
+  <span class="hidden xl:block 2xl:hidden">xl</span>
+  <span class="hidden 2xl:block">2xl</span>
+</div>
+
+  <header class="flex flex-none justify-center z-10">
     <div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3">
   <div class="flex-none ml-2 md:ml-0">
     <a href="/" class="">
@@ -164,6 +175,273 @@
   <div class="flex flex-col w-full max-w-4xl lg:max-w-5xl relative">
     <div class="flex flex-row">
       <section class="flex flex-col w-full md:w-2/3">
+        
+          <article class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700">
+            <div>
+              <a href="/posts/thelondonbridge/writeup/">
+                <figure>
+    <img class="w-full object-cover h-36 md:h-48 xl:h-60" src="/posts/thelondonbridge/thelondonbridge.png"
+      alt="The London Bridge | THM Writeup" title="The London Bridge | THM Writeup"
+      loading="lazy"
+    >
+  </figure>
+              </a>
+            </div>
+            <div class="flex flex-col gap-y-3 p-6">
+              <h2 class="text-4xl font-semibold text-slate-800 dark:text-slate-200">
+                <a href="/posts/thelondonbridge/writeup/">The London Bridge | THM Writeup</a>
+              </h2>
+
+              
+  
+  <div class="my-4 text-large text-slate-600 dark:text-slate-300">
+    <h2 id="introduction">Introduction</h2>
+<p>Detailed walkthroughs for <a href="https://tryhackme.com/r/room/thelondonbridge" target="_blank" rel="noopener">The London Bridge</a>
+ CTF challenges on <a href="https://tryhackme.com" target="_blank" rel="noopener">TryHackMe</a>
+.</p>
+<h2 id="shell-as-beth">Shell as beth</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;10.10.72.132 londonbridge.thm&#34;</span> &gt;&gt; /etc/hosts
+</span></span></code></pre></div><p>Mappped the ip to domain <code>londonbridge.thm</code>.</p>
+<h3 id="rustscan">Rustscan</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ rustscan -a londonbridge.thm -- -sC -sV
+</span></span><span class="line"><span class="cl">PORT     STATE SERVICE    REASON         VERSION
+</span></span><span class="line"><span class="cl">22/tcp   open  ssh        syn-ack ttl <span class="m">60</span> OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-hostkey: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">2048</span> 58:c1:e4:79:ca:70:bc:3b:8d:b8:22:17:2f:62:1a:34 <span class="o">(</span>RSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDziNs6aSHIQOJFilv8PhCPd676iD1TrhMYe4p4Mj2E3yaAl4xb8DNT2dhpcv6H8EvtCJnAbXmnFTTOZy14fd7FKc2/Mr4MNLsINFpMU8hc85g6S9ZEnWKlU8dw5jUUeZnAbHSTnq6ARvEbT/Y5seiWEJ7IBiUqptlUA2eiOU7g0DFwrYH7n40aDe0m6PKPIfI9G0XO0cJHISeJ0bsSES1uun2WHLM0sRx+17hrBgM2YfD9OevcltVMlQqWasP9lqf2ooOdBvQTq4eH5UyyuEzaRtQwBYP/wWQEVFacejJE1iT2VD6ZAilhlzo9mww9vqTEwGTvatH65wiyCZHMvrSb
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> 2a:b4:1f:2c:72:35:7a:c3:7a:5c:7d:47:d6:d0:73:c8 <span class="o">(</span>ECDSA<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> ecdsa-sha2-nistp256 <span class="nv">AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJuZrGZxDIlI4pU1KNZ8A87cWFcgHxRSt7yFgBtJoUQMhNmcw8FSVC54b7sBYXCgBsgISZfWYPjBM9kikh8Jnkw</span><span class="o">=</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   <span class="m">256</span> 1c:7e:d2:c9:dd:c2:e4:ac:11:7e:45:6a:2f:44:af:0f <span class="o">(</span>ED25519<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICkCeqFADY/YvhJyJabcs5DVTYbl/DEKEpBoluTuDdB1
+</span></span><span class="line"><span class="cl">8080/tcp open  http-proxy syn-ack ttl <span class="m">60</span> gunicorn
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-server-header: gunicorn
+</span></span><span class="line"><span class="cl"><span class="p">|</span> fingerprint-strings: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   GetRequest: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     HTTP/1.0 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Server: gunicorn
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Date: Mon, <span class="m">30</span> Sep <span class="m">2024</span> 16:13:38 GMT
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Connection: close
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Content-Length: <span class="m">2682</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;!DOCTYPE html&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;html <span class="nv">lang</span><span class="o">=</span><span class="s2">&#34;en&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;head&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;meta <span class="nv">charset</span><span class="o">=</span><span class="s2">&#34;UTF-8&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;meta <span class="nv">name</span><span class="o">=</span><span class="s2">&#34;viewport&#34;</span> <span class="nv">content</span><span class="o">=</span><span class="s2">&#34;width=device-width, initial-scale=1.0&#34;</span>&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;title&gt;Explore London&lt;/title&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     &lt;style&gt;
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     body <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     font-family: Arial, sans-serif<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     margin: 0<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     padding: 0<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     background-color: <span class="c1">#f2f2f2;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     header <span class="o">{</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     background-color: <span class="c1">#333;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     color: <span class="c1">#fff;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     padding: 10px 20px<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     text-align: center<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     background-color: <span class="c1">#444;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     color: <span class="c1">#fff;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     padding: 10px 20px<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     text-align: center<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     color: <span class="c1">#fff;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     text-decoration: none<span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     margin: <span class="m">0</span> 10p
+</span></span><span class="line"><span class="cl"><span class="p">|</span>   HTTPOptions: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     HTTP/1.0 <span class="m">200</span> OK
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Server: gunicorn
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Date: Mon, <span class="m">30</span> Sep <span class="m">2024</span> 16:13:39 GMT
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Connection: close
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8
+</span></span><span class="line"><span class="cl"><span class="p">|</span>     Allow: HEAD, OPTIONS, GET
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_    Content-Length: <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="p">|</span> http-methods: 
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_  Supported Methods: HEAD OPTIONS GET
+</span></span><span class="line"><span class="cl"><span class="p">|</span>_http-title: Explore London
+</span></span><span class="line"><span class="cl">Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span></code></pre></div><p>From the above result we know,</p>
+  </div>
+  
+
+
+              
+  <ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300">
+    
+      
+      <li>
+        <a href="/categories/ctf/"
+          class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">
+          CTF
+        </a>
+      </li>
+      
+      <li>
+        <a href="/categories/forensic/"
+          class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">
+          Forensic
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/tags/ssrf/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">SSRF</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/cve-2018-18955/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">CVE-2018-18955</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="/tags/ffuf/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Ffuf</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/series/tryhackme/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Tryhackme</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/platforms/linux/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Linux</span>
+        </a>
+      </li>
+      
+    
+    
+      
+      <li>
+        <a href="/levels/medium/"
+          class="flex flex-row text-sm mr-2 py-1">
+          <i class="h-5 w-5 flex-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 9l14 0"></path>
+   <path d="M5 15l14 0"></path>
+   <path d="M11 4l-4 16"></path>
+   <path d="M17 4l-4 16"></path>
+</svg>
+
+          </i>
+          <span class="ml-0">Medium</span>
+        </a>
+      </li>
+      
+    
+    
+  </ul>
+
+
+
+              <div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300">
+  
+  
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
+   <path d="M16 3v4"></path>
+   <path d="M8 3v4"></path>
+   <path d="M4 11h16"></path>
+   <path d="M11 15h1"></path>
+   <path d="M12 15v3"></path>
+</svg>
+
+    </i>
+    <time datetime="2024-10-02T23:46:18&#43;05:30">
+      2024-10-02
+    </time>
+  </div>
+
+  <div class="flex flex-row text-base gap-x-1">
+    <i class="h-6 w-6 flex-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hourglass-high" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M6.5 7h11"></path>
+   <path d="M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z"></path>
+   <path d="M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z"></path>
+</svg>
+
+    </i>
+    <span>
+      11 minutes to read
+    </span>
+  </div>
+</div>
+
+              
+            </div>
+          </article>
         
           <article class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700">
             <div>
@@ -1563,165 +1841,6 @@
             </div>
           </article>
         
-          <article class="flex flex-col mt-6 mx-2 md:mx-0 rounded-lg overflow-hidden shadow-md bg-white dark:bg-gray-700">
-            <div>
-              <a href="/posts/nessus/writeup/">
-                
-              </a>
-            </div>
-            <div class="flex flex-col gap-y-3 p-6">
-              <h2 class="text-4xl font-semibold text-slate-800 dark:text-slate-200">
-                <a href="/posts/nessus/writeup/">Nessus Installation Guide</a>
-              </h2>
-
-              
-  
-  <div class="my-4 text-large text-slate-600 dark:text-slate-300">
-    <h2 id="intro">Intro</h2>
-<p>Nessus is a proprietary vulnerability scanner developed by Tenable, Inc. This blog is about the installation of <code>Nessus Essentials</code> on Linux.</p>
-<h2 id="installation">Installation</h2>
-<h3 id="register">Register</h3>
-<p>First lets register in <a href="https://www.tenable.com/products/nessus/nessus-essentials" target="_blank" rel="noopener">Tenable Nessus Essentials</a>
- to get the activation code.</p>
-<figure>
-    <img src="/posts/Nessus/1.png" title="Tenable Nessus Essentials" style="display: block; margin: 0 auto;">
-    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
-        <strong>Tenable Nessus Essentials</strong>
-    </figcaption>  
-</figure>
-<p>Enter your information in the register form shown above, click <strong>Get Started</strong>.</p>
-<h3 id="download-nessus">Download Nessus</h3>
-<p>
-<figure>
-    <img src="/posts/Nessus/2.png" title="Mail with Activation Code" style="display: block; margin: 0 auto;">
-    <figcaption class="text-sm text-center text-slate-500 dark:text-slate-300">
-        <strong>Mail with Activation Code</strong>
-    </figcaption>  
-</figure>
-<p>We should have received a mail with <strong>Activation Code</strong>. Note down the activation code and click the <a href="https://www.tenable.com/downloads/nessus?loginAttempted=true" target="_blank" rel="noopener">Download Nessus</a>
-for the downloading page.</p></p>
-
-  </div>
-  
-
-
-              
-  <ul class="flex flex-row flex-wrap text-slate-500 dark:text-slate-300">
-    
-      
-      <li>
-        <a href="/categories/tool/"
-          class="text-sm mr-2 px-2 py-1 rounded border border-emerald-800 bg-emerald-800 text-slate-50">
-          Tool
-        </a>
-      </li>
-      
-    
-    
-      
-      <li>
-        <a href="/tags/nessus/"
-          class="flex flex-row text-sm mr-2 py-1">
-          <i class="h-5 w-5 flex-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M5 9l14 0"></path>
-   <path d="M5 15l14 0"></path>
-   <path d="M11 4l-4 16"></path>
-   <path d="M17 4l-4 16"></path>
-</svg>
-
-          </i>
-          <span class="ml-0">Nessus</span>
-        </a>
-      </li>
-      
-      <li>
-        <a href="/tags/installation/"
-          class="flex flex-row text-sm mr-2 py-1">
-          <i class="h-5 w-5 flex-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M5 9l14 0"></path>
-   <path d="M5 15l14 0"></path>
-   <path d="M11 4l-4 16"></path>
-   <path d="M17 4l-4 16"></path>
-</svg>
-
-          </i>
-          <span class="ml-0">Installation</span>
-        </a>
-      </li>
-      
-    
-    
-    
-      
-      <li>
-        <a href="/platforms/linux/"
-          class="flex flex-row text-sm mr-2 py-1">
-          <i class="h-5 w-5 flex-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M5 9l14 0"></path>
-   <path d="M5 15l14 0"></path>
-   <path d="M11 4l-4 16"></path>
-   <path d="M17 4l-4 16"></path>
-</svg>
-
-          </i>
-          <span class="ml-0">Linux</span>
-        </a>
-      </li>
-      
-    
-    
-    
-  </ul>
-
-
-
-              <div class="flex flex-col gap-y-1 md:flex-row md:gap-y-0 md:gap-x-4 text-slate-500 dark:text-slate-300">
-  
-  
-  <div class="flex flex-row text-base gap-x-1">
-    <i class="h-6 w-6 flex-none">
-      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z"></path>
-   <path d="M16 3v4"></path>
-   <path d="M8 3v4"></path>
-   <path d="M4 11h16"></path>
-   <path d="M11 15h1"></path>
-   <path d="M12 15v3"></path>
-</svg>
-
-    </i>
-    <time datetime="2024-08-20T23:24:19&#43;05:30">
-      2024-08-20
-    </time>
-  </div>
-
-  <div class="flex flex-row text-base gap-x-1">
-    <i class="h-6 w-6 flex-none">
-      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hourglass-high" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M6.5 7h11"></path>
-   <path d="M6 20v-2a6 6 0 1 1 12 0v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z"></path>
-   <path d="M6 4v2a6 6 0 1 0 12 0v-2a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1z"></path>
-</svg>
-
-    </i>
-    <span>
-      2 minutes to read
-    </span>
-  </div>
-</div>
-
-              
-            </div>
-          </article>
-        
       </section>
       <aside class="hidden md:flex flex-col md:w-1/3 ml-3 top-0 sticky self-start">
         <section class="pl-6 mt-6 w-full max-w-4xl lg:max-w-5xl">
@@ -1974,6 +2093,13 @@ for the downloading page.</p></p>
     </li>
     
     <li class="mt-2 mr-2">
+      <a href="/tags/ssrf/"
+        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
+        SSRF
+      </a>
+    </li>
+    
+    <li class="mt-2 mr-2">
       <a href="/tags/suid/"
         class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
         Suid
@@ -1998,13 +2124,6 @@ for the downloading page.</p></p>
       <a href="/tags/mimikatz/"
         class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
         Mimikatz
-      </a>
-    </li>
-    
-    <li class="mt-2 mr-2">
-      <a href="/tags/nessus/"
-        class="rounded px-2 py-1 text-sm text-slate-800 dark:text-slate-300 ring-1 ring-slate-900/5 dark:ring-slate-50/5 backdrop-blur bg-slate-50 dark:bg-gray-700">
-        Nessus
       </a>
     </li>
     
@@ -2107,7 +2226,7 @@ for the downloading page.</p></p>
 </section>
 
   </footer>
-  <script src="/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js"></script>
+  <script src="/main.js"></script>
 
 
 

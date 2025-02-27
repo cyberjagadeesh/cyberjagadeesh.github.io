@@ -2,362 +2,386 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://cyberjagadeesh.github.io/categories/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/tags/api/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/categories/ctf/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/tags/burpsuite/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/categories/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/levels/easy/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/categories/ctf/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/levels/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/thm/light/writeup/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/tags/erlang/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/platforms/linux/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/tags/ffuf/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/platforms/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/tags/jinja2/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/levels/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/series/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/platforms/linux/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/sqli/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/levels/medium/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/sqlite/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/platforms/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/series/tryhackme/</loc>
-    <lastmod>2025-02-17T21:02:46+05:30</lastmod>
+    <loc>http://localhost:1313/posts/thm/rabbitstore/writeup/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/etc/pam.d/su/</loc>
+    <loc>http://localhost:1313/tags/rabbitmqctl/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/seq/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/series/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/ssrf/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/ssti/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/series/tryhackme/</loc>
+    <lastmod>2025-02-27T11:17:54+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/levels/easy/</loc>
+    <lastmod>2025-02-19T21:02:46+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/thm/light/writeup/</loc>
+    <lastmod>2025-02-19T21:02:46+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/sqli/</loc>
+    <lastmod>2025-02-19T21:02:46+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/sqlite/</loc>
+    <lastmod>2025-02-19T21:02:46+05:30</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/etc/pam.d/su/</loc>
     <lastmod>2025-02-16T09:30:55+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/cve-2018-20463/</loc>
+    <loc>http://localhost:1313/tags/cve-2018-20463/</loc>
     <lastmod>2025-02-16T09:30:55+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/john/</loc>
+    <loc>http://localhost:1313/tags/john/</loc>
     <lastmod>2025-02-16T09:30:55+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/lfi/</loc>
+    <loc>http://localhost:1313/tags/lfi/</loc>
     <lastmod>2025-02-16T09:30:55+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/levels/medium/</loc>
+    <loc>http://localhost:1313/tags/mysql/</loc>
     <lastmod>2025-02-16T09:30:55+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/mysql/</loc>
+    <loc>http://localhost:1313/tags/php/filter/</loc>
     <lastmod>2025-02-16T09:30:55+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/php/filter/</loc>
+    <loc>http://localhost:1313/posts/thm/smol/writeup/</loc>
     <lastmod>2025-02-16T09:30:55+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/thm/smol/writeup/</loc>
+    <loc>http://localhost:1313/tags/su/</loc>
     <lastmod>2025-02-16T09:30:55+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/ssrf/</loc>
+    <loc>http://localhost:1313/tags/wordpress/</loc>
     <lastmod>2025-02-16T09:30:55+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/su/</loc>
+    <loc>http://localhost:1313/tags/wpscan/</loc>
     <lastmod>2025-02-16T09:30:55+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/wordpress/</loc>
-    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/wpscan/</loc>
-    <lastmod>2025-02-16T09:30:55+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/apachetomcat/</loc>
+    <loc>http://localhost:1313/tags/apachetomcat/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/aria2/</loc>
+    <loc>http://localhost:1313/tags/aria2/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/thm/backtrack/writeup/</loc>
+    <loc>http://localhost:1313/posts/thm/backtrack/writeup/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/chisel/</loc>
+    <loc>http://localhost:1313/tags/chisel/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/cve-2023-39141/</loc>
+    <loc>http://localhost:1313/tags/cve-2023-39141/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/msfvenom/</loc>
+    <loc>http://localhost:1313/tags/msfvenom/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/pathtrasversal/</loc>
+    <loc>http://localhost:1313/tags/pathtrasversal/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/pspy/</loc>
+    <loc>http://localhost:1313/tags/pspy/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/sshtunneling/</loc>
+    <loc>http://localhost:1313/tags/sshtunneling/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/sudo/</loc>
+    <loc>http://localhost:1313/tags/sudo/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/suid/</loc>
+    <loc>http://localhost:1313/tags/suid/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/tty-pushback/</loc>
+    <loc>http://localhost:1313/tags/tty-pushback/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/tunneling/</loc>
+    <loc>http://localhost:1313/tags/tunneling/</loc>
     <lastmod>2024-10-15T10:16:57+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/block/writeup/</loc>
+    <loc>http://localhost:1313/posts/block/writeup/</loc>
     <lastmod>2024-10-09T22:44:52+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/endianess/</loc>
+    <loc>http://localhost:1313/tags/endianess/</loc>
     <lastmod>2024-10-09T22:44:52+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/categories/forensic/</loc>
+    <loc>http://localhost:1313/categories/forensic/</loc>
     <lastmod>2024-10-09T22:44:52+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/lssas.dmp/</loc>
+    <loc>http://localhost:1313/tags/lssas.dmp/</loc>
     <lastmod>2024-10-09T22:44:52+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/mimikatz/</loc>
+    <loc>http://localhost:1313/tags/mimikatz/</loc>
     <lastmod>2024-10-09T22:44:52+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/pypykatz/</loc>
+    <loc>http://localhost:1313/tags/pypykatz/</loc>
     <lastmod>2024-10-09T22:44:52+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/pyscript/</loc>
+    <loc>http://localhost:1313/tags/pyscript/</loc>
     <lastmod>2024-10-09T22:44:52+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/smbdecryption/</loc>
+    <loc>http://localhost:1313/tags/smbdecryption/</loc>
     <lastmod>2024-10-09T22:44:52+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/platforms/windows/</loc>
+    <loc>http://localhost:1313/platforms/windows/</loc>
     <lastmod>2024-10-09T22:44:52+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/wireshark/</loc>
+    <loc>http://localhost:1313/tags/wireshark/</loc>
     <lastmod>2024-10-09T22:44:52+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/git/</loc>
+    <loc>http://localhost:1313/tags/git/</loc>
     <lastmod>2024-10-07T20:28:01+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/pyrat/</loc>
+    <loc>http://localhost:1313/tags/pyrat/</loc>
     <lastmod>2024-10-07T20:28:01+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/pyrat/writeup/</loc>
+    <loc>http://localhost:1313/posts/pyrat/writeup/</loc>
     <lastmod>2024-10-07T20:28:01+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/python/</loc>
+    <loc>http://localhost:1313/tags/python/</loc>
     <lastmod>2024-10-07T20:28:01+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/pythonjail/</loc>
+    <loc>http://localhost:1313/tags/pythonjail/</loc>
     <lastmod>2024-10-07T20:28:01+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/cve-2018-18955/</loc>
+    <loc>http://localhost:1313/tags/cve-2018-18955/</loc>
     <lastmod>2024-10-02T23:46:18+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/ffuf/</loc>
+    <loc>http://localhost:1313/posts/thelondonbridge/writeup/</loc>
     <lastmod>2024-10-02T23:46:18+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/</loc>
-    <lastmod>2024-10-02T23:46:18+05:30</lastmod>
-  </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/cheesectf/writeup/</loc>
+    <loc>http://localhost:1313/posts/cheesectf/writeup/</loc>
     <lastmod>2024-09-30T20:29:01+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/curl/</loc>
+    <loc>http://localhost:1313/tags/curl/</loc>
     <lastmod>2024-09-30T20:29:01+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/lfi2rce/</loc>
+    <loc>http://localhost:1313/tags/lfi2rce/</loc>
     <lastmod>2024-09-30T20:29:01+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/sqlmap/</loc>
+    <loc>http://localhost:1313/tags/sqlmap/</loc>
     <lastmod>2024-09-30T20:29:01+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/ssh-keygen/</loc>
+    <loc>http://localhost:1313/tags/ssh-keygen/</loc>
     <lastmod>2024-09-30T20:29:01+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/systemd.timer/</loc>
+    <loc>http://localhost:1313/tags/systemd.timer/</loc>
     <lastmod>2024-09-30T20:29:01+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/xxd/</loc>
+    <loc>http://localhost:1313/tags/xxd/</loc>
     <lastmod>2024-09-30T20:29:01+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/ifs/</loc>
+    <loc>http://localhost:1313/tags/ifs/</loc>
     <lastmod>2024-09-29T20:05:31+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/breakme/writeup/</loc>
+    <loc>http://localhost:1313/posts/breakme/writeup/</loc>
     <lastmod>2024-09-29T20:05:31+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/%F0%9D%98%A3%F0%9D%98%B3%F0%9D%98%A6%F0%9D%98%A2%F0%9D%98%AC%F0%9D%98%B1%F0%9D%98%B0%F0%9D%98%AA%F0%9D%98%AF%F0%9D%98%B5/</loc>
+    <loc>http://localhost:1313/tags/%F0%9D%98%A3%F0%9D%98%B3%F0%9D%98%A6%F0%9D%98%A2%F0%9D%98%AC%F0%9D%98%B1%F0%9D%98%B0%F0%9D%98%AA%F0%9D%98%AF%F0%9D%98%B5/</loc>
     <lastmod>2024-09-29T20:05:31+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/cve-2023-1874/</loc>
+    <loc>http://localhost:1313/tags/cve-2023-1874/</loc>
     <lastmod>2024-09-29T20:05:31+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/hydra/</loc>
+    <loc>http://localhost:1313/tags/hydra/</loc>
     <lastmod>2024-09-29T20:05:31+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/pythonjailbreak/</loc>
+    <loc>http://localhost:1313/tags/pythonjailbreak/</loc>
     <lastmod>2024-09-29T20:05:31+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/racecondition/</loc>
+    <loc>http://localhost:1313/tags/racecondition/</loc>
     <lastmod>2024-09-29T20:05:31+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/rustscan/</loc>
+    <loc>http://localhost:1313/tags/rustscan/</loc>
     <lastmod>2024-09-29T20:05:31+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/specialcharacterbypass/</loc>
+    <loc>http://localhost:1313/tags/specialcharacterbypass/</loc>
     <lastmod>2024-09-29T20:05:31+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/certaindoom/writeup/</loc>
+    <loc>http://localhost:1313/posts/certaindoom/writeup/</loc>
     <lastmod>2024-09-23T23:22:49+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/cve-2020-9484/</loc>
+    <loc>http://localhost:1313/tags/cve-2020-9484/</loc>
     <lastmod>2024-09-23T23:22:49+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/cve-2022-21449/</loc>
+    <loc>http://localhost:1313/tags/cve-2022-21449/</loc>
     <lastmod>2024-09-23T23:22:49+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/deserialization-vulnerability/</loc>
+    <loc>http://localhost:1313/tags/deserialization-vulnerability/</loc>
     <lastmod>2024-09-23T23:22:49+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/levels/hard/</loc>
+    <loc>http://localhost:1313/levels/hard/</loc>
     <lastmod>2024-09-23T23:22:49+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/java/</loc>
+    <loc>http://localhost:1313/tags/java/</loc>
     <lastmod>2024-09-23T23:22:49+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/jwt/</loc>
+    <loc>http://localhost:1313/tags/jwt/</loc>
     <lastmod>2024-09-23T23:22:49+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/ligolo-ng/</loc>
+    <loc>http://localhost:1313/tags/ligolo-ng/</loc>
     <lastmod>2024-09-23T23:22:49+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/psychic-signatures/</loc>
+    <loc>http://localhost:1313/tags/psychic-signatures/</loc>
     <lastmod>2024-09-23T23:22:49+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/static-nmap/</loc>
+    <loc>http://localhost:1313/tags/static-nmap/</loc>
     <lastmod>2024-09-23T23:22:49+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/appdatawindows/</loc>
+    <loc>http://localhost:1313/tags/appdatawindows/</loc>
     <lastmod>2024-09-10T09:58:25+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/chrome/writeup/</loc>
+    <loc>http://localhost:1313/posts/chrome/writeup/</loc>
     <lastmod>2024-09-10T09:58:25+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/dpapimk2john/</loc>
+    <loc>http://localhost:1313/tags/dpapimk2john/</loc>
     <lastmod>2024-09-10T09:58:25+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/ilspy/</loc>
+    <loc>http://localhost:1313/tags/ilspy/</loc>
     <lastmod>2024-09-10T09:58:25+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/command-injection/</loc>
+    <loc>http://localhost:1313/tags/command-injection/</loc>
     <lastmod>2024-08-25T22:54:06+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/hexeditor/</loc>
+    <loc>http://localhost:1313/tags/hexeditor/</loc>
     <lastmod>2024-08-25T22:54:06+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/steghide/</loc>
+    <loc>http://localhost:1313/tags/steghide/</loc>
     <lastmod>2024-08-25T22:54:06+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/u.a.highschool/writeup/</loc>
+    <loc>http://localhost:1313/posts/u.a.highschool/writeup/</loc>
     <lastmod>2024-08-25T22:54:06+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/installation/</loc>
+    <loc>http://localhost:1313/tags/installation/</loc>
     <lastmod>2024-08-20T23:24:19+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/nessus/</loc>
+    <loc>http://localhost:1313/tags/nessus/</loc>
     <lastmod>2024-08-20T23:24:19+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/nessus/writeup/</loc>
+    <loc>http://localhost:1313/posts/nessus/writeup/</loc>
     <lastmod>2024-08-20T23:24:19+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/categories/tool/</loc>
+    <loc>http://localhost:1313/categories/tool/</loc>
     <lastmod>2024-08-20T23:24:19+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/proc/</loc>
+    <loc>http://localhost:1313/tags/proc/</loc>
     <lastmod>2024-08-11T19:39:14+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/airplane/writeup/</loc>
+    <loc>http://localhost:1313/posts/airplane/writeup/</loc>
     <lastmod>2024-08-11T19:39:14+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/bettershell/</loc>
+    <loc>http://localhost:1313/tags/bettershell/</loc>
     <lastmod>2024-08-11T19:39:14+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/gdbserver/</loc>
+    <loc>http://localhost:1313/tags/gdbserver/</loc>
     <lastmod>2024-08-11T19:39:14+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/docker/</loc>
+    <loc>http://localhost:1313/tags/docker/</loc>
     <lastmod>2024-08-04T07:35:56+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/thenewyorkflankees/writeup/</loc>
+    <loc>http://localhost:1313/posts/thenewyorkflankees/writeup/</loc>
     <lastmod>2024-08-04T07:35:56+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/oracle-padding/</loc>
+    <loc>http://localhost:1313/tags/oracle-padding/</loc>
     <lastmod>2024-08-04T07:35:56+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/alwaysinstallelevated/</loc>
+    <loc>http://localhost:1313/tags/alwaysinstallelevated/</loc>
     <lastmod>2024-07-22T18:32:40+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/apache_tika/</loc>
+    <loc>http://localhost:1313/tags/apache_tika/</loc>
     <lastmod>2024-07-22T18:32:40+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/cve-2018-1335/</loc>
+    <loc>http://localhost:1313/tags/cve-2018-1335/</loc>
     <lastmod>2024-07-22T18:32:40+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/posts/cyberlens/writeup/</loc>
+    <loc>http://localhost:1313/posts/cyberlens/writeup/</loc>
     <lastmod>2024-07-22T18:32:40+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/metasploit/</loc>
+    <loc>http://localhost:1313/tags/metasploit/</loc>
     <lastmod>2024-07-22T18:32:40+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/tags/msi/</loc>
+    <loc>http://localhost:1313/tags/msi/</loc>
     <lastmod>2024-07-22T18:32:40+05:30</lastmod>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/manifest.json</loc>
+    <loc>http://localhost:1313/manifest.json</loc>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/search/_index.de/</loc>
+    <loc>http://localhost:1313/search/_index.de/</loc>
     <priority>0.1</priority>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/search/</loc>
+    <loc>http://localhost:1313/search/</loc>
     <priority>0.1</priority>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/search/_index.es/</loc>
+    <loc>http://localhost:1313/search/_index.es/</loc>
     <priority>0.1</priority>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/search/_index.fr/</loc>
+    <loc>http://localhost:1313/search/_index.fr/</loc>
     <priority>0.1</priority>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/search/_index.hi/</loc>
+    <loc>http://localhost:1313/search/_index.hi/</loc>
     <priority>0.1</priority>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/search/_index.jp/</loc>
+    <loc>http://localhost:1313/search/_index.jp/</loc>
     <priority>0.1</priority>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/search/_index.nl/</loc>
+    <loc>http://localhost:1313/search/_index.nl/</loc>
     <priority>0.1</priority>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/search/_index.pl/</loc>
+    <loc>http://localhost:1313/search/_index.pl/</loc>
     <priority>0.1</priority>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/search/_index.ru/</loc>
+    <loc>http://localhost:1313/search/_index.ru/</loc>
     <priority>0.1</priority>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/search/_index.zh-cn/</loc>
+    <loc>http://localhost:1313/search/_index.zh-cn/</loc>
     <priority>0.1</priority>
   </url><url>
-    <loc>https://cyberjagadeesh.github.io/about/</loc>
+    <loc>http://localhost:1313/about/</loc>
   </url>
 </urlset>

@@ -2,32 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>John on CyberJagadeesh</title>
-    <link>https://cyberjagadeesh.github.io/tags/john/</link>
+    <link>http://localhost:1313/tags/john/</link>
     <description>Recent content in John on CyberJagadeesh</description>
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>CyberJagadeesh</copyright>
     <lastBuildDate>Sun, 16 Feb 2025 09:30:55 +0530</lastBuildDate>
-    <atom:link href="https://cyberjagadeesh.github.io/tags/john/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/john/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Smol | THM Writeup</title>
-      <link>https://cyberjagadeesh.github.io/posts/thm/smol/writeup/</link>
+      <link>http://localhost:1313/posts/thm/smol/writeup/</link>
       <pubDate>Sun, 16 Feb 2025 09:30:55 +0530</pubDate>
-      <guid>https://cyberjagadeesh.github.io/posts/thm/smol/writeup/</guid>
+      <guid>http://localhost:1313/posts/thm/smol/writeup/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Detailed walkthroughs for &lt;a href=&#34;https://tryhackme.com/r/room/smol&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Smol&lt;/a&gt;&#xA; CTF challenges on &lt;a href=&#34;https://tryhackme.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;TryHackMe&lt;/a&gt;&#xA;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;&#xA;&lt;p&gt;At the heart of &lt;code&gt;Smol&lt;/code&gt; is a WordPress website, a common target due to its extensive plugin ecosystem. The machine showcases a publicly known vulnerable plugin, highlighting the risks of neglecting software updates and security patches. Enhancing the learning experience, Smol introduces a backdoored plugin, emphasizing the significance of meticulous code inspection before integrating third-party components.&lt;/p&gt;&#xA;&lt;h2 id=&#34;enumaration&#34;&gt;Enumaration&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; 10.10.7.163 smol.thm &amp;gt;&amp;gt; /etc/hosts&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Mappped the ip to domain &lt;code&gt;smol.thm&lt;/code&gt;.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Block | THM Writeup</title>
-      <link>https://cyberjagadeesh.github.io/posts/block/writeup/</link>
+      <link>http://localhost:1313/posts/block/writeup/</link>
       <pubDate>Wed, 09 Oct 2024 22:44:52 +0530</pubDate>
-      <guid>https://cyberjagadeesh.github.io/posts/block/writeup/</guid>
+      <guid>http://localhost:1313/posts/block/writeup/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Detailed walkthroughs for &lt;a href=&#34;https://tryhackme.com/r/room/blockroom&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Block&lt;/a&gt;&#xA; CTF challenges on &lt;a href=&#34;https://tryhackme.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;TryHackMe&lt;/a&gt;&#xA;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;&#xA;&lt;p&gt;One of your junior system administrators forgot to deactivate two accounts from a pair of recently fired employees.&#xA;We believe these employees used the credentials they were given in order to access some of the many private files from our server, but we need concrete proof.&#xA;The junior system administrator only has a small network capture of the incident and a memory dump of the Local Security Authority Subsystem Service process.&#xA;Fortunately, for your company, that is all you need.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Chrome | THM Writeup</title>
-      <link>https://cyberjagadeesh.github.io/posts/chrome/writeup/</link>
+      <link>http://localhost:1313/posts/chrome/writeup/</link>
       <pubDate>Tue, 10 Sep 2024 09:58:25 +0530</pubDate>
-      <guid>https://cyberjagadeesh.github.io/posts/chrome/writeup/</guid>
+      <guid>http://localhost:1313/posts/chrome/writeup/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Detailed walkthroughs for &lt;a href=&#34;https://tryhackme.com/r/room/chrome&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Chrome&lt;/a&gt;&#xA; CTF challenges on &lt;a href=&#34;https://tryhackme.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;TryHackMe&lt;/a&gt;&#xA;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;&#xA;&lt;p&gt;A password manager is only as strong as the password that encrypts it. You find that a malicious actor extracted something over the network, but what? Help us find out!&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;1.What is the first password that we find?&#xA;2.What is the URL found in the first index? Fully defang the URL&#xA;3.What is the password found in the first index?&#xA;4.What is the URL found in the second index? Fully defang the URL&#xA;5.What is the password found in the second index?&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;From the above questions, we assume that will find the paswords and urls using the task file.&lt;/p&gt;</description>
     </item>
   </channel>

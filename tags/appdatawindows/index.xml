@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>AppData[Windows] on CyberJagadeesh</title>
-    <link>https://cyberjagadeesh.github.io/tags/appdatawindows/</link>
+    <link>http://localhost:1313/tags/appdatawindows/</link>
     <description>Recent content in AppData[Windows] on CyberJagadeesh</description>
     <generator>Hugo</generator>
     <language>en</language>
     <copyright>CyberJagadeesh</copyright>
     <lastBuildDate>Tue, 10 Sep 2024 09:58:25 +0530</lastBuildDate>
-    <atom:link href="https://cyberjagadeesh.github.io/tags/appdatawindows/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/appdatawindows/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Chrome | THM Writeup</title>
-      <link>https://cyberjagadeesh.github.io/posts/chrome/writeup/</link>
+      <link>http://localhost:1313/posts/chrome/writeup/</link>
       <pubDate>Tue, 10 Sep 2024 09:58:25 +0530</pubDate>
-      <guid>https://cyberjagadeesh.github.io/posts/chrome/writeup/</guid>
+      <guid>http://localhost:1313/posts/chrome/writeup/</guid>
       <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Detailed walkthroughs for &lt;a href=&#34;https://tryhackme.com/r/room/chrome&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Chrome&lt;/a&gt;&#xA; CTF challenges on &lt;a href=&#34;https://tryhackme.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;TryHackMe&lt;/a&gt;&#xA;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;description&#34;&gt;Description&lt;/h3&gt;&#xA;&lt;p&gt;A password manager is only as strong as the password that encrypts it. You find that a malicious actor extracted something over the network, but what? Help us find out!&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;1.What is the first password that we find?&#xA;2.What is the URL found in the first index? Fully defang the URL&#xA;3.What is the password found in the first index?&#xA;4.What is the URL found in the second index? Fully defang the URL&#xA;5.What is the password found in the second index?&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;From the above questions, we assume that will find the paswords and urls using the task file.&lt;/p&gt;</description>
     </item>
   </channel>

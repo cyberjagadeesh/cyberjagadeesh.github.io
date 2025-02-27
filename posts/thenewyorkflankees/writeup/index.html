@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <title>New York Flankees | THM Writeup :: CyberJagadeesh - Learn Cyber Security</title>
   
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -18,7 +18,7 @@ rustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-
   name="keywords"
   content="cyber security, penetration testing, ethical hacking, vulnerability assessment, network security, application security, web application security, security testing, red teaming, bug bounty, CTFs, cybersecurity challenges, hacking tutorials, security tools, exploit development, reverse engineering, penetration tester, security researcher, security analyst, information security, digital forensics, incident response, threat intelligence, security awareness, social engineering, phishing, malware analysis, cryptography, cloud security, IoT security, mobile security, how to become a penetration tester, penetration testing tools, CTF challenges for beginners, web application penetration testing, network penetration testing, exploit development tutorial, reverse engineering techniques, bug bounty hunting tips, security research projects, cyber security certifications"
 />
-<meta name="robots" content="noodp" /><link rel="manifest" href="/manifest.json" /><meta property="og:url" content="https://cyberjagadeesh.github.io/posts/thenewyorkflankees/writeup/">
+<meta name="robots" content="noodp" /><link rel="manifest" href="/manifest.json" /><meta property="og:url" content="http://localhost:1313/posts/thenewyorkflankees/writeup/">
   <meta property="og:site_name" content="CyberJagadeesh">
   <meta property="og:title" content="New York Flankees | THM Writeup">
   <meta property="og:description" content="Introduction Detailed walkthrough for New York Flankees CTF challenges on TryHackMe .
@@ -33,13 +33,13 @@ rustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-
     <meta property="article:modified_time" content="2024-08-04T07:35:56+05:30">
     <meta property="article:tag" content="Oracle Padding">
     <meta property="article:tag" content="Docker">
-      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thm/light/writeup/">
-      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thm/smol/writeup/">
-      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thm/backtrack/writeup/">
-      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/block/writeup/">
-      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/pyrat/writeup/">
-      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/thelondonbridge/writeup/">
-      <meta property="og:see_also" content="https://cyberjagadeesh.github.io/posts/cheesectf/writeup/">
+      <meta property="og:see_also" content="http://localhost:1313/posts/thm/rabbitstore/writeup/">
+      <meta property="og:see_also" content="http://localhost:1313/posts/thm/light/writeup/">
+      <meta property="og:see_also" content="http://localhost:1313/posts/thm/smol/writeup/">
+      <meta property="og:see_also" content="http://localhost:1313/posts/thm/backtrack/writeup/">
+      <meta property="og:see_also" content="http://localhost:1313/posts/block/writeup/">
+      <meta property="og:see_also" content="http://localhost:1313/posts/pyrat/writeup/">
+      <meta property="og:see_also" content="http://localhost:1313/posts/thelondonbridge/writeup/">
 
 
   <meta name="twitter:card" content="summary">
@@ -51,10 +51,10 @@ sudo echo &#34;10.10.140.44 nythm.com&#34; &gt;&gt; /etc/hosts Let’s start enu
 rustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-. .-. | {} }| { } |{ {__ {_ _}{ {__ / ___} / {} \ | `| | | .-. \| {_} |.-._} } | | .-._} }\ }/ /\ \| |\ | `-&#39; `-&#39;`-----&#39;`----&#39; `-&#39; `----&#39; `---&#39; `-&#39; `-&#39;`-&#39; `-&#39; The Modern Day Port Scanner. _______________________________________ Open 10.10.140.44:22 Open 10.10.140.44:8080 [~] Starting Script(s) [&gt;] Running script &#34;nmap -vvv -p {{port}} {{ip}} -sC -sV&#34; on ip 10.10.140.44 PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 3072 86:03:99:d9:07:c6:f5:8c:48:11:b7:56:58:fe:72:06 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDAHznW6yrO1o2or52QbWKmOLRYEcbWUD2zy0gHcYzw2sqhx9U/pJxJOa5Z0fwuMVPjRtqGLOk3EOrBnQ6LstnOyGx0KUsBn3c/hSHNCS9uzVbDzikf6ffQLw0hAcJzSi1EsQDRkeyJ24NuzhQ9RXKO1R1Gr0RB4AcmvIoNspcxV0KTiTOIWuAPiJLiZtsOSS39zghuRjvWwnWQ3jR0X2r5NPjphojx3pKxlDNhf9gpaz2kck/Jv8cfktisANej2q4JY&#43;BEL9VaxyBV8DOq/WU9E8TvIGYEK1sOh1UKCl7JgKBbA&#43;30Wge&#43;/EsiV/zEQooDQvNUT5YgUwCCAdClLYxR996glhDywuGYIAOE/VIP69k0JAbkZy8kwP22t0ZHunJrFaPWL5iw&#43;&#43;O6/NKTL2xQXwAmKZu81B7Un3Q35lal7k6YO9agJJ4oxD7z15Ee&#43;eJf4KxSOYhSA89KhDQSbrkpZKMyuJ6uoJHXVVyZmMRO2IaraJaY156vZxe9fkOyLvE= | 256 0e:b9:fd:e8:8a:7c:fc:b9:91:b0:3d:0d:16:c9:43:3c (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN1JAvVFTNHO87FGw&#43;Q3NxpS0st1TbH9/Tn&#43;PLJMBdVQ/NHeBZSdt/954gYSL6c0Plt8YiuVswjf//DSHz1rff0= | 256 9c:be:88:a2:44:56:2b:ba:dd:b9:5a:da:f2:24:8a:f5 (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILwrt82psPblgKYPcZ1VkSr/bVktYgYaVX&#43;zqGdFFrwK 8080/tcp open http syn-ack ttl 59 Octoshape P2P streaming web service |_http-title: Hello world! | http-methods: |_ Supported Methods: GET |_http-favicon: Unknown favicon MD5: 6FD74A43E6C5F7502642326FAB0B3E69 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above results we found 2 open ports 22(ssh) and 8080(web server) and the operating system is Linux. Starting with port 8080.">
 
 
-<link rel="canonical" href="https://cyberjagadeesh.github.io/posts/thenewyorkflankees/writeup/" />
+<link rel="canonical" href="http://localhost:1313/posts/thenewyorkflankees/writeup/" />
 
 <link rel="shortcut icon" href="/favicon.ico" />
-<link rel="stylesheet" href="/css/index.min.1f9b3e6594d41770030cc9cea67e9220cd9066bb33910ebfb19ea46cf6b4b50c.css">
+<link rel="stylesheet" href="/css/index.5287fd9d41d8a879613a40ae3cfd190b68c27952b809c28ce66a58d6c634d0cb.css">
 
 
 
@@ -80,11 +80,22 @@ rustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-
 
   
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"CyberJagadeesh"},"dateModified":"2024-08-04T07:35:56+05:30","datePublished":"2024-08-04T07:35:56+05:30","description":"Introduction Detailed walkthrough for New York Flankees CTF challenges on TryHackMe .\nTools Used rustscan, burpsuite\nEnumeration Lets start the process by mapping host-name to target IP address.\nsudo echo \u0026#34;10.10.140.44 nythm.com\u0026#34; \u0026gt;\u0026gt; /etc/hosts Let\u0026rsquo;s start enumaration process using rustscan portscanner.\nrustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-. .-. | {} }| { } |{ {__ {_ _}{ {__ / ___} / {} \\ | `| | | .-. \\| {_} |.-._} } | | .-._} }\\ }/ /\\ \\| |\\ | `-\u0026#39; `-\u0026#39;`-----\u0026#39;`----\u0026#39; `-\u0026#39; `----\u0026#39; `---\u0026#39; `-\u0026#39; `-\u0026#39;`-\u0026#39; `-\u0026#39; The Modern Day Port Scanner. _______________________________________ Open 10.10.140.44:22 Open 10.10.140.44:8080 [~] Starting Script(s) [\u0026gt;] Running script \u0026#34;nmap -vvv -p {{port}} {{ip}} -sC -sV\u0026#34; on ip 10.10.140.44 PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 3072 86:03:99:d9:07:c6:f5:8c:48:11:b7:56:58:fe:72:06 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDAHznW6yrO1o2or52QbWKmOLRYEcbWUD2zy0gHcYzw2sqhx9U/pJxJOa5Z0fwuMVPjRtqGLOk3EOrBnQ6LstnOyGx0KUsBn3c/hSHNCS9uzVbDzikf6ffQLw0hAcJzSi1EsQDRkeyJ24NuzhQ9RXKO1R1Gr0RB4AcmvIoNspcxV0KTiTOIWuAPiJLiZtsOSS39zghuRjvWwnWQ3jR0X2r5NPjphojx3pKxlDNhf9gpaz2kck/Jv8cfktisANej2q4JY+BEL9VaxyBV8DOq/WU9E8TvIGYEK1sOh1UKCl7JgKBbA+30Wge+/EsiV/zEQooDQvNUT5YgUwCCAdClLYxR996glhDywuGYIAOE/VIP69k0JAbkZy8kwP22t0ZHunJrFaPWL5iw++O6/NKTL2xQXwAmKZu81B7Un3Q35lal7k6YO9agJJ4oxD7z15Ee+eJf4KxSOYhSA89KhDQSbrkpZKMyuJ6uoJHXVVyZmMRO2IaraJaY156vZxe9fkOyLvE= | 256 0e:b9:fd:e8:8a:7c:fc:b9:91:b0:3d:0d:16:c9:43:3c (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN1JAvVFTNHO87FGw+Q3NxpS0st1TbH9/Tn+PLJMBdVQ/NHeBZSdt/954gYSL6c0Plt8YiuVswjf//DSHz1rff0= | 256 9c:be:88:a2:44:56:2b:ba:dd:b9:5a:da:f2:24:8a:f5 (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILwrt82psPblgKYPcZ1VkSr/bVktYgYaVX+zqGdFFrwK 8080/tcp open http syn-ack ttl 59 Octoshape P2P streaming web service |_http-title: Hello world! | http-methods: |_ Supported Methods: GET |_http-favicon: Unknown favicon MD5: 6FD74A43E6C5F7502642326FAB0B3E69 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above results we found 2 open ports 22(ssh) and 8080(web server) and the operating system is Linux. Starting with port 8080.\n","image":"/posts/thenewyorkflankees/NYFlankees.png","name":"New York Flankees | THM Writeup","url":"https://cyberjagadeesh.github.io/posts/thenewyorkflankees/writeup/"}
+  {"@context":"https://schema.org","@type":"Article","author":{"@type":"Person","name":"CyberJagadeesh"},"dateModified":"2024-08-04T07:35:56+05:30","datePublished":"2024-08-04T07:35:56+05:30","description":"Introduction Detailed walkthrough for New York Flankees CTF challenges on TryHackMe .\nTools Used rustscan, burpsuite\nEnumeration Lets start the process by mapping host-name to target IP address.\nsudo echo \u0026#34;10.10.140.44 nythm.com\u0026#34; \u0026gt;\u0026gt; /etc/hosts Let\u0026rsquo;s start enumaration process using rustscan portscanner.\nrustscan -a nythm.com -- -sC -sV .----. .-. .-. .----..---. .----. .---. .--. .-. .-. | {} }| { } |{ {__ {_ _}{ {__ / ___} / {} \\ | `| | | .-. \\| {_} |.-._} } | | .-._} }\\ }/ /\\ \\| |\\ | `-\u0026#39; `-\u0026#39;`-----\u0026#39;`----\u0026#39; `-\u0026#39; `----\u0026#39; `---\u0026#39; `-\u0026#39; `-\u0026#39;`-\u0026#39; `-\u0026#39; The Modern Day Port Scanner. _______________________________________ Open 10.10.140.44:22 Open 10.10.140.44:8080 [~] Starting Script(s) [\u0026gt;] Running script \u0026#34;nmap -vvv -p {{port}} {{ip}} -sC -sV\u0026#34; on ip 10.10.140.44 PORT STATE SERVICE REASON VERSION 22/tcp open ssh syn-ack ttl 60 OpenSSH 8.2p1 Ubuntu 4ubuntu0.11 (Ubuntu Linux; protocol 2.0) | ssh-hostkey: | 3072 86:03:99:d9:07:c6:f5:8c:48:11:b7:56:58:fe:72:06 (RSA) | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDAHznW6yrO1o2or52QbWKmOLRYEcbWUD2zy0gHcYzw2sqhx9U/pJxJOa5Z0fwuMVPjRtqGLOk3EOrBnQ6LstnOyGx0KUsBn3c/hSHNCS9uzVbDzikf6ffQLw0hAcJzSi1EsQDRkeyJ24NuzhQ9RXKO1R1Gr0RB4AcmvIoNspcxV0KTiTOIWuAPiJLiZtsOSS39zghuRjvWwnWQ3jR0X2r5NPjphojx3pKxlDNhf9gpaz2kck/Jv8cfktisANej2q4JY+BEL9VaxyBV8DOq/WU9E8TvIGYEK1sOh1UKCl7JgKBbA+30Wge+/EsiV/zEQooDQvNUT5YgUwCCAdClLYxR996glhDywuGYIAOE/VIP69k0JAbkZy8kwP22t0ZHunJrFaPWL5iw++O6/NKTL2xQXwAmKZu81B7Un3Q35lal7k6YO9agJJ4oxD7z15Ee+eJf4KxSOYhSA89KhDQSbrkpZKMyuJ6uoJHXVVyZmMRO2IaraJaY156vZxe9fkOyLvE= | 256 0e:b9:fd:e8:8a:7c:fc:b9:91:b0:3d:0d:16:c9:43:3c (ECDSA) | ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBN1JAvVFTNHO87FGw+Q3NxpS0st1TbH9/Tn+PLJMBdVQ/NHeBZSdt/954gYSL6c0Plt8YiuVswjf//DSHz1rff0= | 256 9c:be:88:a2:44:56:2b:ba:dd:b9:5a:da:f2:24:8a:f5 (ED25519) |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILwrt82psPblgKYPcZ1VkSr/bVktYgYaVX+zqGdFFrwK 8080/tcp open http syn-ack ttl 59 Octoshape P2P streaming web service |_http-title: Hello world! | http-methods: |_ Supported Methods: GET |_http-favicon: Unknown favicon MD5: 6FD74A43E6C5F7502642326FAB0B3E69 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel From the above results we found 2 open ports 22(ssh) and 8080(web server) and the operating system is Linux. Starting with port 8080.\n","image":"/posts/thenewyorkflankees/NYFlankees.png","name":"New York Flankees | THM Writeup","url":"http://localhost:1313/posts/thenewyorkflankees/writeup/"}
 </script>
 
 </head>
-<body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800"><header class="flex flex-none justify-center z-10">
+<body class="flex flex-col min-h-screen w-full bg-slate-50 dark:bg-gray-800">
+    
+<div class="fixed right-0 top-0 z-50 flex items-center justify-center bg-gray-200 p-2 text-sm uppercase text-black sm:bg-red-200 md:bg-yellow-200 lg:bg-green-200 xl:bg-blue-200 2xl:bg-pink-200">
+  <span class="block sm:hidden">all</span>
+  <span class="hidden sm:block md:hidden">sm</span>
+  <span class="hidden md:block lg:hidden">md</span>
+  <span class="hidden lg:block xl:hidden">lg</span>
+  <span class="hidden xl:block 2xl:hidden">xl</span>
+  <span class="hidden 2xl:block">2xl</span>
+</div>
+
+  <header class="flex flex-none justify-center z-10">
     <div class="flex flex-row gap justify-between w-full max-w-4xl lg:max-w-5xl h-12 mt-3">
   <div class="flex-none ml-2 md:ml-0">
     <a href="/" class="">
@@ -786,7 +797,7 @@ Happy Hacking!!!&#x1f47d;</p>
 </section>
 
   </footer>
-  <script src="/main.min.c6372b6836971865bd94bfde974748aca8415824a2facab6ccd66a87384bfacb.js"></script>
+  <script src="/main.js"></script>
 
 <div class="hidden top-1 right-1" id="code-copy">
   <i class="h-6 w-6 block">
@@ -806,7 +817,7 @@ Happy Hacking!!!&#x1f47d;</p>
 </svg>
 
   </i>
-</div><script src="/code-copy.min.e7b2a74adef1ed474c335c8bd5e7832b2316b8842b0f9184d65286c5bd64f51a.js"></script>
+</div><script src="/code-copy.js"></script>
 
 
 
